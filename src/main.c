@@ -12,31 +12,31 @@
 
 #include "minishell.h"
 
-
-// char * parse_prompt(char *prompt)
-// {
-// 	int i;
-// 	int len;
-
-// 	len = ft_strlen(prompt);
-// 	i = 0;
-// 	while (prompt[i])
-// 	{
-
-// 	}
-// 	return (prompt)
-
-// }
-int	main(void)
+int	main(int ac, char **argv)
 {
-	char *prompt;
-	// char **args;
+	(void) ac;
+	(void) argv;
+	char *line;
 	
 	while (1)
 	{
-		prompt = readline(RL_BLUE"minishell"RL_BOLD_RED "> "ANSI_RESET);
-		// args =  parse_prompt(prompt);
-		free(prompt);
+		line = readline(RL_BLUE"minishell"RL_BOLD_RED "> "ANSI_RESET);
+		if (!line)
+			break;
+		else
+			add_history(line);
+		// tokens = lexer(line);
+
+		// tokens = expand(line);
+
+		// if(syntax_error(tokens))
+		// 	continue;
+
+		// cmd_tree = parse(tokens);
+
+		// exec(cmd_tree);
+		
+		// free_all(tokens, cmd_tree, line);
 	}
 		return (0);
 }

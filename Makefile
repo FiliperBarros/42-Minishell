@@ -63,6 +63,6 @@ fclean: clean
 	@echo "$(C_BLUE)🧽 Removing executable...$(C_RESET)"
 	@rm -f $(NAME)
 
-re: fclean make_libft all
+re: fclean all
 
 .PHONY: all clean fclean re
