@@ -1,22 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/18 10:59:56 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/25 15:17:33 by frocha-b         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **argv)
+int	main(void)
 {
-	(void) ac;
-	(void) argv;
 	char *line;
+	// t_token *tokens;
 	
 	while (1)
 	{
@@ -25,7 +13,7 @@ int	main(int ac, char **argv)
 			break;
 		else
 			add_history(line);
-		// tokens = lexer(line);
+		tokens = lexer(line);
 
 		// tokens = expand(line);
 
