@@ -4,7 +4,9 @@
 int	main(void)
 {
 	char *line;
-	// t_token *tokens;
+	t_token *tokens;
+
+	tokens = NULL;
 	
 	while (1)
 	{
@@ -24,7 +26,8 @@ int	main(void)
 
 		// exec(cmd_tree);
 		
-		// free_all(tokens, cmd_tree, line);
+	// free_all(tokens, cmd_tree, line);
 	}
 		return (0);
 }
+

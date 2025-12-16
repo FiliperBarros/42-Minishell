@@ -1,26 +1,20 @@
 #include "minishell.h"
 
-int is_operator(char c)
-{
-    return (c == '|' || c == '>' || c == '<');
-}
-
-t_token *lexer(char *line)
+void    lexer(t_token **tokens, char *line)
 {
     int i;
-    t_token *tokens;
+    t_token new_token;
 
     i = 0;
-    tokens = NULL;
+    new_token = NULL;
     while (line[i])
     {
         if(is_space(line[i]))
             i++;
         if (is_operator(line[i]))
-            tokenize_operator(line, &i, &tokens);
+            new_token = tokenize_operator(line, &i, tokens);
         else
-            tokenize_word(line, &i, &tokens);
-        i++;
+            new_token = tokenize_word(line, &i, tokens);
+        add_token(tokens, new_token);
     }
-    return (tokens);
 }
