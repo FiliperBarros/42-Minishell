@@ -3,7 +3,7 @@
 void    lexer(t_token **tokens, char *line)
 {
     int i;
-    t_token new_token;
+    t_token *new_token;
 
     i = 0;
     new_token = NULL;
@@ -12,9 +12,9 @@ void    lexer(t_token **tokens, char *line)
         if(is_space(line[i]))
             i++;
         if (is_operator(line[i]))
-            new_token = tokenize_operator(line, &i, tokens);
+            tokenize_operator(line, new_token, &i);
         else
-            new_token = tokenize_word(line, &i, tokens);
+            tokenize_word(line, new_token, &i);
         add_token(tokens, new_token);
     }
 }

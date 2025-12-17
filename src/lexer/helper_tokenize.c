@@ -12,8 +12,3 @@ int is_quote(char c)
 {
     return (c == '"' || c == '\'');
 }
-
-static void     should_concatenate(int *concatenate, char c)
-{
-    *concatenate = (c && !is_space(c) && !is_operator(c));
-}

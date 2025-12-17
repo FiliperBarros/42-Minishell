@@ -15,7 +15,7 @@ int	main(void)
 			break;
 		else
 			add_history(line);
-		tokens = lexer(line);
+		lexer(&tokens, line);
 
 		// tokens = expand(line);
 

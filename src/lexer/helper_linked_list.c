@@ -1,17 +1,16 @@
 #include "minishell.h"
 
-t_token *create_token(char *line, t_tokentype type, t_tokinfo token_info)
+t_token *create_token(char *line, t_tokinfo info)
 {
     t_token *new_token;
 
     new_token = malloc(sizeof(t_token));
     if (!new_token)
         return (NULL);
-    if (is_token(line[start]))
-        new_token->value = ft_strnstr(line, line[start + 1], i - start - 1);
-    else
-        new_token->value = ft_strnstr(line, line[start], i - start);
-    new_token->type = type;
+    new_token->type = info.token_type;
+    new_token->value = line + info.start;
+    new_token->len = info.end - info.start;
+    new_token->quote_type = info.quote_type;
     new_token->next = NULL;
     return (new_token);
 }

@@ -1,31 +1,51 @@
 #include "minishell.h"
 
-t_token   *tokenize_word(char *line, int *i)
+void    tokenize_word(char *line, t_token *new_token, int *i)
 {
     int         error;
-    t_tokinfo   token_info;
+    t_tokinfo   info;
 
-    ft_bzero(token_info);
     error                   = 0;
+    info.start              = *i;
+    ft_bzero(&info, sizeof(info));
+    info.token_type = WORD;
     while (line[*i] && !is_space(line[*i]) && !is_operator(line[*i]))
     {
         if (is_quote(line[*i]))
-        {
-            skip_with_quotes(line, i, &error, &token_info);
-            token_info->start       = *(i + 1);
-            if(error)
-                // return (printf("syntax error: unclosed quotes\n"), NULL);
-        }
+            skip_with_quotes(line, i, &error, &info);
         else
-        {
-            skip_without_quotes(line, i, &token_info);
-            token_info->start       = *i;
-        }
-        (*i)++;
+            skip_without_quotes(line, i);
+        /* if(error)
+            return (printf("syntax error: unclosed quotes\n"), NULL); */
     }
-    token_info.should_expand = line[start] != '\'' && ft_strchr(line, "$");
-    new_token = create_token(line, WORD, token_info);
+    info.end = *i;
+    new_token = create_token(line, info);
 }
 
 
+void    tokenize_operator(char *line, t_token *new_token, int *i)
+{
+    t_tokinfo   info;
+
+    info.start = *i;
+    ft_bzero(&info, sizeof(info));
+    if (line[*i] == '|')
+        info.token_type = PIPE;
+    if (line[*i] == '<')
+    {
+        if (line[*(++i)] == '<')
+            info.token_type = HEREDOC;
+        else
+            info.token_type = REDIR_IN;
+    }
+    if (line[*i] == '>')
+    {
+        if (line[*(++i)] == '>')
+            info.token_type = REDIR_APPEND;
+        else
+            info.token_type = REDIR_OUT;
+    }
+    info.end = *i;
+    new_token = create_token(line, info);
+}
 
