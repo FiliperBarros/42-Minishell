@@ -50,5 +50,11 @@ t_token *create_token(char *line, t_tokinfo *info);
 void    tokenize_operator(char *line, t_token **new_token, int *i);
 void    tokenize_word(char *line, t_token **new_token, int *i);
 void    add_token(t_token **tokens, t_token *new_token);
+
+int		to_expand(t_token *t);
+// void	expander(t_env *env, t_token **tokens);
+void	lexer_expander(t_token **tokens, char *line);
 #endif
+
+
 

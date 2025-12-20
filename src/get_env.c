@@ -7,8 +7,6 @@ void	extract_value_key_from_envp(char *s, char **k, char **v)
 	equal = ft_strrchr(s, '=');
 	*k = ft_substr(s, 0, equal - s);
 	*v = ft_strdup(equal + 1);
-	// printf("%s", *k);
-	// printf("%s", *v);
 }
 
 t_env	*env_new_node(char *s)

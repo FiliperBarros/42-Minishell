@@ -8,7 +8,7 @@ int is_operator(char c)
     return (c == '|' || c == '>' || c == '<');
 }
 
-int is_quote(char c)
+int     is_quote(char c)
 {
     return (c == '"' || c == '\'');
 }
