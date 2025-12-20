@@ -6,7 +6,7 @@
 #    By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/01 16:59:12 by frocha-b          #+#    #+#              #
-#    Updated: 2025/12/17 17:29:30 by frocha-b         ###   ########.fr        #
+#    Updated: 2025/12/18 13:13:14 by frocha-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME	= minishell
 # Compiler and flags
 CC 			= cc
 CFLAGS		= -Wall -Werror -Wextra -g 	
+MAKEFLAGS += --no-print-directory
 
 
 # Libft
@@ -58,7 +59,7 @@ $(OBJ_DIR)/%.o: %.c
 
 $(LIBFT):
 	@echo "$(C_BLUE)📚 Building libft...$(C_RESET)"
-	@$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
 
 clean:
 	@echo "$(C_BLUE)🧹 Cleaning object files...$(C_RESET)"

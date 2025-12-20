@@ -1,51 +1,37 @@
 #include "minishell.h"
 
-void    tokenize_word(char *line, t_token *new_token, int *i)
+static void	skip_with_quotes(char *line, int *i, int *error, t_tokinfo *info)
+{
+
+    info->quote_type = line[*i];
+    (*i)++;
+    while (line[*i] && line[*i] != info->quote_type)
+        (*i)++;
+    if (line[*i] && line[*i] == info->quote_type)
+        (*i)++;
+    else
+        *error = 1;
+}
+
+static void	skip_without_quotes(char *line, int *i)
+{
+    while (line[*i] && !is_space(line[*i]) && !is_operator(line[*i]) && !is_quote(line[*i]))
+        (*i)++;
+}
+void    tokenize_word(char *line, t_token **new_token, int *i)
 {
     int         error;
     t_tokinfo   info;
 
-    error                   = 0;
-    info.start              = *i;
-    ft_bzero(&info, sizeof(info));
+    ft_bzero(&info, sizeof(t_tokinfo));
     info.token_type = WORD;
-    while (line[*i] && !is_space(line[*i]) && !is_operator(line[*i]))
-    {
-        if (is_quote(line[*i]))
-            skip_with_quotes(line, i, &error, &info);
-        else
-            skip_without_quotes(line, i);
-        /* if(error)
-            return (printf("syntax error: unclosed quotes\n"), NULL); */
-    }
-    info.end = *i;
-    new_token = create_token(line, info);
-}
-
-
-void    tokenize_operator(char *line, t_token *new_token, int *i)
-{
-    t_tokinfo   info;
-
+    error = 0;
     info.start = *i;
-    ft_bzero(&info, sizeof(info));
-    if (line[*i] == '|')
-        info.token_type = PIPE;
-    if (line[*i] == '<')
-    {
-        if (line[*(++i)] == '<')
-            info.token_type = HEREDOC;
-        else
-            info.token_type = REDIR_IN;
-    }
-    if (line[*i] == '>')
-    {
-        if (line[*(++i)] == '>')
-            info.token_type = REDIR_APPEND;
-        else
-            info.token_type = REDIR_OUT;
-    }
+    if (is_quote(line[*i]))
+        skip_with_quotes(line, i, &error, &info);
+    else
+        skip_without_quotes(line, i);
     info.end = *i;
-    new_token = create_token(line, info);
+    info.to_concat = line[*i] && !is_space(line[*i]) && !is_operator(line[*i]); 
+    *new_token = create_token(line, &info);
 }
-

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    lexer(t_token **tokens, char *line)
+void    lexer(t_token **tokens, char *line, int lexer_call)
 {
     int i;
     t_token *new_token;
@@ -10,11 +10,14 @@ void    lexer(t_token **tokens, char *line)
     while (line[i])
     {
         if(is_space(line[i]))
+        {
             i++;
-        if (is_operator(line[i]))
-            tokenize_operator(line, new_token, &i);
+            continue;
+        }
+        if (is_operator(line[i]) && lexer_call)
+            tokenize_operator(line, &new_token, &i);
         else
-            tokenize_word(line, new_token, &i);
+            tokenize_word(line, &new_token, &i, lexer_call);
         add_token(tokens, new_token);
     }
 }

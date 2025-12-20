@@ -3,14 +3,20 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+         #
+#    By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 17:24:13 by frocha-b          #+#    #+#              #
-#    Updated: 2025/05/22 12:07:48 by frocha-b         ###   ########.fr        #
+#    Updated: 2025/12/18 13:13:32 by frocha-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
+
+# Colors
+C_GREEN		= \033[0;32m
+C_YELLOW	= \033[1;33m
+C_BLUE		= \033[0;34m	
+C_RESET		= \033[0m
 
 SRCS = ft_isalpha.c
 SRCS += ft_isdigit.c
@@ -72,10 +78,10 @@ RM     = rm -f
 INCS   = .
 
 .c.o :
-	${CC} ${FLAGS} -c $< -o ${<:.c=.o} -I${INCS}
+	@${CC} ${FLAGS} -c $< -o ${<:.c=.o} -I${INCS}
 
 $(NAME) : $(OBJS)
-	${LIBC} $(NAME) $(OBJS)
+	@${LIBC} $(NAME) $(OBJS)
 
 all : $(NAME)
 
@@ -83,9 +89,11 @@ bonus : $(NAME) $(OBJS_B)
 		${LIBC} $(NAME) $(OBJS_B)
 
 clean :
-	 rm -f $(OBJS) $(OBJS_B)
+	@echo "$(C_BLUE)🧹Libft -> Cleaning object files...$(C_RESET)"
+	@rm -f $(OBJS) $(OBJS_B)
 
 fclean : clean
-	rm -f $(NAME) $(bonus)
+	@echo "$(C_BLUE)🧽 Libft -> Removing executable...$(C_RESET)"
+	@rm -f $(NAME) $(bonus)
 
 re : fclean all
