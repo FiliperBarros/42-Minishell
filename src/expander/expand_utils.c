@@ -2,9 +2,8 @@
 
 int		to_expand(t_token *t)
 {
-	return ((ft_strrchr(t->value, '$') && t->quote_type != '\'' && t->type == WORD));
+	return (ft_strrchr(t->value, '$') && t->quote_type != '\'' && t->type == WORD && !t->heredoc_delimiter);
 }
-
 
 void	check_empty_quotes(t_token *tok)
 {
@@ -18,3 +17,22 @@ void	check_empty_quotes(t_token *tok)
 		tok->len = 1;
 	}
 }
+
+
+void	flag_heredoc_delimiter(t_token *t)
+{
+	if (t->next->type == WORD)
+		t->next->heredoc_delimiter == 1;
+}
+void	remove_quotes(t_token *t)
+{
+	t->value = (t->value)++;
+	t->len = ft_strlen(t->value) - 2;
+}
+
+void	expand_exit_code(t_token *t, t_shell *shell)
+{
+	t->value = ft_itoa(shell->exit_status);
+	t->len = ft_strlen(t->value);
+}
+

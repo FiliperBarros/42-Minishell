@@ -32,6 +32,6 @@ void    tokenize_word(char *line, t_token **new_token, int *i)
     else
         skip_without_quotes(line, i);
     info.end = *i;
-    info.to_concat = line[*i] && !is_space(line[*i]) && !is_operator(line[*i]); 
+    info.to_concat = line[*i] && !is_space(line[*i]) && !is_operator(line[*i]);
     *new_token = create_token(line, &info);
 }

@@ -4,7 +4,7 @@ static void    detect_operator_type(t_tokinfo *info, char *line, int *i)
 {
     if (line[*i] == '|')
     {   
-           info->token_type = PIPE;
+        info->token_type = PIPE;
         (*i)++;
     }
     else if(line[(*i)] == '<')

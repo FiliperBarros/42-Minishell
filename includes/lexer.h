@@ -24,6 +24,7 @@ typedef struct s_token
     int             len;
     char            quote_type;
     int             to_concatenate;
+    int             heredoc_delimiter;
     struct s_token  *next;
 }   t_token;
 
