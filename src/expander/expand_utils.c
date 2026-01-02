@@ -18,7 +18,6 @@ void	check_empty_quotes(t_token *tok)
 	}
 }
 
-
 void	flag_heredoc_delimiter(t_token *t)
 {
 	if (t->next->type == WORD)
@@ -26,6 +25,7 @@ void	flag_heredoc_delimiter(t_token *t)
 }
 void	remove_quotes(t_token *t)
 {
+	malloc(t->len)
 	t->value = (t->value)++;
 	t->len = ft_strlen(t->value) - 2;
 }
@@ -36,3 +36,8 @@ void	expand_exit_code(t_token *t, t_shell *shell)
 	t->len = ft_strlen(t->value);
 }
 
+void	reflag_heredoc_delimiter(t_token *t)
+{
+	if (t->next)
+		t->next->heredoc_delimiter = 1;
+}

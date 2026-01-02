@@ -23,7 +23,6 @@ void	lexer_expander(t_token **tokens, char *line)
 	t_token *new_token;
 
 	new_token = NULL;
-
 	i = 0;
 	while (line[i])
 	{

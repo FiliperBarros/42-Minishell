@@ -113,5 +113,9 @@ frocha-b@c1r2s1:~/cc/minishell$ cat | <<EOF cat
 asf
 asd
 
+to check:
+	name=a    a  /home/frocha-b
+
+
 
 SIGPIPE
