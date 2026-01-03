@@ -23,6 +23,7 @@ void	print_tokens(t_token *tokens)
 		printf("  value      : %.*s\n", tokens->len, tokens->value);
 		printf("  len        : %d\n", tokens->len);
 		printf("  concatenate: %d\n", tokens->to_concatenate);
+		printf("  heredoc_del: %d\n", tokens->heredoc_delimiter);
 		printf("  quote_type : %c\n",
 			tokens->quote_type ? tokens->quote_type : '-');
 		printf("  next       : %p\n", (void *)tokens->next);

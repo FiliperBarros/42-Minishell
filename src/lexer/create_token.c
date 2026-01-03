@@ -12,6 +12,7 @@ t_token *create_token(char *line, t_tokinfo *info)
     new_token->len = info->end - info->start;
     new_token->value = line + info->start;
     new_token->to_concatenate = info->to_concat;
+    new_token->heredoc_delimiter = 0;
     new_token->next = NULL;
     return (new_token);
 }

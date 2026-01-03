@@ -22,9 +22,9 @@ int	main(int ac, char **argv, char **envp)
 		else
 			add_history(line);
 		lexer(&tokens, line);
-		// lexer_expander(&tokens, line);
+		expander(shell.env, &tokens);
+		//concatenate_tokens(&tokens);
 		print_tokens(tokens);
-		// expander(shell.env, &tokens);
 
 		// tokens = expand(line);
 

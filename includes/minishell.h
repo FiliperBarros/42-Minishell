@@ -34,4 +34,11 @@ void	free_tokens(t_token **tokens);
 void	extract_value_key_from_envp(char *s, char **k, char **v);
 void	env_from_envp(t_env **env, char **envp);
 
+//expander
+void	split_expanded_tokens(t_token **tokens, char *line);
+void	flag_heredoc_delimiter(t_token *t);
+void	expander(t_env *env, t_token **tokens);
+void	tk_delone(t_token *t);
+void	concatenate_tokens(t_token **tokens);
+
 #endif
