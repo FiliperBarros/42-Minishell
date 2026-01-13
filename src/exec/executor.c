@@ -1,32 +1,21 @@
 #include "minishell.h"
 
-char	*join_cmd_to_path(char *path, char *cmd_name)
+void	prepare_all_heredocs(t_shell *shell, t_cmd *cmd)
 {
-	return (ft_strjoin3(path, "/", cmd_name));
-}
-char	*find_cmd_path(t_env *env, char *cmd_name)
-{
-	char	**all_paths;
-	char	*path;
-	int		i;
+	t_redir	*r;
 
-	path = NULL;
-	i = 0;
-	while ( env && ft_strncmp(env->key, "PATH", 4))
-		env = env->next;
-	if (!env)
-		return (NULL);
-	all_paths = ft_split(env->value, ':');
-	while (all_paths[i])
+	while (cmd)
 	{
-		path = join_cmd_to_path(all_paths[i], cmd_name);
-		if (access(path, X_OK) == 0)
-			return (path);
-		i++;
+		r = cmd->redirs;
+		while (r)
+		{
+			if (r->type == HEREDOC)
+				create_heredoc(shell, r);
+			r = r->next;
+		}
+		cmd = cmd->next;
 	}
-	return (NULL);
 }
-
 void	apply_redirections(t_redir *redir)
 {
 	int	fd;
@@ -36,10 +25,10 @@ void	apply_redirections(t_redir *redir)
 	{
 		if (redir->type == REDIR_IN || redir->type == HEREDOC)
 		{
-			if (redir->type == REDIR_IN)
-				fd = open(redir->filename, O_RDONLY);
-			else
+			if (redir->type == HEREDOC)
 				fd = redir->heredoc_fd;
+			else
+				fd = open(redir->filename, O_RDONLY);
 			new_fd = STDIN_FILENO;
 		}
 		if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
@@ -58,80 +47,31 @@ void	apply_redirections(t_redir *redir)
 	}
 }
 
-void	create_heredoc(t_redir *r)
-{
-	int		fd[2];
-	char	*line;
-
-	pipe(fd);
-
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || ft_strncmp(line, r->filename, ft_strlen(line)) == 0)
-		{
-			free(line);
-			break;
-		}
-	/* 	if (!r->filename_quote)
-			line = expand_vars(line); */
-
-		write(fd[1], line, ft_strlen(line));
-		write(fd[1], "\n", 1);
-		free(line);
-	}
-	close(fd[1]);
-	r->heredoc_fd = fd[0];
-}
-/* char	*expand_vars(char *line)
-{
-	char	*new_line;
-
-	if (!ft_strchr(line, '$'))
-		return (line);
-	
-} */
-void	prepare_all_heredocs(t_cmd *cmd)
-{
-	t_redir	*r;
-
-	while (cmd)
-	{
-		r = cmd->redirs;
-		while (r)
-		{
-			if (r->type == HEREDOC)
-				create_heredoc(r);
-			r = r->next;
-		}
-		cmd = cmd->next;
-	}
-}
-void	executor_simple(t_env *env, t_cmd *cmd)
+void	executor(t_shell *shell, t_cmd *cmd)
 {
 	pid_t	pid;	
 	char	*path;
 	char	**envp;
 	int		status;
 
-	path = find_cmd_path(env, cmd->argv[0]);
-	envp = env_to_envp(env);
+	path = NULL;
+	envp = env_to_envp(shell->env);
 	pid = fork();
-
+	if (cmd->argv)
+		path = find_cmd_path(shell->env, cmd->argv[0]);
 	if (pid < 0 )
-	{
-		perror("fork failed");
-		return ;
-	}
+		return (perror("fork failed"));
 	if (pid == 0)
 	{
-		prepare_all_heredocs(cmd);
+		prepare_all_heredocs(shell, cmd);
 		apply_redirections(cmd->redirs);
 		execve(path, cmd->argv, envp);
-		perror("execve failed!");e
+		// perror("execve failed!");
 		exit(1);
 	}
 	waitpid(pid, &status, 0);
-	free_split(envp);
+	free_double_char(envp);
+	free_double_char(envp);
 	free(path);
 }
+

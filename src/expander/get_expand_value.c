@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char	*get_env_value(t_env *env, char *current_pos, char **dollar_pos)
+char	*get_env_value(t_env *env, char *current_pos, char **dollar_pos)
 {
 	size_t	to_expand_len;
 	
@@ -19,7 +19,7 @@ static char	*get_env_value(t_env *env, char *current_pos, char **dollar_pos)
 	}
 	return (NULL);
 }
-static char	*get_pid_value()
+char	*get_pid_value()
 {
 	int		fd;
 	char	*line;
@@ -33,29 +33,30 @@ static char	*get_pid_value()
 	free(line);
 	return (pid_value);
 }
-char	*get_expand_value(char **dollar_pos, t_shell *shell, t_token * t)	
+char	*get_expand_value(char **dollar_pos, t_shell *shell, char quote_type)	
 {
 	char	*value;
-	char 	*after_dollar;
+	char 	*after;
 	
 	value = NULL;
-	after_dollar = ++(*dollar_pos);
-	if (ft_isalpha(*after_dollar) || *after_dollar == '_')
-		value = get_env_value(shell->env, after_dollar, dollar_pos);
+	after = ++(*dollar_pos);
+	if (ft_isalpha(*after) || *after == '_')
+		value = get_env_value(shell->env, after, dollar_pos);
 	else
 	{
-		if (*after_dollar == '?')
+		if (*after == '?')
 			value = ft_itoa(shell->exit_status);
-		else if (*after_dollar == '$')
+		else if (*after == '$')
 			value = get_pid_value();
-		else if (is_space(*after_dollar) || !(*after_dollar) 
-			|| t->quote_type == *after_dollar)
+		else if (is_space(*after) || !(*after) 
+			|| quote_type == *after)
 			value = ft_strdup("$");
 		if (value)
 			(*dollar_pos)++;
-		}
-		return (value);
+	}
+	return (value);
 }
+
 
 
 

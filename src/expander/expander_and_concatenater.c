@@ -15,6 +15,7 @@ void	expander(t_shell *shell, t_token **tokens)
 			t = t->next;
 	}
 }
+
 void	concatenater(t_token **tokens)
 {
 	t_token *t;
@@ -42,8 +43,3 @@ void	expander_and_concatenater(t_shell *shell, t_token	**tokens)
 	expander(shell, tokens);
 	concatenater(tokens);
 }
-// heredoc:
-	// if (heredoc_delimiter && token->quote_type)
-	// 	not_expand_inside
-	// else
-	// 	expand_inside;

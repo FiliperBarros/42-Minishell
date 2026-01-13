@@ -12,7 +12,7 @@ int	main(int ac, char **argv, char **envp)
 	shell.env = NULL;
 	shell.exit_status = 0;
 	env_from_envp(&shell.env, envp);	
-	while (1)
+	if (1)
 	{
 		line = NULL;
 		signal(SIGINT, sigint_handler);
@@ -21,7 +21,7 @@ int	main(int ac, char **argv, char **envp)
 		tokens = NULL;
 		line = readline(RL_BLUE"minishell"RL_BOLD_RED "> "ANSI_RESET);
  		if (!*line)
-			continue;
+			return (1);
 		else
 			add_history(line);
 		lexer(&tokens, line);
@@ -29,19 +29,19 @@ int	main(int ac, char **argv, char **envp)
 		{
 			free_all(tokens, line);
 			printf("minishell: syntax error: unclosed quotes\n");
-			continue;
+			return (1);
 		}
 		expander_and_concatenater(&shell, &tokens);
 		if (validate_syntax(tokens))
 		{
 			free_all(tokens, line);
-			continue;
+			return (1);
 		}
 		parser(&cmd, tokens);
-		// print_cmds(cmd);
-		executor_simple(shell.env, cmd);
-		// exec(cmd_tree);
+		// // print_cmds(cmd);
+		executor(&shell, cmd);
 		free_all(tokens, line);
+		free_cmd(cmd);
 	}
 	free_env(shell.env);
 	return (0);

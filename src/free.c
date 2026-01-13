@@ -33,7 +33,30 @@ void	free_env(t_env *env)
 	}
 }
 
-void	free_split(char	**split_str)
+void	free_redirs(t_redir *redirs)
+{
+	t_redir *temp;
+
+	while (redirs)
+	{
+		temp = redirs->next;
+		free(redirs);
+		redirs = temp;
+	}
+}
+void	free_cmd(t_cmd *cmd)
+{
+	t_cmd	*temp;
+
+	while (cmd)
+	{
+		temp = cmd->next;
+		free_redirs(cmd->redirs);
+		free(cmd);
+		cmd = temp;
+	}
+}
+void	free_double_char(char	**split_str)
 {
 	int	i;
 

@@ -18,7 +18,7 @@ char	**add_arg(t_cmd *cmd, char *word)
 		new_argv[j] = cmd->argv[j];
 		j++;
 	}
-	new_argv[j] = ft_strdup(word);
+	new_argv[j] = word;
 	new_argv[j + 1] = NULL;
 	free(cmd->argv);
 	return (new_argv);
@@ -36,7 +36,7 @@ t_redir	*add_redir(t_cmd *curr, int redir_type, t_token *next_tk)
 		return (NULL);
 
 	new_redir->type = redir_type;
-	new_redir->filename = ft_strdup(next_tk->value);
+	new_redir->filename = next_tk->value;
 	new_redir->filename_quote = next_tk->quote_type;
 	new_redir->heredoc_fd = 0;
 	new_redir->next = NULL;
