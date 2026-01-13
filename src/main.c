@@ -39,7 +39,7 @@ int	main(int ac, char **argv, char **envp)
 		}
 		parser(&cmd, tokens);
 		// // print_cmds(cmd);
-		executor(&shell, cmd);
+		// executor(&shell, cmd);
 		free_all(tokens, line);
 		free_cmd(cmd);
 	}

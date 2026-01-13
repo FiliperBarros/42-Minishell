@@ -44,18 +44,6 @@ void	free_redirs(t_redir *redirs)
 		redirs = temp;
 	}
 }
-void	free_cmd(t_cmd *cmd)
-{
-	t_cmd	*temp;
-
-	while (cmd)
-	{
-		temp = cmd->next;
-		free_redirs(cmd->redirs);
-		free(cmd);
-		cmd = temp;
-	}
-}
 void	free_double_char(char	**split_str)
 {
 	int	i;
@@ -69,6 +57,19 @@ void	free_double_char(char	**split_str)
 			i++;
 		}
 		free(split_str);
+	}
+}
+void	free_cmd(t_cmd *cmd)
+{
+	t_cmd	*temp;
+
+	while (cmd)
+	{
+		temp = cmd->next;
+		free(cmd->argv);
+		free_redirs(cmd->redirs);
+		free(cmd);
+		cmd = temp;
 	}
 }
 
