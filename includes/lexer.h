@@ -17,6 +17,22 @@ typedef enum e_tokentype
 /*                                                                            */
 /* ************************************************************************** */
 
+typedef struct s_redir
+{
+    int             type;
+    char            *filename;
+    char            filename_quote;
+    int             heredoc_fd;
+    struct s_redir  *next;
+}   t_redir;
+
+typedef struct  s_cmd
+{
+    char            **argv;
+    t_redir         *redirs;
+    struct s_cmd    *next;
+}   t_cmd;
+
 typedef struct s_token
 {
     t_tokentype     type;
@@ -24,7 +40,7 @@ typedef struct s_token
     int             len;
     char            quote_type;
     int             to_concatenate;
-    int             heredoc_delimiter;
+    int             redir_delimiter;
     struct s_token  *next;
 }   t_token;
 

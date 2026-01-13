@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:38:31 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/03 18:38:43 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:07:57 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!string)
 		return (NULL);
 	i = 0;
-	while (s1 && s1[i])
+	while (s1[i])
 	{
 		string[i] = s1[i];
 		i++;
 	}
 	j = i;
 	i = 0;
-	while (s2 && s2[i])
+	while (s2[i])
 	{
 		string[j + i] = s2[i];
 		i++;

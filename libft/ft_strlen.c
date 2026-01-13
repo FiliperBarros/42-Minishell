@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:08:21 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/02 15:01:30 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:08:44 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ size_t	ft_strlen(const	char *s)
 	size_t	i;
 
 	i = 0;
-	
-	if (!s)
-		return (i);
 	while (s[i])
 		i++;
 	return (i);

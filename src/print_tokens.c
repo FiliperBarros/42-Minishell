@@ -11,24 +11,27 @@ const char *token_type_str(t_tokentype type)
     return "UNKNOWN";
 }
 
-void	print_tokens(t_token *tokens)
+void	print_tokens(t_token **tokens)
 {
 	int	i = 0;
+	t_token *t;
 
-	while (tokens)
+	t = *tokens;
+	while (t)
 	{
 		printf("TOKEN[%d]\n", i);
-		printf("  address    : %p\n", (void *)tokens);
-		printf("  type       : %s\n", token_type_str(tokens->type));
-		printf("  value      : %.*s\n", tokens->len, tokens->value);
-		printf("  len        : %d\n", tokens->len);
-		printf("  concatenate: %d\n", tokens->to_concatenate);
-		printf("  heredoc_del: %d\n", tokens->heredoc_delimiter);
+		printf("  address    : %p\n", (void *)t);
+		printf("  type       : %s\n", token_type_str(t->type));
+		printf("  redir_delim: %d\n", t->redir_delimiter);
+		printf("  value      : %.*s\n", t->len, t->value);
+		printf("  len        : %d\n", t->len);
+		printf("  concatenate: %d\n", t->to_concatenate);
 		printf("  quote_type : %c\n",
-			tokens->quote_type ? tokens->quote_type : '-');
-		printf("  next       : %p\n", (void *)tokens->next);
+			t->quote_type ? t->quote_type : '-');
+		printf("  next       : %p\n", (void *)t->next);
 		printf("----------------------------\n");
-		tokens = tokens->next;
+		t = t->next;
 		i++;
 	}
+	printf("\n\n\n\n\n");
 }

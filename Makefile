@@ -6,7 +6,7 @@
 #    By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/01 16:59:12 by frocha-b          #+#    #+#              #
-#    Updated: 2025/12/18 13:13:14 by frocha-b         ###   ########.fr        #
+#    Updated: 2026/01/08 10:24:27 by frocha-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,5 +72,8 @@ fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
+
+valgrind: re
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_read ./minishell
 
 .PHONY: all clean fclean re

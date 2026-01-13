@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 13:10:32 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/04/11 13:30:12 by frocha-b         ###   ########.fr       */
+/*   Created: 2025/05/16 10:37:40 by frocha-b          #+#    #+#             */
+/*   Updated: 2025/09/25 17:13:28 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-char	*ft_strchr(const char *s, int c)
-{
-	int	i;
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
 
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == (unsigned char) c)
-			return ((char *)s + i);
-		i++;
-	}
-	if (s[i] == (unsigned char) c)
-		return ((char *)s + i);
-	return (NULL);
-}
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
+
+char	*get_next_line(int fd);
+int		ft_line_len(char *line, char *buff);
+char	*ft_join_buff(char *line, char *buff);
+int		is_chr_in_str(char *buffer, char c);
+void	shift_buff(char *buffer);
+
+#endif

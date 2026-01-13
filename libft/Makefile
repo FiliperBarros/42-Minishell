@@ -3,20 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+         #
+#    By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 17:24:13 by frocha-b          #+#    #+#              #
-#    Updated: 2025/12/18 13:13:32 by frocha-b         ###   ########.fr        #
+#    Updated: 2025/09/25 17:34:49 by frocha-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-
-# Colors
-C_GREEN		= \033[0;32m
-C_YELLOW	= \033[1;33m
-C_BLUE		= \033[0;34m	
-C_RESET		= \033[0m
 
 SRCS = ft_isalpha.c
 SRCS += ft_isdigit.c
@@ -53,47 +47,35 @@ SRCS += ft_putstr_fd.c
 SRCS += ft_putendl_fd.c
 SRCS += ft_putnbr_fd.c
 
-SRCS += ft_printf.c
-SRCS += ft_printf_parsing.c
-SRCS += ft_printf_utils.c
-SCRS += ft_printf_utils_hex.c
+SRCS += ft_printf/ft_printf.c
+SRCS += ft_printf/ft_printf_parsing.c
+SRCS += ft_printf/ft_printf_utils.c
+SRCS += ft_printf/ft_printf_utils_hex.c
 
-SRCS_B = ft_lstnew_bonus.c
-SRCS_B += ft_lstadd_front_bonus.c
-SRCS_B += ft_lstsize_bonus.c
-SRCS_B += ft_lstlast_bonus.c
-SRCS_B += ft_lstadd_back_bonus.c
-SRCS_B += ft_lstdelone_bonus.c
-SRCS_B += ft_lstclear_bonus.c
-SRCS_B += ft_lstiter_bonus.c
-SRCS_B += ft_lstmap_bonus.c
+SRCS += get_next_line/get_next_line.c
+SRCS += get_next_line/get_next_line_utils.c
 
-OBJS = $(SRCS:.c=.o)
-OBJS_B = $(SRCS_B:.c=.o)
+OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
+
+OBJ_DIR = objects
 
 CC     = cc
 CFLAGS = -Wall -Werror -Wextra
 LIBC   = ar -rcs
-RM     = rm -f
-INCS   = .
-
-.c.o :
-	@${CC} ${FLAGS} -c $< -o ${<:.c=.o} -I${INCS}
-
-$(NAME) : $(OBJS)
-	@${LIBC} $(NAME) $(OBJS)
 
 all : $(NAME)
 
-bonus : $(NAME) $(OBJS_B)
-		${LIBC} $(NAME) $(OBJS_B)
+$(NAME) : $(OBJS)
+	${LIBC} $(NAME) $(OBJS)
+
+$(OBJ_DIR)/%.o : %.c
+	@mkdir -p $(dir $@)
+	${CC} ${CFLAGS} -c $< -o $@
 
 clean :
-	@echo "$(C_BLUE)🧹Libft -> Cleaning object files...$(C_RESET)"
-	@rm -f $(OBJS) $(OBJS_B)
+	 rm -rf $(OBJ_DIR)
 
 fclean : clean
-	@echo "$(C_BLUE)🧽 Libft -> Removing executable...$(C_RESET)"
-	@rm -f $(NAME) $(bonus)
-
+	rm -f $(NAME)
+	
 re : fclean all

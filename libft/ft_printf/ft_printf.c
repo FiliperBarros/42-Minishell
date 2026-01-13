@@ -6,11 +6,11 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:13:38 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/05/22 12:07:07 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/06/06 11:22:17 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
 int	ft_printf(const char *format, ...)
 {

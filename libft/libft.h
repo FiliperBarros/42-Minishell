@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:09:27 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/05/22 12:08:43 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:32:23 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
-# include <stdarg.h>
+
+#include "ft_printf/ft_printf.h"
+#include "get_next_line/get_next_line.h"
 
 typedef struct s_list
 {
@@ -76,21 +78,4 @@ void	ft_lstclear(t_list **lst, void (*del) (void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-						/*Ft_printf*/
-
-int		ft_printf(const char *format, ...);
-
-						/*Parse*/
-int		parse_input(const char *format, va_list args, int length);
-void	parse_conversions(const char *format, va_list args, int *length);
-
-					/*Helper Functions*/
-void	ft_putchar(int c, int	*length);
-void	ft_putstr(char *str, int *length);
-void	ft_put_nbr(int n, int *length);
-void	ft_put_uns(unsigned int n, int *length);
-void	ft_put_hex(unsigned long long n, char letter, int *length);
-void	ft_put_adr(unsigned long long pointer, int *length);
-							/**/
-							
 #endif

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_hex.c                                        :+:      :+:    :+:   */
+/*   ft_printf_utils_hex.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:51:49 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/05/22 12:05:25 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/06/06 11:22:27 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
 void	ft_put_hex(unsigned long long n, char letter, int *length)
 {
