@@ -26,7 +26,7 @@ int	validate_syntax(t_token *t)
 		{
 			if (!prev || !t->next)
 				return (print_syntax_error(t));
-			if( prev->type != WORD || t->next->type != WORD)
+			if( prev->type != WORD)
 				return (print_syntax_error(t));
 		}
 		else if (is_redir(t->type))

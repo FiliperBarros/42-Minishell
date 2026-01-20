@@ -22,7 +22,6 @@ typedef	struct s_env
 	struct s_env *next;
 }	t_env;
 
-
 typedef	struct s_shell
 {
 	t_env 	*env;
@@ -39,7 +38,7 @@ void	free_env(t_env *env);
 void	free_double_char(char	**split_str);
 void	free_envp(char **envp);
 void	free_cmd(t_cmd *cmd);
-void	free_all(t_token *tokens, char *line);
+void	free_all(t_cmd *cmd);
 
 //env
 void	extract_value_key_from_envp(char *s, char **k, char **v);
@@ -58,11 +57,12 @@ char	*get_expand_value(char **dollar_pos, t_shell *shell, char token_quote_type)
 char	*get_env_value(t_env *env, char *current_pos, char **dollar_pos);
 char	*get_pid_value();
 
+//append
 void	append_expansion(char **final_str, char **dollar_pos, t_shell *shell,char quote_type, int exec);
-
- void	append_literal(char **dst, char *start, char *end);
+void	append_literal(char **dst, char *start, char *end);
 void	append_strings(char **final_str, char *env_value);
-//sucatadas
+
+//utils
 size_t	ft_strlen_mod(const	char *s);
 char	*ft_strdup_mod(const char *s);
 char	*ft_strjoin_mod(char const *s1, char const *s2);
@@ -75,15 +75,42 @@ int		validate_syntax(t_token *t);
 void	parser(t_cmd **cmd, t_token *t);
 
 //utils
-void	sigint_handler(int sig);
-void	executor(t_shell *shell, t_cmd *cmd);
+void	sigint_prompt(int sig);
+void	executor(t_shell *shell, t_cmd *cmd, char **envp);
 char	*ft_strjoin3(char	*first_str, char *second_str, char *third_str);
 
 //exec
-char	*get_expand_value_exec(char **dollar_pos, t_shell *shell);
+char	*get_expand_value_for_heredoc(char **dollar_pos, t_shell *shell);
 void	create_heredoc(t_shell *shell, t_redir *r);
-char	*find_cmd_path(t_env *env, char *cmd_name);
 
+//pipes
+void	open_pipes(int	pipes[][2], int pipes_qnty);
+void	close_pipe(int pipes[]);
+void	close_all_pipes(int pipes[][2], int pipes_qnty);
+void	close_parent_pipes(int pipes[][2], int pipes_qnty, int i);
+void	setup_pipe_fds(int pipes[][2], int pipes_qnty, int i);
 
+//status
+void	update_exit_status(t_shell *shell, int	status);
+
+void	run_cmd(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char **envp, char *path, t_shell *shell);
+void	run_builtin_in_parent(t_cmd *cmd, t_shell *shell);
+void	run_builtin_in_fork(t_cmd *cmd, t_shell *shell);
+void	run_cmd(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char **envp, char *path, t_shell *shell);
+void	apply_redirections(t_redir *redir);
+void	exec_builtin(t_cmd *cmd);
+
+//builtins
+int		ft_echo(char **argv);
+void	ft_exit(int is_fork, t_cmd *cmd, t_shell *shell);
+int		ft_env(t_env *env);
+int		ft_pwd(t_env *env);
+
+//path
+char	*solve_cmd_path(t_env *env, char *cmd_name);
+
+//backup fds
+t_std_backup	backup_std_fds();
+void	restore_std_fds(t_std_backup b);
 
 #endif

@@ -16,6 +16,13 @@ void	expander(t_shell *shell, t_token **tokens)
 	}
 }
 
+void	check_heredoc_quotes(t_token *t)
+{
+	if (t->redir_delimiter && !(*t->next->value))
+		t->quote_type = t->next->quote_type;
+	else if (t->next->redir_delimiter && !(*t->value))
+		t->next->quote_type = t->quote_type;
+}
 void	concatenater(t_token **tokens)
 {
 	t_token *t;
@@ -26,6 +33,7 @@ void	concatenater(t_token **tokens)
 	{
 		if (t->to_concatenate)
 		{
+			check_heredoc_quotes(t);
 			t->value = ft_strjoin(t->value, t->next->value);
 			t->to_concatenate = t->next->to_concatenate;
 			t->len = ft_strlen(t->value);

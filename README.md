@@ -5,29 +5,9 @@ execve(ENOENT,EACCESS)
 frocha-b@c1r2s1:~/cc/minishell$     skip_tokens addd o \0
 Command '' not found, but can be installed with:
 
-Ask your administrator to install one of them.
-frocha-b@c1r2s1:~/cc/minishell$ $ola
-frocha-b@c1r2s1:~/cc/minishell$ "$ola"
-Command '' not found, but can be installed with:
-frocha-b@c1r2s1:~/cc/minishell$ ''
-Command '' not found, but can be installed with:
-frocha-b@c1r2s1:~/cc/minishell$ ' '
- : command not found
 frocha-b@c1r2s1:~/cc/minishell$ .
 bash: .: filename argument required
 .: usage: . filename [arguments]
-frocha-b@c1r2s1:~/cc/minishell$ echo $42
-2
-frocha-b@c1r2s1:~/cc/minishell$ echo "$42"
-2
-frocha-b@c1r2s1:~/cc/minishell$ echo $	"42"
-42
-frocha-b@c1r2s1:~/cc/minishell$ echo $
-$
-frocha-b@c1r2s1:~/cc/minishell$ echo $"42"
-42
-frocha-b@c1r2s1:~/cc/minishell$ echo $'43'
-43
 frocha-b@c1r2s1:~/cc/minishell$ export a=1 b=$a a=$b
 frocha-b@c1r2s1:~/cc/minishell$ export
 declare -x a=""

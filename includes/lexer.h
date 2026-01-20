@@ -11,6 +11,18 @@ typedef enum e_tokentype
     HEREDOC
 }   t_tokentype;
 
+typedef enum e_builtintype
+{
+    NOT_BUILTIN,
+    ECHO,
+    CD,
+    PWD,
+    EXPORT,
+    UNSET,
+    ENV,
+    EXIT
+}   t_builtintype;
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                   Structs                                  */
@@ -30,6 +42,7 @@ typedef struct  s_cmd
 {
     char            **argv;
     t_redir         *redirs;
+    t_builtintype   builtin_type;
     struct s_cmd    *next;
 }   t_cmd;
 
@@ -53,6 +66,14 @@ typedef struct s_tokinfo
     t_tokentype     token_type;
 }   t_tokinfo;
 
+typedef struct s_std_backup
+{
+    int stdin_backup;
+    int stdout_backup;
+} t_std_backup;
+
+
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                   Functions                                */
@@ -69,7 +90,6 @@ void    tokenize_word(char *line, t_token **new_token, int *i);
 void    add_token(t_token **tokens, t_token *new_token);
 
 int		to_expand(t_token *t);
-// void	expander(t_env *env, t_token **tokens);
 void	lexer_expander(t_token **tokens, char *line);
 #endif
 

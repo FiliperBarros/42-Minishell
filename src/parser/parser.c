@@ -1,6 +1,25 @@
 #include "minishell.h"
 
-char	**add_arg(t_cmd *cmd, char *word)
+static t_builtintype	get_builtin_type(char *cmd_name)
+{
+	
+	if (ft_strncmp(cmd_name, "echo", 5) == 0)
+		return (ECHO);
+	if (ft_strncmp(cmd_name, "cd", 3)  == 0)
+		return (CD);
+	if (ft_strncmp(cmd_name, "pwd", 4) == 0)
+		return (PWD);
+	if (ft_strncmp(cmd_name, "export", 7) == 0)
+		return (EXPORT); 
+	if (ft_strncmp(cmd_name, "unset", 6)  == 0)
+		return (UNSET); 
+	if (ft_strncmp(cmd_name, "env", 4)  == 0)
+		return (ENV);
+	if (ft_strncmp(cmd_name, "exit", 5) == 0)
+		return (EXIT);
+	return (NOT_BUILTIN);
+}
+static char	**add_arg(t_cmd *cmd, char *word)
 {	
 	int		i;
 	int		j;
@@ -18,13 +37,13 @@ char	**add_arg(t_cmd *cmd, char *word)
 		new_argv[j] = cmd->argv[j];
 		j++;
 	}
-	new_argv[j] = word;
+	new_argv[j] = ft_strdup(word);
 	new_argv[j + 1] = NULL;
 	free(cmd->argv);
 	return (new_argv);
 }
 
-t_redir	*add_redir(t_cmd *curr, int redir_type, t_token *next_tk)
+static t_redir	*add_redir(t_cmd *curr, int redir_type, t_token *next_tk)
 {
 	t_redir *new_redir;
 	t_redir	*head_redir;
@@ -36,7 +55,7 @@ t_redir	*add_redir(t_cmd *curr, int redir_type, t_token *next_tk)
 		return (NULL);
 
 	new_redir->type = redir_type;
-	new_redir->filename = next_tk->value;
+	new_redir->filename = ft_strdup(next_tk->value);
 	new_redir->filename_quote = next_tk->quote_type;
 	new_redir->heredoc_fd = 0;
 	new_redir->next = NULL;
@@ -47,10 +66,10 @@ t_redir	*add_redir(t_cmd *curr, int redir_type, t_token *next_tk)
 		curr->redirs->next = new_redir;
 	}
 	else 
-		head_redir= new_redir;
+		head_redir = new_redir;
 	return (head_redir);
 }
-t_cmd *new_cmd(void)
+static t_cmd *new_cmd(void)
 {
 	t_cmd *cmd;
 
@@ -62,6 +81,7 @@ t_cmd *new_cmd(void)
 	cmd->next = NULL;
 	return (cmd);
 }
+
 void	parser(t_cmd **cmd, t_token *t)
 {
 	t_cmd	*curr;
@@ -71,7 +91,10 @@ void	parser(t_cmd **cmd, t_token *t)
 	while (t)
 	{
 		if (t->type == WORD)
+		{
 			curr->argv = add_arg(curr, t->value);
+			curr->builtin_type = get_builtin_type(curr->argv[0]);
+		}
 		else if (is_redir(t->type))
 		{
 			curr->redirs = add_redir(curr, t->type, t->next);

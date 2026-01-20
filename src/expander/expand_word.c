@@ -24,7 +24,7 @@ void	append_expansion(char **final_str, char **dollar_pos, t_shell *shell, char 
 	char	*env_value;
 
 	if (exec)
-		env_value = get_expand_value_exec(dollar_pos, shell);
+		env_value = get_expand_value_for_heredoc(dollar_pos, shell);
 	else
 		env_value = get_expand_value(dollar_pos, shell, quote_type);
 	append_strings(final_str, env_value);

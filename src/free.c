@@ -5,6 +5,8 @@ void	free_tokens(t_token *tokens)
 	t_token *temp;
 	t_token *current;
 
+	if (!tokens)
+		return;
 	current = tokens;
 	temp = current->next;
 	while (current)
@@ -73,10 +75,8 @@ void	free_cmd(t_cmd *cmd)
 	}
 }
 
-void	free_all(t_token *tokens, char *line)
+void	free_all(t_cmd *cmd)
 {
-	if (tokens)
-		free_tokens(tokens);
-	if (line)
-		free(line);
+	if (cmd)
+		free_cmd(cmd);
 }
