@@ -37,13 +37,3 @@ void	run_builtin_in_fork(t_cmd *cmd, t_shell *shell)
 	shell->exit_status = run_builtin(cmd, shell, 1);
 }
 
-
-void	run_builtin_in_parent(t_cmd *cmd, t_shell *shell)
-{
-	t_std_backup	backup;
-
-	backup = backup_std_fds();
-	apply_redirections(cmd->redirs);
-	run_builtin(cmd, shell, 0);
-	restore_std_fds(backup);
-}

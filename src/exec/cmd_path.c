@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 static char	*join_cmd_to_path(char *path, char *cmd_name)
 {
 	return (ft_strjoin3(path, "/", cmd_name));

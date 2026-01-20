@@ -99,7 +99,7 @@ void	run_builtin_in_fork(t_cmd *cmd, t_shell *shell);
 void	run_cmd(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char **envp, char *path, t_shell *shell);
 void	apply_redirections(t_redir *redir);
 void	exec_builtin(t_cmd *cmd);
-
+int		run_builtin(t_cmd *cmd, t_shell *shell, int is_fork);
 //builtins
 int		ft_echo(char **argv);
 void	ft_exit(int is_fork, t_cmd *cmd, t_shell *shell);

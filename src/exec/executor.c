@@ -109,24 +109,45 @@ void	executor_loop(t_cmd *cmd, t_shell *shell, char **envp)
 	{	
 		path = NULL;
 		//check if this works
-		if (cmd->builtin_type && !cmd->next)
-		{
-			run_builtin_in_parent(cmd, shell);
-			return ;
-		}
 		create_child(cmd, i, envp, path, shell);
 		free(path);
 		i++;
 		cmd = cmd->next;
 	}
 }
+int		should_run_in_parent(t_cmd *cmd)
+{
+	if (!cmd->argv && cmd->redirs)
+		return (1);
+	if (!cmd->next && cmd->builtin_type)
+		return (1);
+	return (0);
+}
 
+void	executor_parent(t_shell *shell, t_cmd *cmd)
+{
+	t_std_backup	backup;
+
+	backup = backup_std_fds();
+	if (cmd->redirs)
+		apply_redirections(cmd->redirs);
+	if (cmd->argv && cmd->builtin_type)
+		shell->exit_status = run_builtin(cmd,shell, 0);
+	else
+		shell->exit_status = 0;
+	restore_std_fds(backup);
+}
 void	executor(t_shell *shell, t_cmd *cmd, char **envp)
 {
 	if (!prepare_all_heredocs(shell, cmd))
 		return ;
-	if (!cmd || !cmd->argv || !cmd->argv[0])
+	if (!cmd )
 		return ;
+	if (should_run_in_parent(cmd))
+	{
+		executor_parent(shell, cmd);
+		return ;
+	}
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	executor_loop(cmd, shell, envp);
