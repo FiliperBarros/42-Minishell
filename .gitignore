@@ -56,3 +56,6 @@ dkms.conf
 *.dwo
 
 .txt
+minishell_tester
+TODO
+

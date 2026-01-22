@@ -17,8 +17,9 @@
 
 typedef	struct s_env
 {
-	char *key;
-	char *value;
+	char 	*key;
+	char 	*value;
+	int		to_hide;
 	struct s_env *next;
 }	t_env;
 
@@ -41,9 +42,10 @@ void	free_cmd(t_cmd *cmd);
 void	free_all(t_cmd *cmd);
 
 //env
-void	extract_value_key_from_envp(char *s, char **k, char **v);
-void	env_from_envp(t_env **env, char **envp);
-char	**env_to_envp(t_env *env);
+void		get_env_from_envp(t_env **env, char **envp);
+char		**env_to_envp(t_env *env);
+t_env		*find_env_by_key(t_env *env, char *key_to_find);
+void		env_add_node(t_env **env, t_env *env_node);
 
 
 //expander
@@ -100,17 +102,33 @@ void	run_cmd(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char **envp, cha
 void	apply_redirections(t_redir *redir);
 void	exec_builtin(t_cmd *cmd);
 int		run_builtin(t_cmd *cmd, t_shell *shell, int is_fork);
+
 //builtins
 int		ft_echo(char **argv);
 void	ft_exit(int is_fork, t_cmd *cmd, t_shell *shell);
 int		ft_env(t_env *env);
 int		ft_pwd(t_env *env);
+int		ft_export(t_cmd *cmd, t_env *env);
+int		ft_unset(t_env *env, char **argv);
+
+int		update_existent_env(t_env *env, char *key, char *value, int append_flag);
+void	set_env(t_env **env, char *key, char *value, int append_flag);
+void	split_key_value(char *arg, char **key, char **value, int *append_flag);
+int		is_valid_identifier(char *var_name);
 
 //path
-char	*solve_cmd_path(t_env *env, char *cmd_name);
+char			*solve_cmd_path(t_env *env, char *cmd_name);
 
 //backup fds
 t_std_backup	backup_std_fds();
-void	restore_std_fds(t_std_backup b);
+void			restore_std_fds(t_std_backup b);
+
+//exec_parent
+void	executor_parent(t_shell *shell, t_cmd *cmd);
+int		should_run_in_parent(t_cmd *cmd);
+
+
+//env
+
 
 #endif

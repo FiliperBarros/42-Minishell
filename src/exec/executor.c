@@ -44,7 +44,7 @@ void	apply_redirections(t_redir *redir)
 		}
 		if (fd < 0)
 		{
-			printf("%s: No such file or directory\n", redir->filename);
+			write(2, "No such file or directory\n", 27);
 			exit(1);
 		}
 		dup2(fd, new_fd);
@@ -65,78 +65,70 @@ int		count_cmds(t_cmd *cmd)
 	}
 	return (i);
 }
-void	exec_builtin(t_cmd *cmd)
+int		handle_cmd_path(t_shell *shell, char *cmd_name, char **path, int pipes[][2], int pipes_qnty)
 {
-	(void) cmd;
+	*path = solve_cmd_path(shell->env, cmd_name);
+	if (!*path)
+	{
+		close_all_pipes(pipes,pipes_qnty);
+		shell->exit_status = 127;
+		return (0);
+	}
+	return (1);
 }
-
-void	create_child(t_cmd *cmd, int i, char **envp, char *path, t_shell *shell)
+pid_t	create_fork(t_cmd *cmd, int i, char **envp, char *path, t_shell *shell, int pipes[][2], int pipes_qnty)
 {
 	pid_t	pid;
-	int		status;
-	int		pipes[count_cmds(cmd) - 1][2];
-	int		pipes_qnty;
 
-	pipes_qnty = count_cmds(cmd) - 1;
-	open_pipes(pipes, pipes_qnty);
-	path = solve_cmd_path(shell->env, cmd->argv[0]);
-	if (!path)
+	if (!cmd->builtin_type)
 	{
-		close_parent_pipes(pipes, pipes_qnty, i);
-		shell->exit_status = 127;
-		return ;
+		if (!handle_cmd_path(shell, cmd->argv[0], &path, pipes, pipes_qnty))
+			return (-1);
 	}
 	pid = fork();
 	if (pid < 0 )
-	return (perror("fork failed"));
+		return (perror("fork failed"), -1);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		run_cmd(cmd, pipes, pipes_qnty, i, envp, path, shell);
 	}
-	close_parent_pipes(pipes, pipes_qnty, i);
-	wait(&status);
-	update_exit_status(shell, status);
+	return (pid);
 }
 void	executor_loop(t_cmd *cmd, t_shell *shell, char **envp)
 {
 	char	*path;
-	int		i;
+	int		i;	
+	int		pipes[count_cmds(cmd) - 1][2];
+	int		pipes_qnty;
+	int		status;
+	int		last_pid;
+	int		pid;
+	t_cmd	*last_cmd;
 
+	pipes_qnty = count_cmds(cmd) - 1;
+	open_pipes(pipes, pipes_qnty);
 	i = 0;
+	path = NULL;
 	while (cmd)
 	{	
-		path = NULL;
-		//check if this works
-		create_child(cmd, i, envp, path, shell);
-		free(path);
+		pid = create_fork(cmd, i, envp, path, shell, pipes, pipes_qnty);
+		if (i == pipes_qnty)
+			last_pid = pid;
 		i++;
+		last_cmd = cmd;
 		cmd = cmd->next;
 	}
-}
-int		should_run_in_parent(t_cmd *cmd)
-{
-	if (!cmd->argv && cmd->redirs)
-		return (1);
-	if (!cmd->next && cmd->builtin_type)
-		return (1);
-	return (0);
+	close_all_pipes(pipes,pipes_qnty);
+	while ((pid = wait(&status)) > 0)
+	{
+		if (pid == last_pid && !last_cmd->builtin_type)
+			update_exit_status(shell, status);
+	}
+	free(path);
 }
 
-void	executor_parent(t_shell *shell, t_cmd *cmd)
-{
-	t_std_backup	backup;
-
-	backup = backup_std_fds();
-	if (cmd->redirs)
-		apply_redirections(cmd->redirs);
-	if (cmd->argv && cmd->builtin_type)
-		shell->exit_status = run_builtin(cmd,shell, 0);
-	else
-		shell->exit_status = 0;
-	restore_std_fds(backup);
-}
 void	executor(t_shell *shell, t_cmd *cmd, char **envp)
 {
 	if (!prepare_all_heredocs(shell, cmd))

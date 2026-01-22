@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	extract_value_key_from_envp(char *s, char **k, char **v)
+static void	extract_value_key_from_envp(char *s, char **k, char **v)
 {
 	char *equal;
 
@@ -9,7 +9,7 @@ void	extract_value_key_from_envp(char *s, char **k, char **v)
 	*v = ft_strdup(equal + 1);
 }
 
-t_env	*env_new_node(char *s)
+static t_env	*env_new_node(char *s)
 {
 	t_env	*env_node;
 	char 	*k;
@@ -23,6 +23,7 @@ t_env	*env_new_node(char *s)
 	extract_value_key_from_envp(s, &k, &v);
 	env_node->key = k;
 	env_node->value = v;
+	env_node->to_hide = 0;
 	env_node->next = NULL;
 	return (env_node);
 }
@@ -42,7 +43,7 @@ void	env_add_node(t_env **env, t_env *env_node)
 	t->next = env_node;
 }
 
-void	env_from_envp(t_env **env, char **envp)
+void	get_env_from_envp(t_env **env, char **envp)
 {
 	t_env *env_new;
 	int	i;

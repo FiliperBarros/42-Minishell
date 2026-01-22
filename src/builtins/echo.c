@@ -10,6 +10,8 @@ int	ft_echo(char **argv)
 	int	newline_flag;
 
 	i = 1;
+	if (!argv[1])
+		return (0);
 	newline_flag = check_newline_flag(argv[1]);
 	if (newline_flag)
 		i++;
@@ -22,5 +24,5 @@ int	ft_echo(char **argv)
 	}
 	if (!newline_flag)
 		ft_printf("\n");
-	return (1);
+	return (0);
 }

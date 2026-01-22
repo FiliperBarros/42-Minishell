@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+static char *print_cmd_not_found()
+{
+	// write(2, cmd_name, ft_strlen(cmd_name));
+	write(2, " command not found\n", 19);
+	return (NULL);
+}
 static char	*join_cmd_to_path(char *path, char *cmd_name)
 {
 	return (ft_strjoin3(path, "/", cmd_name));
@@ -24,8 +30,7 @@ static char	*find_cmd_path(t_env *env, char *cmd_name)
 			return (path);
 		i++;
 	}
-	ft_printf("%s: command not found\n", cmd_name);
-	return (NULL);
+	return (print_cmd_not_found());
 }
 
 static char	*validate_cmd_path(char *cmd_name)
@@ -40,6 +45,8 @@ static char	*validate_cmd_path(char *cmd_name)
 }
 char	*solve_cmd_path(t_env *env, char *cmd_name)
 {
+	if (cmd_name && !*cmd_name)
+		return (print_cmd_not_found());
 	if (ft_strrchr(cmd_name, '/'))
 		return (validate_cmd_path(cmd_name));
 	return (find_cmd_path(env, cmd_name));

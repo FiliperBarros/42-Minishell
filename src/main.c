@@ -12,7 +12,7 @@ int	main(int ac, char **argv, char **envp)
 
 	shell.env = NULL;
 	shell.exit_status = 0;
-	env_from_envp(&shell.env, envp);
+	get_env_from_envp(&shell.env, envp);
 	my_envp = env_to_envp(shell.env);;
 	while (1)
 	{
@@ -25,7 +25,11 @@ int	main(int ac, char **argv, char **envp)
 		rl_on_new_line();
 		line = readline(RL_BLUE"minishell"RL_BOLD_RED "> "ANSI_RESET);
  		if (!line)
-		 	ft_exit(0, cmd, &shell);
+		{
+			exit(0);
+			break;
+		}
+		 	// ft_exit(0, cmd, &shell);
 		 // check exit message when SHLVL = 0
 		if (!*line)
 		{

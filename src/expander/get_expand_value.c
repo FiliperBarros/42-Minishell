@@ -51,7 +51,7 @@ char	*get_expand_value(char **dollar_pos, t_shell *shell, char quote_type)
 		else if (is_space(*after) || !(*after) 
 			|| quote_type == *after)
 			value = ft_strdup("$");
-		if (value)
+		if (value && !is_space(*after))
 			(*dollar_pos)++;
 	}
 	return (value);
