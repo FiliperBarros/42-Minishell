@@ -17,7 +17,7 @@ int	run_builtin(t_cmd *cmd, t_shell *shell, int is_fork)
 	else if (cmd->builtin_type == EXIT)
 	{
 		ft_exit(is_fork, cmd, shell);
-		return (0);
+		return (shell->exit_status);
 	}
 	return (1);
 }

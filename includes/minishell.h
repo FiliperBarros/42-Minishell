@@ -7,6 +7,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
+#include <errno.h>
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -77,6 +79,7 @@ int		validate_syntax(t_token *t);
 void	parser(t_cmd **cmd, t_token *t);
 
 //utils
+void	print_std_error(char *error_msg);
 void	sigint_prompt(int sig);
 void	executor(t_shell *shell, t_cmd *cmd, char **envp);
 char	*ft_strjoin3(char	*first_str, char *second_str, char *third_str);
@@ -117,7 +120,7 @@ void	split_key_value(char *arg, char **key, char **value, int *append_flag);
 int		is_valid_identifier(char *var_name);
 
 //path
-char			*solve_cmd_path(t_env *env, char *cmd_name);
+char			*solve_cmd_path(t_shell *shell, char *cmd_name);
 
 //backup fds
 t_std_backup	backup_std_fds();

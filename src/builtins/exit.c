@@ -28,12 +28,14 @@ int	is_all_digit(char *arg)
 #include <ctype.h>
 #include <stdio.h>
 
-int parse_exit_value(const char *s, unsigned long long *out)
+int parse_exit_value(const char *s, long long *out)
 {
     int sign = 1;
     long long value = 0;
     int i = 0;
 
+	if (!ft_strncmp(s,"-9223372036854775808", ft_strlen(s)))
+		return (1);
     // Step 1 — optional sign
     if (s[i] == '+')
         i++;
@@ -41,7 +43,7 @@ int parse_exit_value(const char *s, unsigned long long *out)
         sign = -1;
         i++;
     }
-
+	
     // Step 2 — must have at least one digit
     if (!isdigit(s[i]))
         return 0; // invalid numeric
@@ -69,10 +71,12 @@ int parse_exit_value(const char *s, unsigned long long *out)
 void	ft_exit(int	is_fork, t_cmd *cmd, t_shell *shell)
 {
 	int	argc;
-	unsigned long long	value;
+	long long	value;
 
 	value = 0;
 	argc = count_argv_strings(cmd->argv);
+	if (cmd->argv[1] && ft_strncmp(cmd->argv[1], "--", ft_strlen(cmd->argv[1])) == 0)
+		argc = 1;
 	if (!(argc > 2 && is_all_digit(cmd->argv[1])))
 	{
 		if (is_fork)
@@ -93,6 +97,7 @@ void	ft_exit(int	is_fork, t_cmd *cmd, t_shell *shell)
 		{
 			ft_printf("exit\n");
 			write(2, "bash: exit: too many arguments\n", 31);
+			shell->exit_status = 1;
 			exit(2);
 		}
 	}
@@ -108,7 +113,7 @@ void	ft_exit(int	is_fork, t_cmd *cmd, t_shell *shell)
    		exit(2);
 		}
 		else
-			exit(value % 256);
+			exit((unsigned char) value);
 	}
 }
 

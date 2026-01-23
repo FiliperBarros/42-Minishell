@@ -3,7 +3,7 @@
 execve(ENOENT,EACCESS)
 
 frocha-b@c1r2s1:~/cc/minishell$     skip_tokens addd o \0
-Command '' not found, but can be installed with:
+Command '' , but can be installed with:
 
 frocha-b@c1r2s1:~/cc/minishell$ .
 bash: .: filename argument required

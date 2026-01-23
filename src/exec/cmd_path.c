@@ -1,16 +1,16 @@
 #include "minishell.h"
 
-static char *print_cmd_not_found()
+static char *print_cmd_not_found(char *cmd_name)
 {
-	// write(2, cmd_name, ft_strlen(cmd_name));
-	write(2, " command not found\n", 19);
+	print_std_error(cmd_name);
+	print_std_error(": command not found\n");
 	return (NULL);
 }
 static char	*join_cmd_to_path(char *path, char *cmd_name)
 {
 	return (ft_strjoin3(path, "/", cmd_name));
 }
-static char	*find_cmd_path(t_env *env, char *cmd_name)
+static char	*find_cmd_path(t_shell *shell, char *cmd_name)
 {
 	char	**all_paths;
 	char	*path;
@@ -18,11 +18,11 @@ static char	*find_cmd_path(t_env *env, char *cmd_name)
 
 	path = NULL;
 	i = 0;
-	while ( env && ft_strncmp(env->key, "PATH", 4))
-		env = env->next;
-	if (!env)
+	while ( shell->env && ft_strncmp(shell->env->key, "PATH", 4))
+		shell->env = shell->env->next;
+	if (!shell->env)
 		return (NULL);
-	all_paths = ft_split(env->value, ':');
+	all_paths = ft_split(shell->env->value, ':');
 	while (all_paths[i])
 	{
 		path = join_cmd_to_path(all_paths[i], cmd_name);
@@ -30,24 +30,44 @@ static char	*find_cmd_path(t_env *env, char *cmd_name)
 			return (path);
 		i++;
 	}
-	return (print_cmd_not_found());
+	shell->exit_status = 127;
+	return (print_cmd_not_found(cmd_name));
 }
 
-static char	*validate_cmd_path(char *cmd_name)
+static char *validate_cmd_path(t_shell *shell, char *cmd_name)
 {
-	if (access(cmd_name, X_OK) == 0)
-		return (ft_strdup(cmd_name));
-	else
-	{
-		ft_printf("bash: %s: No such file or directory", cmd_name);
-		return (NULL);
-	}
+    struct stat st;
+
+    if (stat(cmd_name, &st) < 0)
+    {
+		shell->exit_status = 127;
+        perror(cmd_name);
+        return NULL;
+    }
+    if (S_ISDIR(st.st_mode))
+    {
+        print_std_error(cmd_name);
+        print_std_error(": Is a directory\n");
+		shell->exit_status = 126;
+        return NULL;
+    }
+    if (access(cmd_name, X_OK) < 0)
+    {
+		shell->exit_status = 126;
+        perror(cmd_name);
+        return NULL;
+    }
+    return ft_strdup(cmd_name);
 }
-char	*solve_cmd_path(t_env *env, char *cmd_name)
+
+char	*solve_cmd_path(t_shell *shell, char *cmd_name)
 {
 	if (cmd_name && !*cmd_name)
-		return (print_cmd_not_found());
+	{
+		shell->exit_status = 127;
+		return (print_cmd_not_found(cmd_name));
+	}
 	if (ft_strrchr(cmd_name, '/'))
-		return (validate_cmd_path(cmd_name));
-	return (find_cmd_path(env, cmd_name));
+		return (validate_cmd_path(shell, cmd_name));
+	return (find_cmd_path(shell, cmd_name));
 }

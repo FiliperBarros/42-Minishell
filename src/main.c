@@ -47,6 +47,8 @@ int	main(int ac, char **argv, char **envp)
 			continue;
 		}
 		expander_and_concatenater(&shell, &tokens);
+		if (!tokens)
+			continue;
 		free(line);
 		if (validate_syntax(tokens))
 		{

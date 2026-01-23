@@ -44,7 +44,8 @@ void	apply_redirections(t_redir *redir)
 		}
 		if (fd < 0)
 		{
-			write(2, "No such file or directory\n", 27);
+			// print_std_error("");
+			perror(redir->filename);
 			exit(1);
 		}
 		dup2(fd, new_fd);
@@ -67,11 +68,10 @@ int		count_cmds(t_cmd *cmd)
 }
 int		handle_cmd_path(t_shell *shell, char *cmd_name, char **path, int pipes[][2], int pipes_qnty)
 {
-	*path = solve_cmd_path(shell->env, cmd_name);
+	*path = solve_cmd_path(shell, cmd_name);
 	if (!*path)
 	{
 		close_all_pipes(pipes,pipes_qnty);
-		shell->exit_status = 127;
 		return (0);
 	}
 	return (1);
@@ -103,8 +103,8 @@ void	executor_loop(t_cmd *cmd, t_shell *shell, char **envp)
 	int		pipes[count_cmds(cmd) - 1][2];
 	int		pipes_qnty;
 	int		status;
-	int		last_pid;
-	int		pid;
+	pid_t	last_pid;
+	pid_t	pid;
 	t_cmd	*last_cmd;
 
 	pipes_qnty = count_cmds(cmd) - 1;
@@ -123,7 +123,7 @@ void	executor_loop(t_cmd *cmd, t_shell *shell, char **envp)
 	close_all_pipes(pipes,pipes_qnty);
 	while ((pid = wait(&status)) > 0)
 	{
-		if (pid == last_pid && !last_cmd->builtin_type)
+		if (pid == last_pid)
 			update_exit_status(shell, status);
 	}
 	free(path);
@@ -133,7 +133,7 @@ void	executor(t_shell *shell, t_cmd *cmd, char **envp)
 {
 	if (!prepare_all_heredocs(shell, cmd))
 		return ;
-	if (!cmd )
+	if (!cmd || !cmd->argv[0])
 		return ;
 	if (should_run_in_parent(cmd))
 	{
