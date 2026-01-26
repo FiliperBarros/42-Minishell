@@ -4,8 +4,8 @@ int	run_builtin(t_cmd *cmd, t_shell *shell, int is_fork)
 {
 	if (cmd->builtin_type == ECHO)
 		return (ft_echo(cmd->argv));
-/* 	else if (cmd->builtin_type == CD)
-		return (ft_cd());*/
+	else if (cmd->builtin_type == CD)
+		return (ft_cd(cmd->argv, shell->env));
 	else if (cmd->builtin_type == PWD)
 		return (ft_pwd(shell->env));
 	else if (cmd->builtin_type == EXPORT)

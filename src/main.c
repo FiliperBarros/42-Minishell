@@ -12,8 +12,9 @@ int	main(int ac, char **argv, char **envp)
 
 	shell.env = NULL;
 	shell.exit_status = 0;
-	get_env_from_envp(&shell.env, envp);
-	my_envp = env_to_envp(shell.env);;
+	create_env_list(&shell.env, envp);
+	//falta dar sort ao export para printar
+	my_envp = env_to_envp(shell.env);
 	while (1)
 	{
 		line = NULL;

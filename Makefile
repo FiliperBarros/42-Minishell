@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+         #
+#    By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/01 16:59:12 by frocha-b          #+#    #+#              #
-#    Updated: 2026/01/08 10:24:27 by frocha-b         ###   ########.fr        #
+#    Updated: 2026/01/26 12:32:35 by benes-al         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	= minishell
 
 # Compiler and flags
 CC 			= cc
-CFLAGS		= -Wall -Werror -Wextra -g 	
+CFLAGS		= -Wall  -Wextra -g 	
 MAKEFLAGS += --no-print-directory
 
 

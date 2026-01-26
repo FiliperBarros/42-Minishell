@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*get_env_value(t_env *env, char *current_pos, char **dollar_pos)
+char	*get_env_expand_value(t_env *env, char *current_pos, char **dollar_pos)
 {
 	size_t	to_expand_len;
 	
@@ -41,7 +41,7 @@ char	*get_expand_value(char **dollar_pos, t_shell *shell, char quote_type)
 	value = NULL;
 	after = ++(*dollar_pos);
 	if (ft_isalpha(*after) || *after == '_')
-		value = get_env_value(shell->env, after, dollar_pos);
+		value = get_env_expand_value(shell->env, after, dollar_pos);
 	else
 	{
 		if (*after == '?')

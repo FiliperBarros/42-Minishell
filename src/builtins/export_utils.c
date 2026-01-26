@@ -1,63 +1,53 @@
 #include "minishell.h"
 
-int	update_existent_env(t_env *env, char *key, char *value, int append_flag)
+int		to_append_env_value(char *append, char *equal)
 {
-	t_env 	*var;
+	return (append && equal && append + 1 == equal);
+}
 
-	var = find_env_by_key(env, key);
-	if (!var)
-		return (0);
-	if (value)
+void	export_env(t_env **env, char *new_key, char *new_value)
+{
+	t_env	*export_env;
+
+	export_env = get_env(*env, new_key);
+	if (export_env)
 	{
-		free(var->value);
-		if (append_flag)
-			var->value = value;
-		else
-			var->value = ft_strdup(value);
-		var->to_hide = 0;
+		if (new_value)
+		{
+			free(export_env->value);
+			export_env->value = new_value;
+		}
 	}
-	return (1);
-}
-void	set_env(t_env **env, char *key, char *value, int append_flag)
-{
-	t_env	*new_env;
-
-	if (update_existent_env(*env, key, value, append_flag))
-		return ;
-	new_env = malloc(sizeof(t_env));
-	new_env->key = ft_strdup(key);
-	if (value)
-		new_env->value = ft_strdup(value);
 	else
-		new_env->value = NULL;
-	new_env->to_hide = (value == NULL);
-	env_add_node(env, new_env);
+	{
+		export_env = create_env_node(new_key, new_value);
+		export_env->to_hide = !new_value;
+		add_env_node(env, export_env);
+	}
 }
 
-void	split_key_value(char *arg, char **key, char **value, int *append_flag)
+void	get_key_and_value(t_env *env, char *arg, char **key, char **value)
 {
 	char 	*equal;
 	char	*append; 
+	t_env	*new_env;
 	
 	append 		= ft_strchr(arg, '+');
 	equal		= ft_strchr(arg, '=');
-	if (equal && append && append + 1== equal)
+	if (equal)
 	{
-		*append = '\0';
-		*key = arg;
-		*value = equal + 1;
-		*append_flag = 1;
+		*value = ft_strdup(equal + 1);
+		if (to_append_env_value(append, equal))
+			*append = '\0';
+		else
+			*equal = '\0';
 	}
-	else if (equal)
+	*key 	= ft_strdup(arg);
+	new_env = get_env(env, *key);
+	if (new_env && to_append_env_value( append, equal))
 	{
-		*equal = '\0';
-		*key = arg;
-		*value = equal + 1;
-	}
-	else
-	{
-		*key = arg;
-		*value = NULL;
+		free(*value);
+		*value = ft_strjoin_mod(new_env->value, equal + 1);
 	}
 }
 

@@ -8,7 +8,7 @@ char	*get_expand_value_for_heredoc(char **dollar_pos, t_shell *shell)
 	value = NULL;
 	after = ++(*dollar_pos);
 	if (ft_isalpha(*after) || *after == '_')
-		value = get_env_value(shell->env, after, dollar_pos);
+		value = get_env_expand_value(shell->env, after, dollar_pos);
 	else
 	{
 		if (*after == '?')

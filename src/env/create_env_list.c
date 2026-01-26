@@ -9,26 +9,20 @@ static void	extract_value_key_from_envp(char *s, char **k, char **v)
 	*v = ft_strdup(equal + 1);
 }
 
-static t_env	*env_new_node(char *s)
+t_env	*create_env_node(char *k, char *v)
 {
 	t_env	*env_node;
-	char 	*k;
-	char	*v;
 	
-	k = NULL;
-	v = NULL;
 	env_node = malloc(sizeof(t_env));
 	if (!env_node)
 		return(NULL);
-	extract_value_key_from_envp(s, &k, &v);
 	env_node->key = k;
 	env_node->value = v;
 	env_node->to_hide = 0;
 	env_node->next = NULL;
 	return (env_node);
 }
-
-void	env_add_node(t_env **env, t_env *env_node)
+void	add_env_node(t_env **env, t_env *env_node)
 {
 	t_env *t;
 
@@ -43,16 +37,19 @@ void	env_add_node(t_env **env, t_env *env_node)
 	t->next = env_node;
 }
 
-void	get_env_from_envp(t_env **env, char **envp)
+void	create_env_list(t_env **env, char **envp)
 {
-	t_env *env_new;
-	int	i;
+	t_env 	*env_new;
+	char	*key;
+	char	*value;
+	int		i;
 
 	i = 0;
 	while (envp[i])
 	{
-		env_new = env_new_node(envp[i]);
-		env_add_node(env, env_new);
+		extract_value_key_from_envp(envp[i], &key, &value);
+		env_new = create_env_node(key, value);
+		add_env_node(env, env_new);
 		i++;
 	}
 }

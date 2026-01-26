@@ -35,7 +35,7 @@ int	ft_unset(t_env *env, char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		to_remove_node = find_env_by_key(env, argv[i]);
+		to_remove_node = get_env(env, argv[i]);
 		if (to_remove_node)
 			remove_env_node(&env, to_remove_node);
 		i++;

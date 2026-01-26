@@ -44,11 +44,12 @@ void	free_cmd(t_cmd *cmd);
 void	free_all(t_cmd *cmd);
 
 //env
-void		get_env_from_envp(t_env **env, char **envp);
+void		create_env_list(t_env **env, char **envp);
 char		**env_to_envp(t_env *env);
-t_env		*find_env_by_key(t_env *env, char *key_to_find);
-void		env_add_node(t_env **env, t_env *env_node);
-
+t_env		*get_env(t_env *env, char *key_to_find);
+char		*get_env_value(t_env *env, char *key_to_find);
+void		add_env_node(t_env **env, t_env *env_node);
+t_env		*create_env_node(char *k, char *v);
 
 //expander
 char	*expand_word(char *value, int len, t_shell *shell, char quote_type, int exec);
@@ -58,7 +59,7 @@ void	check_and_split_expanded_tokens(t_token **tk_list, t_token *t);
 void	del_token(t_token *token, void (*del)(void *));
 void	del_and_link_token(t_token **token, t_token *del_t);
 char	*get_expand_value(char **dollar_pos, t_shell *shell, char token_quote_type);
-char	*get_env_value(t_env *env, char *current_pos, char **dollar_pos);
+char	*get_env_expand_value(t_env *env, char *current_pos, char **dollar_pos);
 char	*get_pid_value();
 
 //append
@@ -107,16 +108,18 @@ void	exec_builtin(t_cmd *cmd);
 int		run_builtin(t_cmd *cmd, t_shell *shell, int is_fork);
 
 //builtins
+int		ft_cd(char **argv, t_env *env);
 int		ft_echo(char **argv);
-void	ft_exit(int is_fork, t_cmd *cmd, t_shell *shell);
 int		ft_env(t_env *env);
-int		ft_pwd(t_env *env);
+int		ft_pwd();
 int		ft_export(t_cmd *cmd, t_env *env);
+void	export_env(t_env **env, char *new_key, char *new_value);
 int		ft_unset(t_env *env, char **argv);
+void	ft_exit(int is_fork, t_cmd *cmd, t_shell *shell);
 
 int		update_existent_env(t_env *env, char *key, char *value, int append_flag);
 void	set_env(t_env **env, char *key, char *value, int append_flag);
-void	split_key_value(char *arg, char **key, char **value, int *append_flag);
+void	get_key_and_value(t_env *env, char *arg, char **key, char **value);
 int		is_valid_identifier(char *var_name);
 
 //path

@@ -1,11 +1,18 @@
+
 #include "minishell.h"
 
-int	ft_pwd(t_env *env)
+int	ft_pwd()
 {
-	t_env	*env_pwd;
+	char	*pwd;
 
-	env_pwd = find_env_by_key(env, "PWD");
-	ft_printf("%s\n", env_pwd->value);
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+	{
+		perror("pwd");
+		return (1);
+	}
+	ft_printf("%s\n", pwd);
+	free(pwd);
 	return (0);
 }
 
