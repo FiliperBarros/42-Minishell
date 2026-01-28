@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:58 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 16:12:59 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 19:17:54 by benes-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int is_space(char c)
+int	is_space(char c)
 {
-    return (c == ' ' ||(c >= 9 && c <= 13));
+	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
-int is_operator(char c)
+int	is_operator(char c)
 {
-    return (c == '|' || c == '>' || c == '<');
+	return (c == '|' || c == '>' || c == '<');
 }
 
-int     is_quote(char c)
+int	is_quote(char c)
 {
-    return (c == '"' || c == '\'');
+	return (c == '"' || c == '\'');
 }

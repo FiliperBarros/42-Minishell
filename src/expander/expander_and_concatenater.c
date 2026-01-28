@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_and_concatenater.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:21 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 16:13:22 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 20:22:14 by benes-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	expander(t_shell *shell, t_token **tokens)
 {
 	t_token	*t;
-	
+
 	t = *tokens;
 	while (t)
 	{
@@ -35,10 +35,11 @@ void	check_heredoc_quotes(t_token *t)
 	else if (t->next->redir_delimiter && !(*t->value))
 		t->next->quote_type = t->quote_type;
 }
+
 void	concatenater(t_token **tokens)
 {
-	t_token *t;
-	t_token *del_tk;
+	t_token	*t;
+	t_token	*del_tk;
 
 	t = *tokens;
 	while (t)

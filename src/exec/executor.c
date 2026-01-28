@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/28 19:52:18 by benes-al          #+#    #+#             */
+/*   Updated: 2026/01/28 19:53:01 by benes-al         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	prepare_all_heredocs(t_shell *shell, t_cmd *cmd)
@@ -11,7 +23,7 @@ int	prepare_all_heredocs(t_shell *shell, t_cmd *cmd)
 		{
 			if (r->type == HEREDOC)
 				create_heredoc(shell, r);
-			if(r->heredoc_fd == -1)
+			if (r->heredoc_fd == -1)
 				return (0);
 			r = r->next;
 		}
@@ -20,7 +32,7 @@ int	prepare_all_heredocs(t_shell *shell, t_cmd *cmd)
 	return (1);
 }
 
-int		count_cmds(t_cmd *cmd)
+int	count_cmds(t_cmd *cmd)
 {
 	int	i;
 
@@ -32,6 +44,7 @@ int		count_cmds(t_cmd *cmd)
 	}
 	return (i);
 }
+
 int		handle_cmd_path(t_shell *shell, char *cmd_name, char **path, int pipes[][2], int pipes_qnty)
 {
 	*path = solve_cmd_path(shell, cmd_name);
@@ -42,6 +55,7 @@ int		handle_cmd_path(t_shell *shell, char *cmd_name, char **path, int pipes[][2]
 	}
 	return (1);
 }
+
 pid_t	create_fork(t_cmd *cmd, int i, char **envp, char *path, t_shell *shell, int pipes[][2], int pipes_qnty)
 {
 	pid_t	pid;
@@ -62,6 +76,7 @@ pid_t	create_fork(t_cmd *cmd, int i, char **envp, char *path, t_shell *shell, in
 	}
 	return (pid);
 }
+
 void	executor_loop(t_cmd *cmd, t_shell *shell, char **envp)
 {
 	char	*path;
@@ -77,14 +92,14 @@ void	executor_loop(t_cmd *cmd, t_shell *shell, char **envp)
 	i = 0;
 	path = NULL;
 	while (cmd)
-	{	
+	{
 		pid = create_fork(cmd, i, envp, path, shell, pipes, pipes_qnty);
 		if (i == pipes_qnty)
 			last_pid = pid;
 		i++;
 		cmd = cmd->next;
 	}
-	close_all_pipes(pipes,pipes_qnty);
+	close_all_pipes(pipes, pipes_qnty);
 	while ((pid = wait(&status)) > 0)
 	{
 		if (pid == last_pid)
@@ -108,4 +123,3 @@ void	executor(t_shell *sh)
 	executor_loop(sh->cmd, sh, sh->my_envp);
 	set_prompt_signals();
 }
-

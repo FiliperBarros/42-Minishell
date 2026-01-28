@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:33:09 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 17:33:10 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 19:40:58 by benes-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	open_pipes(int pipes[][2], int pipes_qnty)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (i < pipes_qnty)
 	{
 		if (pipe(pipes[i]) == -1)
@@ -47,6 +49,12 @@ void	close_parent_pipes(int pipes[][2], int pipes_qnty, int i)
 
 void	close_all_pipes(int pipes[][2], int pipes_qnty)
 {
-	for (int i = 0; i < pipes_qnty; i++)
+	int	i;
+
+	i = 0;
+	while (i < pipes_qnty)
+	{
 		close_pipe(pipes[i]);
+		i++;
+	}
 }

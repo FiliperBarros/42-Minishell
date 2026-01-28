@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:47 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 16:12:49 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 19:10:21 by benes-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 static t_builtintype	get_builtin_type(char *cmd_name)
 {
-	
 	if (ft_strncmp(cmd_name, "echo", 5) == 0)
 		return (ECHO);
-	if (ft_strncmp(cmd_name, "cd", 3)  == 0)
+	if (ft_strncmp(cmd_name, "cd", 3) == 0)
 		return (CD);
 	if (ft_strncmp(cmd_name, "pwd", 4) == 0)
 		return (PWD);
 	if (ft_strncmp(cmd_name, "export", 7) == 0)
-		return (EXPORT); 
-	if (ft_strncmp(cmd_name, "unset", 6)  == 0)
-		return (UNSET); 
-	if (ft_strncmp(cmd_name, "env", 4)  == 0)
+		return (EXPORT);
+	if (ft_strncmp(cmd_name, "unset", 6) == 0)
+		return (UNSET);
+	if (ft_strncmp(cmd_name, "env", 4) == 0)
 		return (ENV);
 	if (ft_strncmp(cmd_name, "exit", 5) == 0)
 		return (EXIT);
 	return (NOT_BUILTIN);
 }
+
 static char	**add_arg(t_cmd *cmd, char *word)
-{	
+{
 	int		i;
 	int		j;
 	char	**new_argv;
@@ -57,15 +57,13 @@ static char	**add_arg(t_cmd *cmd, char *word)
 
 static t_redir	*add_redir(t_cmd *curr, int redir_type, t_token *next_tk)
 {
-	t_redir *new_redir;
+	t_redir	*new_redir;
 	t_redir	*head_redir;
 
 	head_redir = curr->redirs;
-
 	new_redir = malloc(sizeof(t_redir));
 	if (!new_redir)
 		return (NULL);
-
 	new_redir->type = redir_type;
 	new_redir->filename = ft_strdup(next_tk->value);
 	new_redir->filename_quote = next_tk->quote_type;
@@ -77,13 +75,14 @@ static t_redir	*add_redir(t_cmd *curr, int redir_type, t_token *next_tk)
 			curr->redirs = curr->redirs->next;
 		curr->redirs->next = new_redir;
 	}
-	else 
+	else
 		head_redir = new_redir;
 	return (head_redir);
 }
-static t_cmd *new_cmd(void)
+
+static t_cmd	*new_cmd(void)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
@@ -115,7 +114,7 @@ void	parsing(t_cmd **cmd, t_token *t)
 		else if (t->type == PIPE)
 		{
 			curr->next = new_cmd();
-			curr = curr->next; 
+			curr = curr->next;
 		}
 		t = t->next;
 	}

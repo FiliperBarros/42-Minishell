@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/28 20:01:14 by benes-al          #+#    #+#             */
+/*   Updated: 2026/01/28 20:02:31 by benes-al         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	heredoc_loop(t_shell *sh, t_redir *r, int fd)
 {
-	char *line;
+	char	*line;
 
 	while (1)
 	{
@@ -10,7 +22,7 @@ static void	heredoc_loop(t_shell *sh, t_redir *r, int fd)
 		if (!line || !ft_strncmp(line, r->filename, ft_strlen(line) + 1))
 		{
 			free(line);
-			break;
+			break ;
 		}
 		if (!r->filename_quote)
 			line = expand_heredoc(sh, line);
@@ -31,7 +43,7 @@ static void	heredoc_child(t_shell *sh, t_redir *r, int fd[2])
 
 static int	heredoc_parent(t_shell *sh, t_redir *r, int fd[2], pid_t pid)
 {
-	int status;
+	int	status;
 
 	close(fd[1]);
 	reset_signals();
@@ -43,22 +55,22 @@ static int	heredoc_parent(t_shell *sh, t_redir *r, int fd[2], pid_t pid)
 		close(fd[0]);
 		r->heredoc_fd = -1;
 		sh->exit_status = 130;
-		return 0;
+		return (0);
 	}
 	r->heredoc_fd = fd[0];
-	return 1;
+	return (1);
 }
 
 void	create_heredoc(t_shell *sh, t_redir *r)
 {
-	int fd[2];
-	pid_t pid;
+	int		fd[2];
+	pid_t	pid;
 
 	if (pipe(fd) < 0)
-		return perror("pipe");
+		return (perror("pipe"));
 	pid = fork();
 	if (pid < 0)
-		return perror("fork");
+		return (perror("fork"));
 	if (pid == 0)
 		heredoc_child(sh, r, fd);
 	heredoc_parent(sh, r, fd, pid);

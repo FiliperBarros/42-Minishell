@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_child.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:32:57 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 17:32:58 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 19:38:03 by benes-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	exec_child(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char **envp, 
 		apply_redirections(cmd->redirs);
 	if (cmd->builtin_type)
 	{
-		exec_builtin_in_child(cmd, shell); 
+		exec_builtin_in_child(cmd, shell);
 		exit(shell->exit_status);
 	}
 	else
@@ -30,4 +30,3 @@ void	exec_child(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char **envp, 
 		exit(1);
 	}
 }
-

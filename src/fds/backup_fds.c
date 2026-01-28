@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backup_fds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:30:14 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 17:30:15 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 20:23:44 by benes-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_std_backup	backup_std_fds(void)
 {
-	t_std_backup b;
+	t_std_backup	b;
 
 	b.stdin_backup = dup(STDIN_FILENO);
 	b.stdout_backup = dup(STDOUT_FILENO);

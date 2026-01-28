@@ -3,27 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:17 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 16:22:29 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 20:12:01 by benes-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		to_expand(t_token *t)
+int	to_expand(t_token *t)
 {
-	if (ft_strnstr(t->value, "$", t->len) && t->quote_type != '\'' && !t->redir_delimiter)
+	if (ft_strnstr(t->value, "$", t->len)
+		&& t->quote_type != '\''
+		&& !t->redir_delimiter)
 		return (1);
-	if (!t->quote_type  && t->value && t->value[0] == '~')
+	if (!t->quote_type && t->value && t->value[0] == '~')
 		return (1);
 	return (0);
 }
 
 void	append_strings(char **final_str, char *env_value)
 {
-	char *new_str; 
+	char	*new_str;
 
 	if (!env_value)
 		return ;
@@ -43,7 +45,7 @@ void	del_token(t_token *token, void (*del)(void *))
 
 void	del_and_link_token(t_token **token, t_token *del_t)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	if (del_t == *token)
 	{
@@ -59,4 +61,3 @@ void	del_and_link_token(t_token **token, t_token *del_t)
 		del_token(del_t, free);
 	}
 }
-

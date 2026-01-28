@@ -3,85 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:30:21 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 17:30:22 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 20:33:42 by benes-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *print_cmd_not_found(char *cmd)
+static char	*print_cmd_not_found(char *cmd)
 {
 	print_error(cmd);
 	print_error(": command not found\n");
 	return (NULL);
 }
 
-static char *join_cmd_path(char *path, char *cmd)
+static char	*join_cmd_path(char *path, char *cmd)
 {
 	return (ft_strjoin3(path, "/", cmd));
 }
 
-static char *validate_cmd_path(t_shell *sh, char *cmd)
+static char	*validate_cmd_path(t_shell *sh, char *cmd)
 {
-	struct stat st;
+	struct stat	st;
 
 	if (stat(cmd, &st) < 0)
 	{
 		sh->exit_status = 127;
 		perror(cmd);
-		return NULL;
+		return (NULL);
 	}
 	if (S_ISDIR(st.st_mode))
 	{
 		print_error(cmd);
 		print_error(": Is a directory\n");
 		sh->exit_status = 126;
-		return NULL;
+		return (NULL);
 	}
 	if (access(cmd, X_OK) < 0)
 	{
 		sh->exit_status = 126;
 		perror(cmd);
-		return NULL;
+		return (NULL);
 	}
-	return ft_strdup(cmd);
+	return (ft_strdup(cmd));
 }
 
-static char *find_cmd_path(t_shell *sh, char *cmd)
+static char	*find_cmd_path(t_shell *sh, char *cmd)
 {
-	char **paths;
-	char *full;
-	int i;
+	char	**paths;
+	char	*full;
+	int		i;
 
 	i = 0;
 	while (sh->env && ft_strncmp(sh->env->key, "PATH", 4))
 		sh->env = sh->env->next;
 	if (!sh->env)
-		return NULL;
+		return (NULL);
 	paths = ft_split(sh->env->value, ':');
 	while (paths[i])
 	{
 		full = join_cmd_path(paths[i], cmd);
 		if (access(full, X_OK) == 0)
-			return full;
+			return (full);
 		free(full);
 		i++;
 	}
 	sh->exit_status = 127;
-	return print_cmd_not_found(cmd);
+	return (print_cmd_not_found(cmd));
 }
 
-char *solve_cmd_path(t_shell *sh, char *cmd)
+char	*solve_cmd_path(t_shell *sh, char *cmd)
 {
 	if (!cmd || !*cmd)
 	{
 		sh->exit_status = 127;
-		return print_cmd_not_found(cmd);
+		return (print_cmd_not_found(cmd));
 	}
 	if (ft_strchr(cmd, '/'))
-		return validate_cmd_path(sh, cmd);
-	return find_cmd_path(sh, cmd);
+		return (validate_cmd_path(sh, cmd));
+	return (find_cmd_path(sh, cmd));
 }

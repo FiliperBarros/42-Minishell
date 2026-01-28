@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_word.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:19 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 16:24:27 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 20:16:11 by benes-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	append_literal(char **dst, char *start, char *end)
 	part = ft_substr(start, 0, end - start);
 	append_strings(dst, part);
 }
+
 void	append_expansion(char **final_str, char **dollar_pos, t_shell *shell, char quote_type, int exec)
 {
 	char	*env_value;
@@ -32,8 +33,6 @@ void	append_expansion(char **final_str, char **dollar_pos, t_shell *shell, char 
 	append_strings(final_str, env_value);
 }
 
-
-
 char	*expand_word(char *value, int len, t_shell *shell, char quote_type, int exec)
 {
 	char	*cursor;
@@ -42,8 +41,8 @@ char	*expand_word(char *value, int len, t_shell *shell, char quote_type, int exe
 	char	*next_dollar;
 
 	cursor = value;
-	if (quote_type == '\0'  && *cursor == '~')
-        return (get_tilde_expand_value(shell, cursor));
+	if (quote_type == '\0' && *cursor == '~')
+		return (get_tilde_expand_value(shell, cursor));
 	final_str = NULL;
 	end = value + len;
 	while (cursor < end)

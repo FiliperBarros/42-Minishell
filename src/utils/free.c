@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:32 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 16:12:33 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 20:39:19 by benes-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	free_tokens(t_token *tokens)
 {
-	t_token *temp;
-	t_token *current;
+	t_token	*temp;
+	t_token	*current;
 
 	if (!tokens)
-		return;
+		return ;
 	current = tokens;
 	temp = current->next;
 	while (current)
@@ -32,8 +32,8 @@ void	free_tokens(t_token *tokens)
 
 void	free_env(t_env *env)
 {
-	t_env *temp;
-	t_env *current;
+	t_env	*temp;
+	t_env	*current;
 
 	current = env;
 	temp = current->next;
@@ -49,7 +49,7 @@ void	free_env(t_env *env)
 
 void	free_redirs(t_redir *redirs)
 {
-	t_redir *temp;
+	t_redir	*temp;
 
 	while (redirs)
 	{
@@ -58,6 +58,7 @@ void	free_redirs(t_redir *redirs)
 		redirs = temp;
 	}
 }
+
 void	free_double_char(char	**split_str)
 {
 	int	i;
@@ -73,6 +74,7 @@ void	free_double_char(char	**split_str)
 		free(split_str);
 	}
 }
+
 void	free_cmd(t_cmd *cmd)
 {
 	t_cmd	*temp;

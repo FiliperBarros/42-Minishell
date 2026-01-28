@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_syntax.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:45 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 16:12:46 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 19:14:03 by benes-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,30 @@ int	is_redir(int type)
 {
 	return (!(type == WORD || type == PIPE));
 }
+
 static int	print_syntax_error(t_token *t)
 {
 	if (!t)
-		 print_error(" syntax error: unexpected end of file\n");
+		print_error(" syntax error: unexpected end of file\n");
 	else if (t->type == PIPE)
-		 print_error(" syntax error near unexpected token `|'\n");
+		print_error(" syntax error near unexpected token `|'\n");
 	else if (is_redir(t->type))
 	{
-    	if (!t->next)
-        	print_error(" syntax error near unexpected token `newline'\n");
-    	else
-    	{
-        	print_error(" syntax error near unexpected token `");
-        	print_error(t->next->value);
-        	print_error("'\n");
-    	}
+		if (!t->next)
+			print_error(" syntax error near unexpected token `newline'\n");
+		else
+		{
+			print_error(" syntax error near unexpected token `");
+			print_error(t->next->value);
+			print_error("'\n");
+		}
 	}
 	return (1);
 }
 
 int	validate_syntax(t_token *t)
 {
-	t_token *prev;
+	t_token	*prev;
 
 	prev = NULL;
 	while (t)
@@ -47,7 +48,7 @@ int	validate_syntax(t_token *t)
 		{
 			if (!prev || !t->next)
 				return (print_syntax_error(t));
-			if( prev->type != WORD)
+			if (prev->type != WORD)
 				return (print_syntax_error(t));
 		}
 		else if (is_redir(t->type))
@@ -60,5 +61,3 @@ int	validate_syntax(t_token *t)
 	}
 	return (0);
 }
-
-
