@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 16:16:54 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 17:01:23 by frocha-b         ###   ########.fr       */
+/*   Created: 2026/01/28 17:44:13 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/28 17:44:14 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "types.h"
 
-struct      s_shell;
-struct      s_env;
+struct	s_shell;
+struct	s_env;
 
 /* builtin dispatch */
 int		exec_builtin(t_cmd *cmd, struct s_shell *shell, int is_parent);

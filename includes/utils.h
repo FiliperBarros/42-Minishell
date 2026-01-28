@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 16:17:35 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 16:17:42 by frocha-b         ###   ########.fr       */
+/*   Created: 2026/01/28 17:45:09 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/28 17:45:10 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stddef.h>
 
-struct  s_shell;
+struct	s_shell;
 
 size_t	ft_strlen_mod(const char *s);
 char	*ft_strdup_mod(const char *s);
@@ -31,6 +31,6 @@ void	free_env(t_env *env);
 void	free_envp(char **envp);
 void	free_double_char(char **split_str);
 void	free_cmd(t_cmd *cmd);
-void    free_all(struct s_shell *shell);
+void	free_all(struct s_shell *shell);
 
 #endif

@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/28 17:42:10 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/28 17:42:11 by frocha-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -11,7 +22,6 @@
 # include <limits.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
-
 # include <readline/readline.h>
 # include <readline/history.h>
 

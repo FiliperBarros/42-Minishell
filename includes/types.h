@@ -5,15 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 16:17:32 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 16:17:33 by frocha-b         ###   ########.fr       */
+/*   Created: 2026/01/28 17:45:48 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/28 17:45:49 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
-
-/* ===================== ENUMS ===================== */
 
 typedef enum e_tokentype
 {
@@ -36,8 +34,6 @@ typedef enum e_builtintype
 	ENV,
 	EXIT
 }	t_builtintype;
-
-/* ===================== STRUCTS ===================== */
 
 typedef struct s_redir
 {
@@ -69,12 +65,12 @@ typedef struct s_token
 
 typedef struct s_tokinfo
 {
-    int             start;
-    int             end;
-    char            quote_type;
-    int             to_concat;
-    t_tokentype     token_type;
-}   t_tokinfo;
+	int				start;
+	int				end;
+	char			quote_type;
+	int				to_concat;
+	t_tokentype		token_type;
+}	t_tokinfo;
 
 typedef struct s_std_backup
 {

@@ -5,43 +5,40 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 17:10:14 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 17:10:15 by frocha-b         ###   ########.fr       */
+/*   Created: 2026/01/28 17:33:49 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/28 17:33:50 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_expand_value_for_heredoc(char **dollar_pos, t_shell *shell)	
+char	*get_expand_value_for_heredoc(char **dollar_pos, t_shell *sh)
 {
-	char	*value;
-	char 	*after;
-	
-	value = NULL;
-	after = ++(*dollar_pos);
+	char *value = NULL;
+	char *after = ++(*dollar_pos);
+
 	if (ft_isalpha(*after) || *after == '_')
-		value = get_env_expand_value(shell->env, after, dollar_pos);
-	else
-	{
-		if (*after == '?')
-			value = ft_itoa(shell->exit_status);
-		else if (*after == '$')
-			value = get_pid_value();
-		else if (is_space(*after) || !(*after) 
-			|| is_quote(*after))
-			value = ft_strdup("$");
-		if (value && !is_quote(*after))
-			(*dollar_pos)++;
-	}
-		return (value);
+		value = get_env_expand_value(sh->env, after, dollar_pos);
+	else if (*after == '?')
+		value = ft_itoa(sh->exit_status);
+	else if (*after == '$')
+		value = get_pid_value();
+	else if (is_space(*after) || !(*after) || is_quote(*after))
+		value = ft_strdup("$");
+
+	if (value && !is_quote(*after))
+		(*dollar_pos)++;
+	return value;
 }
-char	*expand_heredoc(t_shell *shell, char *line)
+
+char	*expand_heredoc(t_shell *sh, char *line)
 {
-	char	*new_line;
+	char *new_line;
 
 	if (!ft_strchr(line, '$'))
-		return (line);
-	new_line = expand_word(line, ft_strlen(line), shell,'\0', 1);
+		return line;
+
+	new_line = expand_word(line, ft_strlen(line), sh, '\0', 1);
 	free(line);
-	return (new_line);
+	return new_line;
 }

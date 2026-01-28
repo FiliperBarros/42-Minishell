@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 16:17:01 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 16:17:02 by frocha-b         ###   ########.fr       */
+/*   Created: 2026/01/28 17:41:38 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/28 17:41:39 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,5 @@
 # define ANSI_GREEN "\x1b[32m"
 # define ANSI_YELLOW "\x1b[33m"
 # define ANSI_RESET "\x1b[0m"
+
 #endif

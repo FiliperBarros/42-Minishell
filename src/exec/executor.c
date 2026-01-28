@@ -19,40 +19,6 @@ int	prepare_all_heredocs(t_shell *shell, t_cmd *cmd)
 	}
 	return (1);
 }
-void	apply_redirections(t_redir *redir)
-{
-	int	fd;
-	int	new_fd;
-
-	while (redir)
-	{
-		if (redir->type == REDIR_IN || redir->type == HEREDOC)
-		{
-			if (redir->type == HEREDOC)
-				fd = redir->heredoc_fd;
-			else
-				fd = open(redir->filename, O_RDONLY);
-			new_fd = STDIN_FILENO;
-		}
-		if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
-		{
-			if (redir->type == REDIR_OUT)
-				fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			else
-				fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			new_fd = STDOUT_FILENO;
-		}
-		if (fd < 0)
-		{
-			// print_error("");
-			perror(redir->filename);
-			exit(1);
-		}
-		dup2(fd, new_fd);
-		close(fd);
-		redir = redir->next;
-	}
-}
 
 int		count_cmds(t_cmd *cmd)
 {
