@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:18:57 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 14:30:52 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:27:00 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ static int	print_export(t_env *env)
 	}
 	return (0);
 }
+
 static int	handle_export_arg(char *arg, t_env **env)
 {
-	char 	*key;
-	char 	*value;
+	char	*key;
+	char	*value;
 
 	key = NULL;
 	value = NULL;
@@ -44,9 +45,10 @@ static int	handle_export_arg(char *arg, t_env **env)
 	export_env(env, key, value);
 	return (0);
 }
+
 static int	export_env_to_env_list(char **argv, t_env **env)
 {
-	int i;
+	int	i;
 	int	return_var;
 
 	i = 1;
@@ -57,6 +59,7 @@ static int	export_env_to_env_list(char **argv, t_env **env)
 	}
 	return (return_var);
 }
+
 int	ft_export(t_cmd *cmd, t_env *env)
 {
 	if (!cmd->argv[1])

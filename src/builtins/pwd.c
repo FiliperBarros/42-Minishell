@@ -6,14 +6,13 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:19:02 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/27 12:19:03 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:27:59 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-int	ft_pwd()
+int	ft_pwd(void)
 {
 	char	*pwd;
 
@@ -27,4 +26,3 @@ int	ft_pwd()
 	free(pwd);
 	return (0);
 }
-

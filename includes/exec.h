@@ -10,9 +10,10 @@ void	executor(struct s_shell *shell);
 void	executor_parent(struct s_shell *shell, t_cmd *cmd);
 
 /* commands */
-void	run_cmd(t_cmd *cmd, int pipes[][2], int pipes_qnty,
+void	exec_child(t_cmd *cmd, int pipes[][2], int pipes_qnty,
 			int i, char **envp, char *path,
 			struct s_shell *shell);
+void	exec_builtin_in_child(t_cmd *cmd, struct s_shell *shell);
 
 /* pipes */
 void	open_pipes(int pipes[][2], int pipes_qnty);

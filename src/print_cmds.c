@@ -1,4 +1,4 @@
-
+/* 
 #include "minishell.h"
 
 static const char *redir_type_str(int type)
@@ -63,3 +63,4 @@ void print_cmds(t_cmd *cmds)
     }
 }
 
+ */

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	run_builtin(t_cmd *cmd, t_shell *shell, int is_fork)
+int	exec_builtin(t_cmd *cmd, t_shell *shell, int is_fork)
 {
 	if (cmd->builtin_type == ECHO)
 		return (ft_echo(cmd->argv));
@@ -21,28 +21,8 @@ int	run_builtin(t_cmd *cmd, t_shell *shell, int is_fork)
 	}
 	return (1);
 }
-void	run_builtin_in_fork(t_cmd *cmd, t_shell *shell)
+void	exec_builtin_in_child(t_cmd *cmd, t_shell *shell)
 {
 	if (cmd->builtin_type != EXIT)
-		shell->exit_status = run_builtin(cmd, shell, 1);
+		shell->exit_status = exec_builtin(cmd, shell, 1);
 }
-
-void	run_cmd(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char **envp, char *path, t_shell *shell)
-{
-	setup_pipe_fds(pipes, pipes_qnty, i);
-	close_all_pipes(pipes, pipes_qnty);
-	if (cmd->redirs)
-		apply_redirections(cmd->redirs);
-	if (cmd->builtin_type)
-	{
-		run_builtin_in_fork(cmd, shell); 
-		exit(shell->exit_status);
-	}
-	else
-	{
-		execve(path, cmd->argv, envp);
-		perror("execve failed!");
-		exit(1);
-	}
-}
-

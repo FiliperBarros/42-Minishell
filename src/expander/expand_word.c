@@ -1,16 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_word.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/28 16:13:19 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/28 16:24:27 by frocha-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	append_strings(char **final_str, char *env_value)
-{
-	char *new_str; 
-
-	if (!env_value)
-		return ;
-	new_str = ft_strjoin_mod(*final_str, env_value);
-	free(*final_str);
-	*final_str = new_str;
-}
- void	append_literal(char **dst, char *start, char *end)
+void	append_literal(char **dst, char *start, char *end)
 {
 	char	*part;
 
@@ -31,18 +33,6 @@ void	append_expansion(char **final_str, char **dollar_pos, t_shell *shell, char 
 }
 
 
-char *expand_tilde(t_shell *shell, char *value)
-{
-    char 	*home;
-	char	*expanded;
-	
-	home = get_env_value(shell->env, "HOME");
-    if (!home)
-        return (ft_strdup(value)); // ~ literal se HOME unset
-
-    expanded = ft_strjoin(home, value + 1);
-    return (expanded);
-}
 
 char	*expand_word(char *value, int len, t_shell *shell, char quote_type, int exec)
 {
@@ -53,7 +43,7 @@ char	*expand_word(char *value, int len, t_shell *shell, char quote_type, int exe
 
 	cursor = value;
 	if (quote_type == '\0'  && *cursor == '~')
-        return (expand_tilde(shell, cursor));
+        return (get_tilde_expand_value(shell, cursor));
 	final_str = NULL;
 	end = value + len;
 	while (cursor < end)

@@ -92,7 +92,7 @@ pid_t	create_fork(t_cmd *cmd, int i, char **envp, char *path, t_shell *shell, in
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		run_cmd(cmd, pipes, pipes_qnty, i, envp, path, shell);
+		exec_child(cmd, pipes, pipes_qnty, i, envp, path, shell);
 	}
 	return (pid);
 }

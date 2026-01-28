@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_expand_value.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/28 16:13:23 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/28 16:25:33 by frocha-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*get_env_expand_value(t_env *env, char *current_pos, char **dollar_pos)
@@ -19,6 +31,19 @@ char	*get_env_expand_value(t_env *env, char *current_pos, char **dollar_pos)
 	}
 	return (NULL);
 }
+
+char *get_tilde_expand_value(t_shell *shell, char *value)
+{
+    char 	*home;
+	char	*expanded;
+	
+	home = get_env_value(shell->env, "HOME");
+    if (!home)
+        return (ft_strdup(value));
+    expanded = ft_strjoin(home, value + 1);
+    return (expanded);
+}
+
 char	*get_pid_value()
 {
 	int		fd;
@@ -56,6 +81,7 @@ char	*get_expand_value(char **dollar_pos, t_shell *shell, char quote_type)
 	}
 	return (value);
 }
+
 
 
 

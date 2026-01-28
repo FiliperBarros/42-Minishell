@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/28 16:17:35 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/28 16:17:42 by frocha-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef UTILS_H
 # define UTILS_H
 
 # include <stddef.h>
-struct s_shell;
+
+struct  s_shell;
 
 size_t	ft_strlen_mod(const char *s);
 char	*ft_strdup_mod(const char *s);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/28 16:13:17 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/28 16:22:29 by frocha-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int		to_expand(t_token *t)
@@ -7,6 +19,17 @@ int		to_expand(t_token *t)
 	if (!t->quote_type  && t->value && t->value[0] == '~')
 		return (1);
 	return (0);
+}
+
+void	append_strings(char **final_str, char *env_value)
+{
+	char *new_str; 
+
+	if (!env_value)
+		return ;
+	new_str = ft_strjoin_mod(*final_str, env_value);
+	free(*final_str);
+	*final_str = new_str;
 }
 
 void	del_token(t_token *token, void (*del)(void *))

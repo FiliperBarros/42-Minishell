@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/28 16:17:16 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/28 17:13:23 by frocha-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXPAND_H
 # define EXPAND_H
 
 # include "types.h"
 
-struct s_shell;
+struct  s_shell;
 struct  s_env;
 
 /* main expansion */
@@ -19,6 +31,7 @@ char	*get_expand_value(char **dollar_pos, struct s_shell *shell,
 char	*get_env_expand_value(struct s_env *env,
 			char *current_pos, char **dollar_pos);
 char	*get_pid_value(void);
+char *get_tilde_expand_value(struct s_shell *shell, char *value);
 
 /* concatenation */
 void	append_expansion(char **final_str, char **dollar_pos,

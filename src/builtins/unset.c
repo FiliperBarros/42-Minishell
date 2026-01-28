@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:19:05 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/27 12:19:06 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:27:33 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ static void	del_env_node(t_env *env_node, void (*del)(void *))
 		free(env_node);
 	}
 }
+
 static void	remove_env_node(t_env **env, t_env *to_remove_node)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	if (to_remove_node == *env)
 	{
@@ -39,6 +40,7 @@ static void	remove_env_node(t_env **env, t_env *to_remove_node)
 		del_env_node(to_remove_node, free);
 	}
 }
+
 int	ft_unset(t_env *env, char **argv)
 {
 	int		i;
