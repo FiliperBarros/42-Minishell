@@ -75,8 +75,12 @@ void	free_cmd(t_cmd *cmd)
 	}
 }
 
-void	free_all(t_cmd *cmd)
+void	free_all(t_shell *sh)
 {
-	if (cmd)
-		free_cmd(cmd);
+	if (sh->cmd)
+		free_cmd(sh->cmd);
+	if (sh->token)
+		free_tokens(sh->token);
+	if (sh->line)
+		free(sh->line);
 }

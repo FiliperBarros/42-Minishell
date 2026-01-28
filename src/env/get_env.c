@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 char	*get_env_value(t_env *env, char *key_to_find)
 {
 	t_env *env_node;

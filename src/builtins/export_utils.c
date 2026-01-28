@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/27 12:18:51 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/27 17:33:00 by frocha-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int		to_append_env_value(char *append, char *equal)
@@ -7,17 +19,11 @@ int		to_append_env_value(char *append, char *equal)
 
 void	export_env(t_env **env, char *new_key, char *new_value)
 {
-	t_env	*export_env;
-
-	export_env = get_env(*env, new_key);
-	if (export_env)
-	{
-		if (new_value)
-		{
-			free(export_env->value);
-			export_env->value = new_value;
-		}
-	}
+	t_env *export_env;
+	
+	export_env = NULL;
+	if (new_value)
+		set_env(*env, new_key, new_value);
 	else
 	{
 		export_env = create_env_node(new_key, new_value);

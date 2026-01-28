@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/27 12:18:57 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/28 14:30:52 by frocha-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* void	sort_env_list(t_env *env)
@@ -28,7 +40,7 @@ static int	handle_export_arg(char *arg, t_env **env)
 	value = NULL;
 	get_key_and_value(*env, arg, &key, &value);
 	if (!is_valid_identifier(key))
-		return (print_std_error(" not a valid identifier\n"), 1);
+		return (print_error(" not a valid identifier\n"), 1);
 	export_env(env, key, value);
 	return (0);
 }

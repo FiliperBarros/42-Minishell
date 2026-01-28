@@ -2,8 +2,8 @@
 
 static char *print_cmd_not_found(char *cmd_name)
 {
-	print_std_error(cmd_name);
-	print_std_error(": command not found\n");
+	print_error(cmd_name);
+	print_error(": command not found\n");
 	return (NULL);
 }
 static char	*join_cmd_to_path(char *path, char *cmd_name)
@@ -46,8 +46,8 @@ static char *validate_cmd_path(t_shell *shell, char *cmd_name)
     }
     if (S_ISDIR(st.st_mode))
     {
-        print_std_error(cmd_name);
-        print_std_error(": Is a directory\n");
+        print_error(cmd_name);
+        print_error(": Is a directory\n");
 		shell->exit_status = 126;
         return NULL;
     }

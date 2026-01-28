@@ -1,14 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/27 12:18:47 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/27 17:11:52 by frocha-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static int	count_argv_strings(char **argv)
-{
-	int	i;
 
-	i = 0;
-	while (argv[i])
-		i++;
-	return (i);
-}
 
 int	is_all_digit(char *arg)
 {
@@ -24,9 +28,6 @@ int	is_all_digit(char *arg)
 	return (1);
 }
 
-#include <limits.h>
-#include <ctype.h>
-#include <stdio.h>
 
 int parse_exit_value(const char *s, long long *out)
 {
@@ -68,7 +69,7 @@ int parse_exit_value(const char *s, long long *out)
 }
 
 //frees missing
-void	ft_exit(int	is_fork, t_cmd *cmd, t_shell *shell)
+void	ft_exit_builtin(int	is_fork, t_cmd *cmd, t_shell *shell)
 {
 	int	argc;
 	long long	value;
@@ -80,7 +81,7 @@ void	ft_exit(int	is_fork, t_cmd *cmd, t_shell *shell)
 	if (!(argc > 2 && is_all_digit(cmd->argv[1])))
 	{
 		if (is_fork)
-			free_all(cmd);
+			free_all(shell);
 	}
 	if (argc == 1)
 		exit(shell->exit_status);
@@ -109,7 +110,7 @@ void	ft_exit(int	is_fork, t_cmd *cmd, t_shell *shell)
 			write(2, " numeric argument required\n", 27);
     		// ft_printf("minishell: exit: %s: numeric argument required\n", cmd->argv[1]);
     		if (!is_fork)
-        		free_all(cmd);
+        		free_all(shell);
    		exit(2);
 		}
 		else

@@ -1,4 +1,5 @@
 #include "minishell.h"
+
 static void	skip_without_quotes(char *line, int *i)
 {
 	while (line[*i] && !is_space(line[*i]))
@@ -44,9 +45,6 @@ static void	link_expanded_tokens(t_token **tk_list, t_token *exp_list, t_token *
 	while(exp_list_end->next)
 		exp_list_end = exp_list_end->next;
 	exp_list_end->to_concatenate = t->to_concatenate;
-
-
-
 	if ((*tk_list)->value == t->value)
 	{
 		temp = *tk_list;

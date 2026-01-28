@@ -1,32 +1,30 @@
 #include "minishell.h"
 
-static void    detect_operator_type(t_tokinfo *info, char *line, int *i)
+static void detect_operator_type(t_tokinfo *info, char *line, int *i)
 {
-    if (line[*i] == '|')
-    {   
-        info->token_type = PIPE;
-        (*i)++;
-    }
-    else if(line[(*i)] == '<')
-    {
-        if(line[*i] == line[++(*i)])
-        {
-            (*i)++;
-            info->token_type = HEREDOC;
-        }
-        else
-            info->token_type = REDIR_IN;
-    }
-    else if(line[(*i)] == '>')
-    {
-        if (line[*i] == line[++(*i)])
-        {
-            (*i)++;
-            info->token_type = REDIR_APPEND;
-        }
-        else
-            info->token_type = REDIR_OUT;
-    }
+	if (line[*i] == '|')
+		info->token_type = PIPE;
+	else if (line[*i] == '<')
+	{
+		if (line[*i + 1] == '<')
+		{
+			info->token_type = HEREDOC;
+			*i += 2;
+			return;
+		}
+		info->token_type = REDIR_IN;
+	}
+	else if (line[*i] == '>')
+	{
+		if (line[*i + 1] == '>')
+		{
+			info->token_type = REDIR_APPEND;
+			*i += 2;
+			return;
+		}
+		info->token_type = REDIR_OUT;
+	}
+	(*i)++;
 }
 
 void    tokenize_operator(char *line, t_token **new_token, int *i)

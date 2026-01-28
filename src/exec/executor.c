@@ -44,7 +44,7 @@ void	apply_redirections(t_redir *redir)
 		}
 		if (fd < 0)
 		{
-			// print_std_error("");
+			// print_error("");
 			perror(redir->filename);
 			exit(1);
 		}
@@ -105,7 +105,6 @@ void	executor_loop(t_cmd *cmd, t_shell *shell, char **envp)
 	int		status;
 	pid_t	last_pid;
 	pid_t	pid;
-	t_cmd	*last_cmd;
 
 	pipes_qnty = count_cmds(cmd) - 1;
 	open_pipes(pipes, pipes_qnty);
@@ -117,7 +116,6 @@ void	executor_loop(t_cmd *cmd, t_shell *shell, char **envp)
 		if (i == pipes_qnty)
 			last_pid = pid;
 		i++;
-		last_cmd = cmd;
 		cmd = cmd->next;
 	}
 	close_all_pipes(pipes,pipes_qnty);
@@ -129,21 +127,19 @@ void	executor_loop(t_cmd *cmd, t_shell *shell, char **envp)
 	free(path);
 }
 
-void	executor(t_shell *shell, t_cmd *cmd, char **envp)
+void	executor(t_shell *sh)
 {
-	if (!prepare_all_heredocs(shell, cmd))
+	if (!prepare_all_heredocs(sh, sh->cmd))
 		return ;
-	if (!cmd || !cmd->argv[0])
+	if (!sh->cmd || !sh->cmd->argv[0])
 		return ;
-	if (should_run_in_parent(cmd))
+	if (should_run_in_parent(sh->cmd))
 	{
-		executor_parent(shell, cmd);
+		executor_parent(sh, sh->cmd);
 		return ;
 	}
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	executor_loop(cmd, shell, envp);
-	signal(SIGINT, sigint_prompt);
-	signal(SIGQUIT, SIG_IGN);
+	reset_signals();
+	executor_loop(sh->cmd, sh, sh->my_envp);
+	set_prompt_signals();
 }
 

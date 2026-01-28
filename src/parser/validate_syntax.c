@@ -7,12 +7,21 @@ int	is_redir(int type)
 static int	print_syntax_error(t_token *t)
 {
 	if (!t)
-		return (ft_printf("bash: syntax error: unexpected end of file\n"));
-	if (t->type == PIPE)
-		return (ft_printf("bash: syntax error near unexpected token `|'\n"));
-	if (is_redir(t->type))
-		return (ft_printf("bash: syntax error near unexpected token `newline'\n"));
-	return (ft_printf("bash: syntax error near unexpected token `%s'\n", t->value));
+		 print_error(" syntax error: unexpected end of file\n");
+	else if (t->type == PIPE)
+		 print_error(" syntax error near unexpected token `|'\n");
+	else if (is_redir(t->type))
+	{
+    	if (!t->next)
+        	print_error(" syntax error near unexpected token `newline'\n");
+    	else
+    	{
+        	print_error(" syntax error near unexpected token `");
+        	print_error(t->next->value);
+        	print_error("'\n");
+    	}
+	}
+	return (1);
 }
 
 int	validate_syntax(t_token *t)

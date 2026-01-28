@@ -1,9 +1,12 @@
 #include "minishell.h"
 
-
 int		to_expand(t_token *t)
 {
-	return (ft_strnstr(t->value, "$", t->len) && t->quote_type != '\'' && !t->redir_delimiter);
+	if (ft_strnstr(t->value, "$", t->len) && t->quote_type != '\'' && !t->redir_delimiter)
+		return (1);
+	if (!t->quote_type  && t->value && t->value[0] == '~')
+		return (1);
+	return (0);
 }
 
 void	del_token(t_token *token, void (*del)(void *))
@@ -34,13 +37,3 @@ void	del_and_link_token(t_token **token, t_token *del_t)
 	}
 }
 
-/* void	del_and_link_token(t_token **head, t_token *entry)
-{
-	t_token **indirect;
-
-	indirect = head;
-	while (*indirect != entry)
-		indirect = &((*indirect)->next);
-	*indirect = entry->next;
-	del_token(entry, free);
-} */

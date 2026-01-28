@@ -18,12 +18,10 @@ static void	skip_without_quotes(char *line, int *i)
 }
 void    tokenize_word(char *line, t_token **new_token, int *i)
 {
-    int         error;
     t_tokinfo   info;
 
     ft_bzero(&info, sizeof(t_tokinfo));
     info.token_type = WORD;
-    error = 0;
     info.start = *i;
     if (is_quote(line[*i]))
         skip_with_quotes(line, i, &info);

@@ -7,7 +7,7 @@ int	run_builtin(t_cmd *cmd, t_shell *shell, int is_fork)
 	else if (cmd->builtin_type == CD)
 		return (ft_cd(cmd->argv, shell->env));
 	else if (cmd->builtin_type == PWD)
-		return (ft_pwd(shell->env));
+		return (ft_pwd());
 	else if (cmd->builtin_type == EXPORT)
 		return (ft_export(cmd, shell->env));
 	else if (cmd->builtin_type ==  UNSET)
@@ -16,10 +16,15 @@ int	run_builtin(t_cmd *cmd, t_shell *shell, int is_fork)
 		return (ft_env(shell->env));
 	else if (cmd->builtin_type == EXIT)
 	{
-		ft_exit(is_fork, cmd, shell);
+		ft_exit_builtin(is_fork, cmd, shell);
 		return (shell->exit_status);
 	}
 	return (1);
+}
+void	run_builtin_in_fork(t_cmd *cmd, t_shell *shell)
+{
+	if (cmd->builtin_type != EXIT)
+		shell->exit_status = run_builtin(cmd, shell, 1);
 }
 
 void	run_cmd(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char **envp, char *path, t_shell *shell)
@@ -39,10 +44,5 @@ void	run_cmd(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char **envp, cha
 		perror("execve failed!");
 		exit(1);
 	}
-}
-void	run_builtin_in_fork(t_cmd *cmd, t_shell *shell)
-{
-	if (cmd->builtin_type != EXIT)
-		shell->exit_status = run_builtin(cmd, shell, 1);
 }
 

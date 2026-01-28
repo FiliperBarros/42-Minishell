@@ -30,6 +30,20 @@ void	append_expansion(char **final_str, char **dollar_pos, t_shell *shell, char 
 	append_strings(final_str, env_value);
 }
 
+
+char *expand_tilde(t_shell *shell, char *value)
+{
+    char 	*home;
+	char	*expanded;
+	
+	home = get_env_value(shell->env, "HOME");
+    if (!home)
+        return (ft_strdup(value)); // ~ literal se HOME unset
+
+    expanded = ft_strjoin(home, value + 1);
+    return (expanded);
+}
+
 char	*expand_word(char *value, int len, t_shell *shell, char quote_type, int exec)
 {
 	char	*cursor;
@@ -38,6 +52,8 @@ char	*expand_word(char *value, int len, t_shell *shell, char quote_type, int exe
 	char	*next_dollar;
 
 	cursor = value;
+	if (quote_type == '\0'  && *cursor == '~')
+        return (expand_tilde(shell, cursor));
 	final_str = NULL;
 	end = value + len;
 	while (cursor < end)
