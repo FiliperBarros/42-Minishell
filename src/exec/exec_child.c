@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executor_child.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:32:57 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 19:38:03 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/01/29 13:30:37 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_child(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char **envp, char *path, t_shell *shell)
+void	exec_child(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char *path, t_shell *shell)
 {
 	setup_pipe_fds(pipes, pipes_qnty, i);
 	close_all_pipes(pipes, pipes_qnty);
@@ -25,7 +25,7 @@ void	exec_child(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char **envp, 
 	}
 	else
 	{
-		execve(path, cmd->argv, envp);
+		execve(path, cmd->argv, get_envp(shell));
 		perror("execve failed!");
 		exit(1);
 	}

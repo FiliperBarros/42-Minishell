@@ -6,44 +6,28 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:18:57 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 15:27:00 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/29 14:01:07 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* void	sort_env_list(t_env *env)
+static int print_export(t_env *env)
 {
-	
-} */
-static int	print_export(t_env *env)
-{
-	if (!env)
-		return (1);
-	while (env)
-	{
-		ft_printf("declare -x ");
-		ft_printf("%s", env->key);
-		if (env->value)
-			ft_printf("=\"%s\"", env->value);
-		ft_printf("\n");
-		env = env->next;
-	}
-	return (0);
-}
+    int len;
+    t_env **arr;
 
-static int	handle_export_arg(char *arg, t_env **env)
-{
-	char	*key;
-	char	*value;
-
-	key = NULL;
-	value = NULL;
-	get_key_and_value(*env, arg, &key, &value);
-	if (!is_valid_identifier(key))
-		return (print_error(" not a valid identifier\n"), 1);
-	export_env(env, key, value);
-	return (0);
+    if (!env)
+        return (1);
+    len = env_len(env);
+    arr = malloc(sizeof(t_env *) * len);
+    if (!arr)
+        return (1);
+    copy_env_array(arr, env);
+    bubble_sort_env(arr, len);
+    print_env_array(arr, len);
+    free(arr);
+    return (0);
 }
 
 static int	export_env_to_env_list(char **argv, t_env **env)

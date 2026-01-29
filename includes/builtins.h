@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:44:13 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 17:44:14 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/29 14:02:02 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		ft_unset(struct s_env *env, char **argv);
 void	ft_exit_builtin(int is_parent, t_cmd *cmd, struct s_shell *shell);
 
 /* export utils */
+int		handle_export_arg(char *arg, t_env **env);
 void	export_env(struct s_env **env, char *key, char *value);
 int		update_existent_env(struct s_env *env,
 			char *key, char *value, int append_flag);
@@ -38,4 +39,9 @@ void	get_key_and_value(struct s_env *env, char *arg,
 			char **key, char **value);
 int		is_valid_identifier(char *var_name);
 
+/* print export utils */
+int 	env_len(t_env *env);
+void 	copy_env_array(t_env **arr, t_env *env);
+void	bubble_sort_env(t_env **arr, int len);
+void 	print_env_array(t_env **arr, int len);
 #endif

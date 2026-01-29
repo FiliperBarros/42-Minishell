@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:36:05 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 16:39:06 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/29 13:23:07 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*get_env_value(t_env *env, char *key_to_find)
 	return (node->value);
 }
 
-char	**env_to_envp(t_env *env)
+char	**env_list_to_envp(t_env *env)
 {
 	char	**envp;
 	t_env	*tmp;

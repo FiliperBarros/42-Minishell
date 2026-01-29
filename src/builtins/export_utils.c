@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:18:51 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 15:26:09 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/29 14:00:36 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,17 @@ int	is_valid_identifier(char *var_name)
 		i++;
 	}
 	return (1);
+}
+int	handle_export_arg(char *arg, t_env **env)
+{
+	char	*key;
+	char	*value;
+
+	key = NULL;
+	value = NULL;
+	get_key_and_value(*env, arg, &key, &value);
+	if (!is_valid_identifier(key))
+		return (print_error(" not a valid identifier\n"), 1);
+	export_env(env, key, value);
+	return (0);
 }

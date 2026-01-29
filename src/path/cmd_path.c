@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:30:21 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 20:33:42 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/01/29 13:27:59 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,15 @@ char	*solve_cmd_path(t_shell *sh, char *cmd)
 	if (ft_strchr(cmd, '/'))
 		return (validate_cmd_path(sh, cmd));
 	return (find_cmd_path(sh, cmd));
+}
+
+int		handle_cmd_path(t_shell *shell, char *cmd_name, char **path, int pipes[][2], int pipes_qnty)
+{
+	*path = solve_cmd_path(shell, cmd_name);
+	if (!*path)
+	{
+		close_all_pipes(pipes,pipes_qnty);
+		return (0);
+	}
+	return (1);
 }

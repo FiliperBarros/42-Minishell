@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:47:05 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 17:47:06 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/29 13:34:59 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ struct	s_shell;
 
 /* executor */
 void	executor(struct s_shell *shell);
-void	executor_parent(struct s_shell *shell, t_cmd *cmd);
+void	executor_parent(struct s_shell *shell);
 
 /* commands */
 void	exec_child(t_cmd *cmd, int pipes[][2], int pipes_qnty,
-	int i, char **envp, char *path, struct s_shell *shell);
+	int i, char *path, struct s_shell *shell);
 void	exec_builtin_in_child(t_cmd *cmd, struct s_shell *shell);
 
 /* pipes */
@@ -51,6 +51,7 @@ void	update_exit_status(struct s_shell *shell, int status);
 
 /* path */
 char	*solve_cmd_path(struct s_shell *shell, char *cmd_name);
+int		handle_cmd_path(struct s_shell *shell, char *cmd_name, char **path, int pipes[][2], int pipes_qnty);
 
 /* parent logic */
 int		should_run_in_parent(t_cmd *cmd);

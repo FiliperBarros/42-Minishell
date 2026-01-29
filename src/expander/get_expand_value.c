@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_expand_value.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:23 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 20:20:51 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/01/29 13:22:09 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*get_pid_value(void)
 char	*get_expand_value(char **dollar_pos, t_shell *shell, char quote_type)
 {
 	char	*value;
-	charr	*after;
+	char	*after;
 
 	value = NULL;
 	after = ++(*dollar_pos);

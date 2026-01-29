@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:52:18 by benes-al          #+#    #+#             */
-/*   Updated: 2026/01/28 19:53:01 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/01/29 13:35:04 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,8 @@ int	count_cmds(t_cmd *cmd)
 	return (i);
 }
 
-int		handle_cmd_path(t_shell *shell, char *cmd_name, char **path, int pipes[][2], int pipes_qnty)
-{
-	*path = solve_cmd_path(shell, cmd_name);
-	if (!*path)
-	{
-		close_all_pipes(pipes,pipes_qnty);
-		return (0);
-	}
-	return (1);
-}
 
-pid_t	create_fork(t_cmd *cmd, int i, char **envp, char *path, t_shell *shell, int pipes[][2], int pipes_qnty)
+pid_t	create_fork(t_cmd *cmd, int i, char *path, t_shell *shell, int pipes[][2], int pipes_qnty)
 {
 	pid_t	pid;
 
@@ -72,28 +62,31 @@ pid_t	create_fork(t_cmd *cmd, int i, char **envp, char *path, t_shell *shell, in
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		exec_child(cmd, pipes, pipes_qnty, i, envp, path, shell);
+		exec_child(cmd, pipes, pipes_qnty, i, path, shell);
 	}
 	return (pid);
 }
 
-void	executor_loop(t_cmd *cmd, t_shell *shell, char **envp)
+void	executor_loop(t_shell *shell)
 {
 	char	*path;
 	int		i;	
-	int		pipes[count_cmds(cmd) - 1][2];
+	int		pipes[count_cmds(shell->cmd) - 1][2];
 	int		pipes_qnty;
 	int		status;
 	pid_t	last_pid;
 	pid_t	pid;
+	t_cmd	*cmd;
 
+	cmd = shell->cmd;
 	pipes_qnty = count_cmds(cmd) - 1;
 	open_pipes(pipes, pipes_qnty);
 	i = 0;
 	path = NULL;
 	while (cmd)
 	{
-		pid = create_fork(cmd, i, envp, path, shell, pipes, pipes_qnty);
+		reset_signals();
+		pid = create_fork(cmd, i, path, shell, pipes, pipes_qnty);
 		if (i == pipes_qnty)
 			last_pid = pid;
 		i++;
@@ -105,6 +98,7 @@ void	executor_loop(t_cmd *cmd, t_shell *shell, char **envp)
 		if (pid == last_pid)
 			update_exit_status(shell, status);
 	}
+	set_prompt_signals();
 	free(path);
 }
 
@@ -115,11 +109,7 @@ void	executor(t_shell *sh)
 	if (!sh->cmd || !sh->cmd->argv[0])
 		return ;
 	if (should_run_in_parent(sh->cmd))
-	{
-		executor_parent(sh, sh->cmd);
-		return ;
-	}
-	reset_signals();
-	executor_loop(sh->cmd, sh, sh->my_envp);
-	set_prompt_signals();
+		executor_parent(sh);
+	else
+		executor_loop(sh);
 }

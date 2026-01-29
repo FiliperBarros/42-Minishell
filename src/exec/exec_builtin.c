@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:30:39 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 19:43:02 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/01/29 13:37:12 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtin(t_cmd *cmd, t_shell *sh, int is_fork)
+int	exec_builtin(t_cmd *cmd, t_shell *sh, int is_parent)
 {
 	if (cmd->builtin_type == ECHO)
 		return (ft_echo(cmd->argv));
@@ -28,7 +28,7 @@ int	exec_builtin(t_cmd *cmd, t_shell *sh, int is_fork)
 		return (ft_env(sh->env));
 	if (cmd->builtin_type == EXIT)
 	{
-		ft_exit_builtin(is_fork, cmd, sh);
+		ft_exit_builtin(is_parent, cmd, sh);
 		return (sh->exit_status);
 	}
 	return (1);
@@ -37,5 +37,5 @@ int	exec_builtin(t_cmd *cmd, t_shell *sh, int is_fork)
 void	exec_builtin_in_child(t_cmd *cmd, t_shell *sh)
 {
 	if (cmd->builtin_type != EXIT)
-		sh->exit_status = exec_builtin(cmd, sh, 1);
+		sh->exit_status = exec_builtin(cmd, sh, 0);
 }
