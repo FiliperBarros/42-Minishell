@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:30:21 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/29 13:27:59 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:12:00 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,14 @@ static char	*find_cmd_path(t_shell *sh, char *cmd)
 	{
 		full = join_cmd_path(paths[i], cmd);
 		if (access(full, X_OK) == 0)
+		{
+			free_double_char(paths);
 			return (full);
+		}
 		free(full);
 		i++;
 	}
+	free_double_char(paths);
 	sh->exit_status = 127;
 	return (print_cmd_not_found(cmd));
 }

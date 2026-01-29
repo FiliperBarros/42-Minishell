@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:32 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 20:39:19 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:24:05 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	free_cmd(t_cmd *cmd)
 	while (cmd)
 	{
 		temp = cmd->next;
-		free(cmd->argv);
+		free_double_char(cmd->argv);
 		free_redirs(cmd->redirs);
 		free(cmd);
 		cmd = temp;
