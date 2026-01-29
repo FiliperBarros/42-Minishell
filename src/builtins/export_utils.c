@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:18:51 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/29 14:00:36 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:45:40 by benes-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	is_valid_identifier(char *var_name)
 	}
 	return (1);
 }
+
 int	handle_export_arg(char *arg, t_env **env)
 {
 	char	*key;
