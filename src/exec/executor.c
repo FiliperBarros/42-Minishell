@@ -5,63 +5,67 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 19:52:18 by benes-al          #+#    #+#             */
-/*   Updated: 2026/01/30 15:17:15 by frocha-b         ###   ########.fr       */
+/*   Created: 2026/01/30 19:40:08 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/30 19:44:48 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-pid_t	create_child(t_cmd *cmd, int i, t_shell *shell, int pipes[][2], int pipes_qnty)
+static t_exec_ctx	init_exec_ctx(t_shell *sh)
 {
-	pid_t		pid;
-	char		*path;
+	t_exec_ctx	ctx;
 
-	path = NULL;
-	if (!cmd->builtin_type && !handle_cmd_path(shell, cmd->argv[0], &path, pipes, pipes_qnty))
-		return (-1);
-	pid = fork();
-	if (pid < 0 )
-		return (perror("fork failed"), -1);
-	if (pid == 0)
-	{
-		set_exec_signals();
-		exec_child(cmd, pipes, pipes_qnty, i, path, shell);
-	}
-	free(path);
-	return (pid);
+	ctx.shell = sh;
+	ctx.cmd = sh->cmd;
+	ctx.pipes = NULL;
+	ctx.pipes_qnty = count_cmds(sh->cmd) - 1;
+	ctx.current = 0;
+	ctx.last_pid = 0;
+	return (ctx);
 }
 
-void	executor_loop(t_shell *shell)
+static void	exec_cleanup(t_exec_ctx *ctx)
 {
-	int		i;	
-	int		pipes[count_cmds(shell->cmd) - 1][2];
-	int		pipes_qnty;
-	int		status;
-	pid_t	last_pid;
 	pid_t	pid;
-	t_cmd	*cmd;
+	int		status;
 
-	cmd = shell->cmd;
-	pipes_qnty = count_cmds(cmd) - 1;
-	open_pipes(pipes, pipes_qnty);
+	close_all_pipes(ctx->pipes, ctx->pipes_qnty);
+	while ((pid = wait(&status)) > 0)
+		if (pid == ctx->last_pid)
+			update_exit_status(ctx->shell, status);
+	free_pipes(ctx->pipes, ctx->pipes_qnty);
+	set_prompt_signals();
+}
+
+static void	exec_loop_children(t_exec_ctx *ctx)
+{
+	t_cmd	*cmd;
+	int		i;
+	pid_t	pid;
+
+	cmd = ctx->cmd;
 	i = 0;
 	while (cmd)
 	{
 		reset_signals();
-		pid = create_child(cmd, i, shell, pipes, pipes_qnty);
-		if (i == pipes_qnty)
-			last_pid = pid;
+		ctx->current = i;
+		pid = create_child(ctx, cmd);
+		if (i == ctx->pipes_qnty)
+			ctx->last_pid = pid;
+		close_parent_pipes(ctx->pipes, ctx->pipes_qnty, i);
 		i++;
 		cmd = cmd->next;
 	}
-	close_all_pipes(pipes, pipes_qnty);
-	while ((pid = wait(&status)) > 0)
-	{
-		if (pid == last_pid)
-			update_exit_status(shell, status);
-	}
-	set_prompt_signals();
+}
+
+void	executor_loop(t_exec_ctx *ctx)
+{
+	ctx->pipes = alloc_pipes(ctx->pipes_qnty);
+	if (ctx->pipes_qnty > 0 && !ctx->pipes)
+		return ;
+	exec_loop_children(ctx);
+	exec_cleanup(ctx);
 }
 
 void	executor(t_shell *sh)
@@ -73,5 +77,5 @@ void	executor(t_shell *sh)
 	if (must_execute_in_parent(sh->cmd))
 		executor_parent(sh);
 	else
-		executor_loop(sh);
+		executor_loop(&init_exec_ctx(sh));
 }

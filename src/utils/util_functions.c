@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:12 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 20:37:11 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/01/30 15:51:21 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ char	*ft_strjoin_mod(char const *s1, char const *s2)
 	return (string);
 }
 
-char	*ft_strjoin3(char	*first_str, char *second_str, char *third_str)
+char	*ft_concat_three(char	*s1, char *s2, char *s3)
 {
 	char	*temp;
 	char	*final_str;
 
-	temp = ft_strjoin(first_str, second_str);
-	final_str = ft_strjoin(temp, third_str);
+	temp = ft_strjoin_mod(s1, s2);
+	final_str = ft_strjoin_mod(temp, s3);
 	free(temp);
 	return (final_str);
 }

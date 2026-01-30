@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:30:21 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 14:37:49 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/30 18:52:44 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@ static char	*print_cmd_not_found(t_shell *sh, char *cmd_name)
 	print_error(cmd_name);
 	print_error(": command not found\n");
 	return (NULL);
-}
-
-static char	*join_cmd_path(char *path, char *cmd_name)
-{
-	return (ft_strjoin3(path, "/", cmd_name));
 }
 
 static char	*validate_cmd_path(t_shell *sh, char *cmd_name)
@@ -56,12 +51,12 @@ static char	*find_cmd_path(t_shell *sh, char *cmd_name)
 	char	**paths;
 	char	*full;
 	int		i;
-	
+
 	i = 0;
 	paths = ft_split(get_env_value(sh->env, "PATH"), ':');
 	while (paths && paths[i])
 	{
-		full = join_cmd_path(paths[i], cmd_name);
+		full = ft_concat_three(paths[i], "/", cmd_name);
 		if (access(full, X_OK) == 0)
 		{
 			free_double_char(paths);
@@ -71,7 +66,7 @@ static char	*find_cmd_path(t_shell *sh, char *cmd_name)
 		i++;
 	}
 	free_double_char(paths);
-	return (print_cmd_not_found(sh,cmd_name));
+	return (print_cmd_not_found(sh, cmd_name));
 }
 
 char	*solve_cmd_path(t_shell *sh, char *cmd_name)
@@ -83,7 +78,7 @@ char	*solve_cmd_path(t_shell *sh, char *cmd_name)
 	return (find_cmd_path(sh, cmd_name));
 }
 
-int		handle_cmd_path(t_shell *shell, char *cmd_name, char **path, int pipes[][2], int pipes_qnty)
+int	handle_cmd_path(t_shell *shell, char *cmd_name, char **path, int **pipes, int pipes_qnty)
 {
 	*path = solve_cmd_path(shell, cmd_name);
 	if (!*path)

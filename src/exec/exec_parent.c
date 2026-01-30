@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:32:48 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 15:21:55 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/30 18:37:50 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ static int	exec_parent_redirs(t_cmd *cmd, t_shell *sh)
 {
 	if (!cmd->redirs)
 		return (1);
-	if (apply_redirections_parent(cmd->redirs))
+	if (apply_redirections(cmd->redirs))
 		return (1);
 	sh->exit_status = 1;
 	return (0);
 }
-	
 
 void	executor_parent(t_shell *sh)
 {

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 17:47:05 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 15:13:44 by frocha-b         ###   ########.fr       */
+/*   Created: 2026/01/30 19:35:06 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/30 19:42:48 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,48 +15,63 @@
 
 # include "types.h"
 
-struct	s_shell;
+struct s_shell;
 
-int	count_cmds(t_cmd *cmd);
-/* executor */
+/* ---------------------------- EXEC CONTEXT ---------------------------- */
+typedef struct s_exec_ctx
+{
+	struct s_shell	*shell;
+	t_cmd			*cmd;
+	int				**pipes;
+	int				pipes_qnty;
+	int				current;
+	pid_t			last_pid;
+}	t_exec_ctx;
+
+/* ---------------------------- UTILS ---------------------------- */
+int		count_cmds(t_cmd *cmd);
+
+/* ---------------------------- EXECUTOR ---------------------------- */
 void	executor(struct s_shell *shell);
 void	executor_parent(struct s_shell *shell);
+void	executor_loop(t_exec_ctx *ctx);
 
-/* commands */
-void	exec_child(t_cmd *cmd, int pipes[][2], int pipes_qnty,
-			int i, char *path, struct s_shell *shell);
+/* ---------------------------- CHILD EXECUTION ---------------------------- */
+void	exec_child(t_exec_ctx *ctx, t_cmd *cmd, char *path);
 void	exec_builtin_in_child(t_cmd *cmd, struct s_shell *shell);
+pid_t	create_child(t_exec_ctx *ctx, t_cmd *cmd);
 
-/* pipes */
-void	open_pipes(int pipes[][2], int pipes_qnty);
-void	close_pipe(int pipes[2]);
-void	close_all_pipes(int pipes[][2], int pipes_qnty);
-void	close_parent_pipes(int pipes[][2], int pipes_qnty, int i);
-void	setup_pipe_fds(int pipes[][2], int pipes_qnty, int i);
+/* ---------------------------- PIPES ---------------------------- */
+int		**alloc_pipes(int pipes_qnty);
+void	free_pipes(int **pipes, int pipes_qnty);
+void	setup_pipe_fds(int **pipes, int pipes_qnty, int i);
+void	close_parent_pipes(int **pipes, int pipes_qnty, int i);
+void	close_all_pipes(int **pipes, int pipes_qnty);
 
-/* redirections */
-int	apply_redirections_parent(t_redir *redir);
-void	apply_redirections(t_redir *redir);
+/* ---------------------------- REDIRECTIONS ---------------------------- */
+int		apply_redirections(t_redir *redir);
+int		apply_redirections_parent(t_redir *redir);
 
-/* heredoc */
+/* ---------------------------- HEREDOC ---------------------------- */
 int		prepare_all_heredocs(struct s_shell *shell, t_cmd *cmd);
 void	create_heredoc(struct s_shell *shell, t_redir *r);
 char	*expand_heredoc(struct s_shell *shell, char *line);
 char	*expand_env_var_for_heredoc(char **dollar_pos,
 			struct s_shell *shell);
 
-/* fd backup */
+/* ---------------------------- FD BACKUP ---------------------------- */
 t_std_backup	backup_std_fds(void);
-void	restore_std_fds(t_std_backup b);
+void			restore_std_fds(t_std_backup b);
 
-/* status */
+/* ---------------------------- EXIT STATUS ---------------------------- */
 void	update_exit_status(struct s_shell *shell, int status);
 
-/* path */
+/* ---------------------------- PATH ---------------------------- */
 char	*solve_cmd_path(struct s_shell *shell, char *cmd_name);
-int		handle_cmd_path(struct s_shell *shell, char *cmd_name, char **path, int pipes[][2], int pipes_qnty);
+int		handle_cmd_path(struct s_shell *shell, char *cmd_name,
+			char **path, int **pipes, int pipes_qnty);
 
-/* parent logic */
+/* ---------------------------- PARENT EXECUTION LOGIC ---------------------------- */
 int		must_execute_in_parent(t_cmd *cmd);
 
 #endif

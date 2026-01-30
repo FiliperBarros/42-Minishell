@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:36:05 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/29 13:23:07 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/30 15:45:32 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**env_list_to_envp(t_env *env)
 	i = 0;
 	while (tmp)
 	{
-		envp[i] = ft_strjoin3(tmp->key, "=", tmp->value);
+		envp[i] = ft_concat_three(tmp->key, "=", tmp->value);
 		tmp = tmp->next;
 		i++;
 	}

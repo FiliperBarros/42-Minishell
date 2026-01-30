@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:32 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/29 15:24:05 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/30 18:46:54 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,6 @@ void	free_tokens(t_token *tokens)
 	while (current)
 	{
 		temp = current->next;
-		free(current->value);
-		free(current);
-		current = temp;
-	}
-}
-
-void	free_env(t_env *env)
-{
-	t_env	*temp;
-	t_env	*current;
-
-	current = env;
-	temp = current->next;
-	while (current)
-	{
-		temp = current->next;
-		free(current->key);
 		free(current->value);
 		free(current);
 		current = temp;
