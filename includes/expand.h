@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:47:13 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 17:48:17 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:06:29 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ void	expand(t_token **tokens, struct s_shell *shell, t_token *t);
 
 /* word expansion */
 char	*expand_word(char *value, int len, struct s_shell *shell,
-	    char quote_type, int exec);
+			char quote_type, int exec);
 
 /* helpers */
-char	*get_expand_value(char **dollar_pos, struct s_shell *shell,
-	char token_quote_type);
-char	*get_env_expand_value(struct s_env *env,
-	char *current_pos, char **dollar_pos);
-char	*get_pid_value(void);
-char	*get_tilde_expand_value(struct s_shell *shell, char *value);
+char	*expand_env_var(char **dollar_pos, struct s_shell *shell,
+			char token_quote_type);
+char	*expand_dollar(struct s_env *env,
+			char *current_pos, char **dollar_pos);
+char	*expand_pid(void);
+char	*expand_tilde(struct s_shell *shell, char *value);
 
 /* concatenation */
 void	append_expansion(char **final_str, char **dollar_pos,
-	struct s_shell *shell, char quote_type, int exec);
+			struct s_shell *shell, char quote_type, int exec);
 void	append_literal(char **dst, char *start, char *end);
 void	append_strings(char **final_str, char *env_value);
 

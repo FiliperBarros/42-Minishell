@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_envp.c                                         :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/29 15:46:41 by benes-al          #+#    #+#             */
-/*   Updated: 2026/01/29 15:47:02 by benes-al         ###   ########.fr       */
+/*   Created: 2026/01/30 14:15:32 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/01/30 14:15:33 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**get_envp(t_shell *sh)
+int	count_cmds(t_cmd *cmd)
 {
-	if (!sh->my_envp || sh->envp_dirty)
+	int	i;
+
+	i = 0;
+	while (cmd)
 	{
-		free_double_char(sh->my_envp);
-		sh->my_envp = env_list_to_envp(sh->env);
-		sh->envp_dirty = 0;
+		i++;
+		cmd = cmd->next;
 	}
-	return (sh->my_envp);
+	return (i);
 }

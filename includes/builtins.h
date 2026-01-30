@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:44:13 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/29 14:02:02 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/30 13:55:53 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	get_key_and_value(struct s_env *env, char *arg,
 int		is_valid_identifier(char *var_name);
 
 /* print export utils */
-int 	env_len(t_env *env);
-void 	copy_env_array(t_env **arr, t_env *env);
+int		env_len(t_env *env);
+void	copy_env_array(t_env **arr, t_env *env);
 void	bubble_sort_env(t_env **arr, int len);
-void 	print_env_array(t_env **arr, int len);
+void	print_env_array(t_env **arr, int len);
 #endif

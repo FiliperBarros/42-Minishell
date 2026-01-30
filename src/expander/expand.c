@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_expand_value.c                                 :+:      :+:    :+:   */
+/*   expand_env_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:23 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/29 13:22:09 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:04:40 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env_expand_value(t_env *env, char *current_pos, char **dollar_pos)
+char	*expand_dollar(t_env *env, char *current_pos, char **dollar_pos)
 {
 	size_t	to_expand_len;
 
@@ -33,7 +33,7 @@ char	*get_env_expand_value(t_env *env, char *current_pos, char **dollar_pos)
 	return (NULL);
 }
 
-char	*get_tilde_expand_value(t_shell *shell, char *value)
+char	*expand_tilde(t_shell *shell, char *value)
 {
 	char	*home;
 	char	*expanded;
@@ -45,7 +45,7 @@ char	*get_tilde_expand_value(t_shell *shell, char *value)
 	return (expanded);
 }
 
-char	*get_pid_value(void)
+char	*expand_pid(void)
 {
 	int		fd;
 	char	*line;
@@ -60,7 +60,7 @@ char	*get_pid_value(void)
 	return (pid_value);
 }
 
-char	*get_expand_value(char **dollar_pos, t_shell *shell, char quote_type)
+char	*expand_env_var(char **dollar_pos, t_shell *shell, char quote_type)
 {
 	char	*value;
 	char	*after;
@@ -68,13 +68,13 @@ char	*get_expand_value(char **dollar_pos, t_shell *shell, char quote_type)
 	value = NULL;
 	after = ++(*dollar_pos);
 	if (ft_isalpha(*after) || *after == '_')
-		value = get_env_expand_value(shell->env, after, dollar_pos);
+		value = expand_dollar(shell->env, after, dollar_pos);
 	else
 	{
 		if (*after == '?')
 			value = ft_itoa(shell->exit_status);
 		else if (*after == '$')
-			value = get_pid_value();
+			value = expand_pid();
 		else if (is_space(*after) || !(*after)
 			|| quote_type == *after)
 			value = ft_strdup("$");

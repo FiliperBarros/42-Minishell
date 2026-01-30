@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_word.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:19 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 20:16:11 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:05:46 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	append_expansion(char **final_str, char **dollar_pos, t_shell *shell, char 
 	char	*env_value;
 
 	if (exec)
-		env_value = get_expand_value_for_heredoc(dollar_pos, shell);
+		env_value = expand_env_var_for_heredoc(dollar_pos, shell);
 	else
-		env_value = get_expand_value(dollar_pos, shell, quote_type);
+		env_value = expand_env_var(dollar_pos, shell, quote_type);
 	append_strings(final_str, env_value);
 }
 
@@ -42,7 +42,7 @@ char	*expand_word(char *value, int len, t_shell *shell, char quote_type, int exe
 
 	cursor = value;
 	if (quote_type == '\0' && *cursor == '~')
-		return (get_tilde_expand_value(shell, cursor));
+		return (expand_tilde(shell, cursor));
 	final_str = NULL;
 	end = value + len;
 	while (cursor < end)

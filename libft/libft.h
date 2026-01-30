@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:09:27 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/09/25 16:32:23 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/30 13:54:50 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <stdlib.h>
 # include <limits.h>
 
-#include "ft_printf/ft_printf.h"
-#include "get_next_line/get_next_line.h"
+# include "ft_printf/ft_printf.h"
+# include "get_next_line/get_next_line.h"
 
 typedef struct s_list
 {

@@ -3,72 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:30:21 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 13:34:36 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:37:49 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*print_cmd_not_found(char *cmd)
+static char	*print_cmd_not_found(t_shell *sh, char *cmd_name)
 {
-	print_error(cmd);
+	sh->exit_status = 127;
+	print_error(cmd_name);
 	print_error(": command not found\n");
 	return (NULL);
 }
 
-static char	*join_cmd_path(char *path, char *cmd)
+static char	*join_cmd_path(char *path, char *cmd_name)
 {
-	return (ft_strjoin3(path, "/", cmd));
+	return (ft_strjoin3(path, "/", cmd_name));
 }
 
-static char	*validate_cmd_path(t_shell *sh, char *cmd)
+static char	*validate_cmd_path(t_shell *sh, char *cmd_name)
 {
 	struct stat	st;
 
-	if (stat(cmd, &st) < 0)
+	if (stat(cmd_name, &st) < 0)
 	{
 		sh->exit_status = 127;
-		perror(cmd);
+		perror(cmd_name);
 		return (NULL);
 	}
 	if (S_ISDIR(st.st_mode))
 	{
-		print_error(cmd);
+		print_error(cmd_name);
 		print_error(": Is a directory\n");
 		sh->exit_status = 126;
 		return (NULL);
 	}
-	if (access(cmd, X_OK) < 0)
+	if (access(cmd_name, X_OK) < 0)
 	{
 		sh->exit_status = 126;
-		perror(cmd);
+		perror(cmd_name);
 		return (NULL);
 	}
-	return (ft_strdup(cmd));
+	return (ft_strdup(cmd_name));
 }
 
-static char	*find_cmd_path(t_shell *sh, char *cmd)
+static char	*find_cmd_path(t_shell *sh, char *cmd_name)
 {
 	char	**paths;
 	char	*full;
 	int		i;
-
+	
 	i = 0;
-	/* don't mutate sh->env while searching for PATH, use a local pointer */
+	paths = ft_split(get_env_value(sh->env, "PATH"), ':');
+	while (paths && paths[i])
 	{
-		t_env *env_ptr = sh->env;
-		while (env_ptr && ft_strncmp(env_ptr->key, "PATH", 4))
-			env_ptr = env_ptr->next;
-		if (!env_ptr)
-			return (NULL);
-		paths = ft_split(env_ptr->value, ':');
-	}
-	while (paths[i])
-	{
-		full = join_cmd_path(paths[i], cmd);
+		full = join_cmd_path(paths[i], cmd_name);
 		if (access(full, X_OK) == 0)
 		{
 			free_double_char(paths);
@@ -78,20 +71,16 @@ static char	*find_cmd_path(t_shell *sh, char *cmd)
 		i++;
 	}
 	free_double_char(paths);
-	sh->exit_status = 127;
-	return (print_cmd_not_found(cmd));
+	return (print_cmd_not_found(sh,cmd_name));
 }
 
-char	*solve_cmd_path(t_shell *sh, char *cmd)
+char	*solve_cmd_path(t_shell *sh, char *cmd_name)
 {
-	if (!cmd || !*cmd)
-	{
-		sh->exit_status = 127;
-		return (print_cmd_not_found(cmd));
-	}
-	if (ft_strchr(cmd, '/'))
-		return (validate_cmd_path(sh, cmd));
-	return (find_cmd_path(sh, cmd));
+	if (!cmd_name || !*cmd_name)
+		return (print_cmd_not_found(sh, cmd_name));
+	if (ft_strchr(cmd_name, '/'))
+		return (validate_cmd_path(sh, cmd_name));
+	return (find_cmd_path(sh, cmd_name));
 }
 
 int		handle_cmd_path(t_shell *shell, char *cmd_name, char **path, int pipes[][2], int pipes_qnty)

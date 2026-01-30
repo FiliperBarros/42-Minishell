@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 20:01:14 by benes-al          #+#    #+#             */
-/*   Updated: 2026/01/28 20:02:31 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:11:07 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,24 @@ void	create_heredoc(t_shell *sh, t_redir *r)
 	if (pid == 0)
 		heredoc_child(sh, r, fd);
 	heredoc_parent(sh, r, fd, pid);
+}
+
+int	prepare_all_heredocs(t_shell *shell, t_cmd *cmd)
+{
+	t_redir	*r;
+
+	while (cmd)
+	{
+		r = cmd->redirs;
+		while (r)
+		{
+			if (r->type == HEREDOC)
+				create_heredoc(shell, r);
+			if (r->heredoc_fd == -1)
+				return (0);
+			r = r->next;
+		}
+		cmd = cmd->next;
+	}
+	return (1);
 }

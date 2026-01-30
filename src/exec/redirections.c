@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:37:42 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 17:38:15 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/30 15:16:52 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,33 @@ void	apply_redirections(t_redir *redir)
 		close(fd);
 		redir = redir->next;
 	}
+}
+
+int	apply_redirections_parent(t_redir *redir)
+{
+	int	fd;
+	int	target;
+
+	while (redir)
+	{
+		if (redir->type == REDIR_IN || redir->type == HEREDOC)
+		{
+			fd = open_input_redir(redir);
+			target = STDIN_FILENO;
+		}
+		else if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
+		{
+			fd = open_output_redir(redir);
+			target = STDOUT_FILENO;
+		}
+		if (fd < 0)
+		{
+			perror(redir->filename);
+			return (0);
+		}
+		dup2(fd, target);
+		close(fd);
+		redir = redir->next;
+	}
+	return (1);
 }

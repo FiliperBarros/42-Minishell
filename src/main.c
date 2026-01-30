@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:08 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/29 15:26:54 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:57:04 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	main(int ac, char **argv, char **envp)
 	init_shell(&shell, envp);
 	//update my_envp when export or unset or always envp inside the loop
 	//solve the apoplyy redirs case <a with no cmd and <a | >a already solves due to child returning the status
-	//static char *find_cmd_path(t_shell *sh, char *cmd) - free ao path**
 	while (1)
 	{
 		shell.line = NULL;

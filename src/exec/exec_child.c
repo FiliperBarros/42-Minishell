@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_child.c                                   :+:      :+:    :+:   */
+/*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:32:57 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/29 13:30:37 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:59:05 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	exec_child(t_cmd *cmd, int pipes[][2], int pipes_qnty, int i, char *path, t
 	}
 	else
 	{
-		execve(path, cmd->argv, get_envp(shell));
+		execve(path, cmd->argv, env_list_to_envp(shell->env));
 		perror("execve failed!");
 		exit(1);
 	}
