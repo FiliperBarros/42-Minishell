@@ -46,13 +46,13 @@ int	count_cmds(t_cmd *cmd)
 }
 
 
-pid_t	create_fork(t_cmd *cmd, int i, char *path, t_shell *shell, int pipes[][2], int pipes_qnty)
+pid_t	create_fork(t_cmd *cmd, int i, char **path, t_shell *shell, int pipes[][2], int pipes_qnty)
 {
 	pid_t	pid;
 
 	if (!cmd->builtin_type)
 	{
-		if (!handle_cmd_path(shell, cmd->argv[0], &path, pipes, pipes_qnty))
+		if (!handle_cmd_path(shell, cmd->argv[0], path, pipes, pipes_qnty))
 			return (-1);
 	}
 	pid = fork();
@@ -62,7 +62,7 @@ pid_t	create_fork(t_cmd *cmd, int i, char *path, t_shell *shell, int pipes[][2],
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		exec_child(cmd, pipes, pipes_qnty, i, path, shell);
+		exec_child(cmd, pipes, pipes_qnty, i, *path, shell);
 	}
 	return (pid);
 }
@@ -86,7 +86,7 @@ void	executor_loop(t_shell *shell)
 	while (cmd)
 	{
 		reset_signals();
-		pid = create_fork(cmd, i, path, shell, pipes, pipes_qnty);
+		pid = create_fork(cmd, i, &path, shell, pipes, pipes_qnty);
 		if (i == pipes_qnty)
 			last_pid = pid;
 		i++;

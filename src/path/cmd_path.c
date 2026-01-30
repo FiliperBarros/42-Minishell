@@ -57,11 +57,15 @@ static char	*find_cmd_path(t_shell *sh, char *cmd)
 	int		i;
 
 	i = 0;
-	while (sh->env && ft_strncmp(sh->env->key, "PATH", 4))
-		sh->env = sh->env->next;
-	if (!sh->env)
-		return (NULL);
-	paths = ft_split(sh->env->value, ':');
+	/* don't mutate sh->env while searching for PATH, use a local pointer */
+	{
+		t_env *env_ptr = sh->env;
+		while (env_ptr && ft_strncmp(env_ptr->key, "PATH", 4))
+			env_ptr = env_ptr->next;
+		if (!env_ptr)
+			return (NULL);
+		paths = ft_split(env_ptr->value, ':');
+	}
 	while (paths[i])
 	{
 		full = join_cmd_path(paths[i], cmd);
