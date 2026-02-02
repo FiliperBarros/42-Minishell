@@ -6,13 +6,14 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:42:25 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 17:42:27 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/02 18:13:49 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIGNALS_H
 # define SIGNALS_H
 
+/* ---------------------------- SIGNALS ---------------------------- */
 void	set_prompt_signals(void);
 void	set_exec_signals(void);
 void	set_heredoc_signals(void);

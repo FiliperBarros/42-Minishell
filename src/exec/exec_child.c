@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:32:57 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 19:43:09 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/02 18:17:05 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ pid_t	create_child(t_exec_ctx *ctx, t_cmd *cmd)
 	char	*path;
 
 	path = NULL;
-	if (!cmd->builtin_type &&
-		!handle_cmd_path(ctx->shell, cmd->argv[0], &path,
-			ctx->pipes, ctx->pipes_qnty))
+	if (!cmd->builtin_type && !handle_cmd_path(ctx, cmd->argv[0], &path))
 		return (-1);
 	pid = fork();
 	if (pid < 0)

@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 19:40:08 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 19:44:48 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/02 18:05:55 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,14 @@ static void	exec_cleanup(t_exec_ctx *ctx)
 	int		status;
 
 	close_all_pipes(ctx->pipes, ctx->pipes_qnty);
-	while ((pid = wait(&status)) > 0)
+	while (1)
+	{
+		pid = wait(&status);
+		if (pid <= 0)
+			break ;
 		if (pid == ctx->last_pid)
 			update_exit_status(ctx->shell, status);
+	}
 	free_pipes(ctx->pipes, ctx->pipes_qnty);
 	set_prompt_signals();
 }
@@ -70,6 +75,8 @@ void	executor_loop(t_exec_ctx *ctx)
 
 void	executor(t_shell *sh)
 {
+	t_exec_ctx	ctx;
+
 	if (!sh->cmd || (!sh->cmd->argv && !sh->cmd->redirs))
 		return ;
 	if (!prepare_all_heredocs(sh, sh->cmd))
@@ -77,5 +84,8 @@ void	executor(t_shell *sh)
 	if (must_execute_in_parent(sh->cmd))
 		executor_parent(sh);
 	else
-		executor_loop(&init_exec_ctx(sh));
+	{
+		ctx = init_exec_ctx(sh);
+		executor_loop(&ctx);
+	}
 }

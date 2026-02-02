@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_split_expanded_tokens.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:13 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 20:16:34 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/02/02 18:24:34 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,26 +50,26 @@ void	split_expanded_tokens(t_token **tokens_expanded, char *line)
 	}
 }
 
-static void	link_expanded_tokens(t_token **tk_list, t_token *exp_list, t_token *t)
+static void	link_expanded_tokens(t_token **tk_lst, t_token *exp_lst, t_token *t)
 {
 	t_token	*exp_list_end;
 	t_token	*temp;
 
-	exp_list_end = exp_list;
+	exp_list_end = exp_lst;
 	while (exp_list_end->next)
 		exp_list_end = exp_list_end->next;
 	exp_list_end->to_concatenate = t->to_concatenate;
-	if ((*tk_list)->value == t->value)
+	if ((*tk_lst)->value == t->value)
 	{
-		temp = *tk_list;
-		(*tk_list) = exp_list;
+		temp = *tk_lst;
+		(*tk_lst) = exp_lst;
 		exp_list_end->next = temp->next;
 	}
 	else
 	{
-		while ((*tk_list)->next->value != t->value)
-			(*tk_list) = (*tk_list)->next;
-		(*tk_list)->next = exp_list;
+		while ((*tk_lst)->next->value != t->value)
+			(*tk_lst) = (*tk_lst)->next;
+		(*tk_lst)->next = exp_lst;
 		exp_list_end->next = t->next;
 	}
 	del_token(t, free);

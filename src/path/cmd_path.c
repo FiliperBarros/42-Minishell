@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:30:21 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 18:52:44 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/02 18:17:33 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ char	*solve_cmd_path(t_shell *sh, char *cmd_name)
 	return (find_cmd_path(sh, cmd_name));
 }
 
-int	handle_cmd_path(t_shell *shell, char *cmd_name, char **path, int **pipes, int pipes_qnty)
+int	handle_cmd_path(t_exec_ctx *ctx, char *cmd_name, char **path)
 {
-	*path = solve_cmd_path(shell, cmd_name);
+	*path = solve_cmd_path(ctx->shell, cmd_name);
 	if (!*path)
 	{
-		close_all_pipes(pipes,pipes_qnty);
+		close_all_pipes(ctx->pipes, ctx->pipes_qnty);
 		return (0);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:19 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 14:05:46 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/02 18:27:13 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,40 +22,40 @@ void	append_literal(char **dst, char *start, char *end)
 	append_strings(dst, part);
 }
 
-void	append_expansion(char **final_str, char **dollar_pos, t_shell *shell, char quote_type, int exec)
+void	append_expansion(char **res, char **pos, t_shell *sh, char qt, int exec)
 {
-	char	*env_value;
+	char	*val;
 
 	if (exec)
-		env_value = expand_env_var_for_heredoc(dollar_pos, shell);
+		val = expand_env_var_for_heredoc(pos, sh);
 	else
-		env_value = expand_env_var(dollar_pos, shell, quote_type);
-	append_strings(final_str, env_value);
+		val = expand_env_var(pos, sh, qt);
+	append_strings(res, val);
 }
 
-char	*expand_word(char *value, int len, t_shell *shell, char quote_type, int exec)
+char	*expand_word(char *val, int l, t_shell *sh, char qt, int exec)
 {
-	char	*cursor;
-	char	*final_str;
+	char	*cur;
+	char	*res;
 	char	*end;
-	char	*next_dollar;
+	char	*next;
 
-	cursor = value;
-	if (quote_type == '\0' && *cursor == '~')
-		return (expand_tilde(shell, cursor));
-	final_str = NULL;
-	end = value + len;
-	while (cursor < end)
+	cur = val;
+	if (qt == '\0' && *cur == '~')
+		return (expand_tilde(sh, cur));
+	res = NULL;
+	end = val + l;
+	while (cur < end)
 	{
-		next_dollar = ft_strchr(cursor, '$');
-		if (!next_dollar || next_dollar > end)
-			next_dollar = end;
-		append_literal(&final_str, cursor, next_dollar);
-		if (next_dollar < end && *next_dollar == '$')
-			append_expansion(&final_str, &next_dollar, shell, quote_type, exec);
-		cursor = next_dollar;
+		next = ft_strchr(cur, '$');
+		if (!next || next > end)
+			next = end;
+		append_literal(&res, cur, next);
+		if (next < end && *next == '$')
+			append_expansion(&res, &next, sh, qt, exec);
+		cur = next;
 	}
-	return (final_str);
+	return (res);
 }
 
 void	expand(t_token **tokens, t_shell *shell, t_token *t)
