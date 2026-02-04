@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:45:09 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 15:45:28 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/04 13:50:38 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ char	*ft_concat_three(char *s1, char *s2, char *s3);
 int		count_argv_strings(char **argv);
 void	print_error(char *error_msg);
 
+/* token */
+t_token	*token_last(t_token *lst);
+t_token	*token_prev(t_token *head, t_token *target);
 /* free */
 void	free_tokens(t_token *tokens);
 void	free_env(t_env *env);

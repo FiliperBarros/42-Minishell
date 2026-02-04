@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:55 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 19:22:11 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/02/04 13:51:11 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,9 @@ void	add_token(t_token **tokens, t_token *new_token)
 {
 	t_token	*t;
 
-	if (!(*tokens))
-	{
+	t = token_last(*tokens);
+	if (!t)
 		(*tokens) = new_token;
-		return ;
-	}
-	t = *tokens;
-	while (t->next)
-		t = t->next;
-	t->next = new_token;
+	else
+		t->next = new_token;
 }

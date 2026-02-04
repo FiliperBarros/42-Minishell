@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:13 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/02 18:24:34 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/04 13:52:43 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,25 @@ void	split_expanded_tokens(t_token **tokens_expanded, char *line)
 
 static void	link_expanded_tokens(t_token **tk_lst, t_token *exp_lst, t_token *t)
 {
-	t_token	*exp_list_end;
-	t_token	*temp;
+	t_token	*last;
+	t_token	*prev;
 
-	exp_list_end = exp_lst;
-	while (exp_list_end->next)
-		exp_list_end = exp_list_end->next;
-	exp_list_end->to_concatenate = t->to_concatenate;
-	if ((*tk_lst)->value == t->value)
+	last = token_last(exp_lst);
+	if (!last)
+		return ;
+	last->to_concatenate = t->to_concatenate;
+	if (*tk_lst == t)
 	{
-		temp = *tk_lst;
-		(*tk_lst) = exp_lst;
-		exp_list_end->next = temp->next;
+		last->next = t->next;
+		*tk_lst = exp_lst;
 	}
 	else
 	{
-		while ((*tk_lst)->next->value != t->value)
-			(*tk_lst) = (*tk_lst)->next;
-		(*tk_lst)->next = exp_lst;
-		exp_list_end->next = t->next;
+		prev = token_prev(*tk_lst, t);
+		if (!prev)
+			return ;
+		prev->next = exp_lst;
+		last->next = t->next;
 	}
 	del_token(t, free);
 }

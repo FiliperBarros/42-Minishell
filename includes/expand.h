@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:47:13 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/04 12:44:34 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/04 13:51:50 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 typedef struct s_expand_ctx
 {
 	struct s_shell	*shell;
-	char	quote_type;
-	int		exec;
+	char			quote_type;
+	int				exec;
 }	t_expand_ctx;
 
 /* main expansion */
