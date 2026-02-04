@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:18:51 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/29 15:45:40 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/02/04 22:05:06 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	export_env(t_env **env, char *new_key, char *new_value)
 {
 	t_env	*export_env;
 
-	export_env = NULL;
-	if (new_value)
+	export_env = get_env(*env, new_key);
+	if (export_env)
 		set_env(*env, new_key, new_value);
 	else
 	{

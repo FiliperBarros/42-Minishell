@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:42:03 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 17:42:06 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/04 21:03:30 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "types.h"
 
 /* lexer core */
-void	lexer(t_token **tokens, char *line);
+void	lexer(struct s_shell *shell, char *line);
 
 /* tokenization */
 void	tokenize_operator(char *line, t_token **new_token, int *i);

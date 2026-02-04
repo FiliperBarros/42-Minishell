@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:00 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 19:28:53 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/02/04 21:07:03 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	are_quotes_closed(char *line)
+static int	are_quotes_unclosed(t_shell *sh, char *line)
 {
 	int		i;
 	char	quote;
@@ -30,10 +30,12 @@ static int	are_quotes_closed(char *line)
 		}
 		i++;
 	}
-	return (quote == 0);
+	if (quote != 0)
+		sh->unclosed_quotes = 1;
+	return (sh->unclosed_quotes);
 }
 
-void	flag_all_redir_delimiters(t_token *t)
+static void	flag_all_redir_delimiters(t_token *t)
 {
 	while (t)
 	{
@@ -47,14 +49,14 @@ void	flag_all_redir_delimiters(t_token *t)
 	return ;
 }
 
-void	lexer(t_token **tokens, char *line)
+void	lexer(t_shell *shell, char *line)
 {
 	int		i;
 	t_token	*new_token;
 
 	i = 0;
 	new_token = NULL;
-	if (!are_quotes_closed(line))
+	if (are_quotes_unclosed(shell, line))
 		return ;
 	while (line[i])
 	{
@@ -67,7 +69,7 @@ void	lexer(t_token **tokens, char *line)
 			tokenize_operator(line, &new_token, &i);
 		else
 			tokenize_word(line, &new_token, &i);
-		add_token(tokens, new_token);
+		add_token(&shell->tokens, new_token);
 	}
-	flag_all_redir_delimiters(*tokens);
+	flag_all_redir_delimiters(shell->tokens);
 }

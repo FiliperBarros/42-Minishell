@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:32 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 18:46:54 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/04 21:05:22 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	free_all(t_shell *sh)
 {
 	if (sh->cmd)
 		free_cmd(sh->cmd);
-	if (sh->token)
-		free_tokens(sh->token);
+	if (sh->tokens)
+		free_tokens(sh->tokens);
 	if (sh->line)
 		free(sh->line);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:18:57 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/29 15:46:07 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/02/04 21:56:10 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ static int	print_export(t_env *env)
 static int	export_env_to_env_list(char **argv, t_env **env)
 {
 	int	i;
-	int	return_var;
+	int	exit_code;
 
 	i = 1;
 	while (argv[i])
 	{
-		return_var = handle_export_arg(argv[i], env);
+		exit_code = handle_export_arg(argv[i], env);
 		i++;
 	}
-	return (return_var);
+	return (exit_code);
 }
 
 int	ft_export(t_cmd *cmd, t_env *env)

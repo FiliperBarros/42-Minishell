@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:52 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 19:15:36 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/02/04 21:54:46 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,26 @@
 
 int	parser(t_shell *shell)
 {
-	lexer(&shell->token, shell->line);
-	if (!shell->token)
+	lexer(shell, shell->line);
+	if (!shell->tokens)
 	{
 		free_all(shell);
-		print_error("minishell: syntax error: unclosed quotes\n");
+		if (shell->unclosed_quotes)
+		{
+			shell->unclosed_quotes = 0;
+			print_error("minishell: syntax error: unclosed quotes\n");
+		}
 		return (0);
 	}
-	expander_and_concatenater(shell, &shell->token);
-	if (!shell->token)
+	expander_and_concatenater(shell, &shell->tokens);
+	if (!shell->tokens)
 		return (0);
-	if (validate_syntax(shell->token))
+	if (validate_syntax(shell->tokens))
 	{
 		shell->exit_status = 2;
 		free_all(shell);
 		return (0);
 	}
-	parsing(&shell->cmd, shell->token);
+	parsing(&shell->cmd, shell->tokens);
 	return (1);
 }

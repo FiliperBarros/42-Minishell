@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+         #
+#    By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/07 17:24:13 by frocha-b          #+#    #+#              #
-#    Updated: 2025/09/25 17:34:49 by frocha-b         ###   ########.fr        #
+#    Updated: 2026/02/04 21:53:13 by frocha-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,11 +66,11 @@ LIBC   = ar -rcs
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	${LIBC} $(NAME) $(OBJS)
+	@${LIBC} $(NAME) $(OBJS)
 
 $(OBJ_DIR)/%.o : %.c
 	@mkdir -p $(dir $@)
-	${CC} ${CFLAGS} -c $< -o $@
+	@${CC} ${CFLAGS} -c $< -o $@
 
 clean :
 	 rm -rf $(OBJ_DIR)
