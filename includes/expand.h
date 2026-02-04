@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:47:13 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 14:06:29 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/04 12:44:34 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,29 @@
 
 # include "types.h"
 
-struct	s_shell;
-struct	s_env;
+typedef struct s_expand_ctx
+{
+	struct s_shell	*shell;
+	char	quote_type;
+	int		exec;
+}	t_expand_ctx;
 
 /* main expansion */
 void	expand(t_token **tokens, struct s_shell *shell, t_token *t);
 
 /* word expansion */
-char	*expand_word(char *value, int len, struct s_shell *shell,
-			char quote_type, int exec);
+char	*expand_word(char *value, int len, t_expand_ctx *ctx);
 
 /* helpers */
 char	*expand_env_var(char **dollar_pos, struct s_shell *shell,
 			char token_quote_type);
-char	*expand_dollar(struct s_env *env,
-			char *current_pos, char **dollar_pos);
+char	*expand_env_var_for_heredoc(char **dollar_pos, struct s_shell *sh);
+char	*expand_dollar(t_env *env, char *current_pos, char **dollar_pos);
 char	*expand_pid(void);
 char	*expand_tilde(struct s_shell *shell, char *value);
 
 /* concatenation */
-void	append_expansion(char **final_str, char **dollar_pos,
-			struct s_shell *shell, char quote_type, int exec);
+void	append_expansion(char **res, char **pos, t_expand_ctx *ctx);
 void	append_literal(char **dst, char *start, char *end);
 void	append_strings(char **final_str, char *env_value);
 

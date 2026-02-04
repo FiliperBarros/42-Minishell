@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:33:49 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 14:06:29 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/04 12:43:04 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,15 @@ char	*expand_env_var_for_heredoc(char **dollar_pos, t_shell *sh)
 
 char	*expand_heredoc(t_shell *sh, char *line)
 {
-	char	*new_line;
+	t_expand_ctx	ctx;
+	char			*new_line;
 
 	if (!ft_strchr(line, '$'))
 		return (line);
-	new_line = expand_word(line, ft_strlen(line), sh, '\0', 1);
+	ctx.shell = sh;
+	ctx.quote_type = '\0';
+	ctx.exec = 1;
+	new_line = expand_word(line, ft_strlen(line), &ctx);
 	free(line);
 	return (new_line);
 }
