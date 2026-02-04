@@ -1,101 +1,146 @@
-# minishell
+_This project has been created as part of the 42 curriculum by benes-al and frocha-b._
 
-execve(ENOENT,EACCESS)
+# MINISHELL
 
-frocha-b@c1r2s1:~/cc/minishell$     skip_tokens addd o \0
-Command '' , but can be installed with:
+## DESCRIPTION
 
-frocha-b@c1r2s1:~/cc/minishell$ .
-bash: .: filename argument required
-.: usage: . filename [arguments]
-frocha-b@c1r2s1:~/cc/minishell$ export a=1 b=$a a=$b
-frocha-b@c1r2s1:~/cc/minishell$ export
-declare -x a=""
-declare -x b=""
-frocha-b@c1r2s1:~/cc/minishell$ ./bash
-bash: ./bash: No such file or directory
-frocha-b@c1r2s1:~/cc/minishell$ ^C
-frocha-b@c1r2s1:~/cc/minishell$ env -i ./bash
-env: ‘./bash’: No such file or directory
-frocha-b@c1r2s1:~/cc/minishell$ env -i bash
-frocha-b@c1r2s1:/home/frocha-b/cc/minishell$ env
-PWD=/home/frocha-b/cc/minishell
-SHLVL=1
-_=/usr/bin/env
-frocha-b@c1r2s1:/home/frocha-b/cc/minishell$ cd | cd
-bash: cd: HOME not set
-bash: cd: HOME not set
-frocha-b@c1r2s1:/home/frocha-b/cc/minishell$ exit
-frocha-b@c1r2s1:~/cc/minishell$ cd | cd
-frocha-b@c1r2s1:~/cc/minishell$ cd
-frocha-b@c1r2s1:~$ cd -
-/home/frocha-b/cc/minishell
-frocha-b@c1r2s1:~/cc/minishell$ 
+Minishell is a simplified implementation of a Unix shell, developed as part of the 42 School curriculum.  
+The goal of this project is to deepen our understanding of:
 
-frocha-b@c1r2s1:~/cc/minishell$ test="a b"
-frocha-b@c1r2s1:~/cc/minishell$ <$test echo
-bash: $test: ambiguous redirect
-frocha-b@c1r2s1:~/cc/minishell$ test="a"
-frocha-b@c1r2s1:~/cc/minishell$ <$test echo hello
-bash: a: No such file or directory
-frocha-b@c1r2s1:~/cc/minishell$ test="a b"
-frocha-b@c1r2s1:~/cc/minishell$ <$test cat
-bash: $test: ambiguous redirect
-frocha-b@c1r2s1:~/cc/minishell$ cat $test
-cat: a: No such file or directory
-cat: b: No such file or directory
-frocha-b@c1r2s1:~/cc/minishell$ <<EOF cat
-> hello
-> $SHELL
-> $SHLVL
-> EOF
-hello
-/bin/zsh
-4
-frocha-b@c1r2s1:~/cc/minishell$ <<"EOF" cat
-> hello
-> $SHELL
-> $SHLVL
-> EOF
-hello
-$SHELL
-$SHLVL
-frocha-b@c1r2s1:~/cc/minishell$ <<EOF"" cat
-> hello
-> $SHELL
-> $SHLVL
-> EOF
-hello
-$SHELL
-$SHLVL
-frocha-b@c1r2s1:~/cc/minishell$ cat $a
-^C
-frocha-b@c1r2s1:~/cc/minishell$ cat $test
-cat: a: No such file or directory
-cat: b: No such file or directory
-frocha-b@c1r2s1:~/cc/minishell$ cat asd$test
-cat: asda: No such file or directory
-cat: b: No such file or directory
-frocha-b@c1r2s1:~/cc/minishell$ test="o hello"
-frocha-b@c1r2s1:~/cc/minishell$ ech$test
-hello
-frocha-b@c1r2s1:~/cc/minishell$ test=echo
-frocha-b@c1r2s1:~/cc/minishell$ $test hello
-hello
-frocha-b@c1r2s1:~/cc/minishell$ <<EOF cat | <<EOF1 cat | <<EOF2 cat
-> EOF
-> EOF1
-> EOF2
-frocha-b@c1r2s1:~/cc/minishell$ ^C
-frocha-b@c1r2s1:~/cc/minishell$ cat | <<EOF cat
-> asf
-> EOF
-asf
-asd
+- Parsing and lexical analysis
+- Environment variables
+- Builtins for essential commands (`echo`, `cd`, `pwd`, `export`, `unset`, `env`, `exit`) implemented internally to modify the shell’s state
+- Process creation and management
+- Pipes
+- File descriptors and redirections
+- Signal handling
+- Terminal interaction
+- Careful memory management to avoid leaks
+- First `large-scale` project, emphasizing modular organization and maintainable code
 
-to check:
-	name=a    a  /home/frocha-b
+The shell reproduces essential behaviors of `bash`, allowing users to execute commands, chain them with pipes, redirect input/output, and manage environment variables, all within a custom interactive prompt.
+
+### PROJECT STRUCTURE
+
+The project is organized as follows:
+
+```plain text
+.
+├── includes/
+│   ├── builtins.h
+│   ├── colors.h
+│   ├── env.h
+│   ├── exec.h
+│   ├── expand.h
+│   ├── lexer.h
+│   ├── minishell.h
+│   ├── parser.h
+│   ├── signals.h
+│   ├── types.h
+│   └── utils.h
+├── libft/
+├── src/
+│   ├── builtins/
+│   ├── env/
+│   ├── exec/
+│   ├── expander/
+│   ├── fds/
+│   ├── init/
+│   ├── lexer/
+│   ├── parser/
+│   ├── path/
+│   ├── signals/
+│   ├── utils/
+│   └── main.c
+├── Makefile
+└── README.md
+```
+
+- `includes/` – header files
+- `libft/` – custom library functions
+- `src/` – source code, organized into `builtins/`, `env/`, `exec/`, `expander/`, `fds/`, `init/`, `lexer/`, `parser/`, `path/`, `signals/`, `utils/`, and the main program `main.c`
+- `Makefile` – compilation rules
+- `README.md` – project documentation
 
 
 
-SIGPIPE
+## INSTRUCTIONS
+
+### Step 1: Compilation
+After downloading the repository, navigate into the project folder.  
+To compile the project, run the following command in the terminal:
+
+```bash
+make
+```
+This will generate the executable:
+
+```bash
+./minishell
+```
+
+### Step 2: Execution
+Start the shell by running:
+
+```bash
+./minishell
+```
+You will see a custom prompt:
+
+```
+minishell> 
+```
+
+You can then type commands just like in a standard shell.
+For example:
+
+```bash
+ls -la | grep minishell > files.txt
+```
+### Step 3: Exit
+
+To exit the shell, you can either:
+
+```bash
+exit
+```
+
+or press Ctrl-D on an empty line, just like in Bash.
+
+### Additional Commands
+
+To clean object files:
+
+```bash
+make clean
+```
+To remove all compiled files:
+
+```bash
+make fclean
+```
+To recompile the project:
+
+```bash
+make re
+```
+
+## RESOURCES
+
+### References
+
+The following references were used to understand key concepts of Minishell:
+
+- **Bash Reference Manual** – for understanding shell behavior and expected command execution.  
+- **Linux man pages** – for system calls such as `fork`, `execve`, `pipe`, `dup2`, `wait`, and `signal`.  
+- **YouTube tutorials** – for practical demonstrations and examples:  
+  - Pipes tutorial: [https://www.youtube.com/watch?v=QD9YKSg3wCc&list=PLK4FY1IoDcHG-jUt93Cl7n7XLQDZ0q7Tv]
+  - Code organization and practical examples: [https://www.youtube.com/watch?v=SToUyjAsaFk&t=653s]  
+
+### Use of AI
+
+Artificial intelligence tools were used as a learning assistant to:
+
+- Clarify UNIX concepts such as signals, pipes, and process flow  
+- Improving code readability and organization  
+- Enhancing documentation and wording for clarity
