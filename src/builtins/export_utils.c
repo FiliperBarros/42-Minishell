@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:18:51 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/04 22:10:54 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/04 22:14:15 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ int	to_append_env_value(char *append, char *equal)
 
 void	export_env(t_env **env, char *new_key, char *new_value)
 {
-	t_env	*export_env;
+	t_env	*env_node;
 
-	export_env = get_env(*env, new_key);
-	if (export_env && new_value)
+	env_node = get_env(*env, new_key);
+	if (env_node && new_value)
 		set_env(*env, new_key, new_value);
 	else
 	{
-		export_env = create_env_node(new_key, new_value);
-		export_env->to_hide = !new_value;
-		add_env_node(env, export_env);
+		env_node = create_env_node(new_key, new_value);
+		env_node->to_hide = !new_value;
+		add_env_node(env, env_node);
 	}
 }
 
