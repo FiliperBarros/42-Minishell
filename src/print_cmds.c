@@ -62,5 +62,4 @@ void print_cmds(t_cmd *cmds)
         cmd_i++;
     }
 }
-
  */

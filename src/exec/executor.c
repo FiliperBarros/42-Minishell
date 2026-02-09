@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 19:40:08 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/02 18:05:55 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/09 14:00:52 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static void	exec_loop_children(t_exec_ctx *ctx)
 	i = 0;
 	while (cmd)
 	{
-		reset_signals();
 		ctx->current = i;
+		ignore_signals();
 		pid = create_child(ctx, cmd);
 		if (i == ctx->pipes_qnty)
 			ctx->last_pid = pid;

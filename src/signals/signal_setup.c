@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:40 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/30 19:00:32 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/09 13:53:55 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	set_heredoc_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	reset_signals(void)
+void	ignore_signals(void)
 {
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);

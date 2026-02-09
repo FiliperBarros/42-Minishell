@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:32 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/04 21:05:22 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/09 13:23:59 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	free_redirs(t_redir *redirs)
 	while (redirs)
 	{
 		temp = redirs->next;
+		free(redirs->filename);
 		free(redirs);
 		redirs = temp;
 	}

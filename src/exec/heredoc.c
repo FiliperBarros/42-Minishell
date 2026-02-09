@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 20:01:14 by benes-al          #+#    #+#             */
-/*   Updated: 2026/01/30 14:11:07 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/09 13:53:55 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	heredoc_parent(t_shell *sh, t_redir *r, int fd[2], pid_t pid)
 	int	status;
 
 	close(fd[1]);
-	reset_signals();
+	ignore_signals();
 	waitpid(pid, &status, 0);
 	set_prompt_signals();
 	if (WIFSIGNALED(status))
