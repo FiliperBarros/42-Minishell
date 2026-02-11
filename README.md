@@ -2,6 +2,7 @@ _This project has been created as part of the 42 curriculum by benes-al and froc
 
 # MINISHELL
 
+
 ## DESCRIPTION
 
 Minishell is a simplified implementation of a Unix shell, developed as part of the 42 School curriculum.  
@@ -20,49 +21,14 @@ The goal of this project is to deepen our understanding of:
 
 The shell reproduces essential behaviors of `bash`, allowing users to execute commands, chain them with pipes, redirect input/output, and manage environment variables, all within a custom interactive prompt.
 
-### PROJECT STRUCTURE
 
-The project is organized as follows:
+## EXECUTION FLOW
 
-```plain text
-.
-├── includes/
-│   ├── builtins.h
-│   ├── colors.h
-│   ├── env.h
-│   ├── exec.h
-│   ├── expand.h
-│   ├── lexer.h
-│   ├── minishell.h
-│   ├── parser.h
-│   ├── signals.h
-│   ├── types.h
-│   └── utils.h
-├── libft/
-├── src/
-│   ├── builtins/
-│   ├── env/
-│   ├── exec/
-│   ├── expander/
-│   ├── fds/
-│   ├── init/
-│   ├── lexer/
-│   ├── parser/
-│   ├── path/
-│   ├── signals/
-│   ├── utils/
-│   └── main.c
-├── Makefile
-└── README.md
-```
+Below is the visual logic of how the shell handles input, parsing, and execution:
 
-- `includes/` – header files
-- `libft/` – custom library functions
-- `src/` – source code, organized into `builtins/`, `env/`, `exec/`, `expander/`, `fds/`, `init/`, `lexer/`, `parser/`, `path/`, `signals/`, `utils/`, and the main program `main.c`
-- `Makefile` – compilation rules
-- `README.md` – project documentation
-
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9da56557-5248-415e-98cc-e618f588ccdb" alt="Minishell Flowchart" width="800">
+</p>
 
 ## INSTRUCTIONS
 
