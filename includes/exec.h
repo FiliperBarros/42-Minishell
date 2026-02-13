@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 19:35:06 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/13 11:08:18 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/13 12:51:00 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void			executor_loop(t_exec_ctx *ctx);
 
 /* ---------------------------- CHILD EXECUTION ---------------------------- */
 void			exec_child(t_exec_ctx *ctx, t_cmd *cmd, char *path);
-void			exec_builtin_in_child(t_cmd *cmd, struct s_shell *shell);
 pid_t			create_child(t_exec_ctx *ctx, t_cmd *cmd);
 
 /* ---------------------------- PIPES ---------------------------- */

@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 19:40:08 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/09 14:00:52 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/13 13:06:14 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_exec_ctx	init_exec_ctx(t_shell *sh)
 	ctx.pipes = NULL;
 	ctx.pipes_qnty = count_cmds(sh->cmd) - 1;
 	ctx.current = 0;
-	ctx.last_pid = 0;
+	ctx.last_pid = -1;
 	return (ctx);
 }
 

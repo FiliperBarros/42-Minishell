@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:32:57 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/13 11:44:14 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/13 12:55:48 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	exec_child(t_exec_ctx *ctx, t_cmd *cmd, char *path)
 		child_cleanup_exit(ctx->shell, path, 0);
 	if (cmd->builtin_type)
 	{
-		exec_builtin_in_child(cmd, ctx->shell);
+		ctx->shell->exit_status = exec_builtin(cmd, ctx->shell, 0);
 		child_cleanup_exit(ctx->shell, path, ctx->shell->exit_status);
 	}
 	if (path)

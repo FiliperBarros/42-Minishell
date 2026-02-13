@@ -6,25 +6,11 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:18:47 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 16:34:51 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/13 12:55:20 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	is_all_digit(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (!ft_isdigit(s[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 static int	parse_exit_value(const char *s, long long *out)
 {
@@ -54,44 +40,39 @@ static int	parse_exit_value(const char *s, long long *out)
 	return (1);
 }
 
-static void	exit_numeric_error(int is_parent, t_shell *shell)
+static void	exit_err(t_shell *sh, char *arg)
 {
-	ft_printf("exit\n");
-	print_error(" numeric argument required\n");
-	if (is_parent)
-		free_all(shell);
-	exit(2);
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
+	sh->exit_status = 2;
+	ft_exit_silent(sh);
 }
 
-static void	print_too_many_args(t_shell *shell)
-{
-	ft_printf("exit\n");
-	print_error("bash: exit: too many arguments\n");
-	shell->exit_status = 1;
-}
-
-void	ft_exit_builtin(int is_parent, t_cmd *cmd, t_shell *shell)
+void	ft_exit_builtin(int is_parent, t_cmd *cmd, t_shell *sh)
 {
 	long long	val;
 	int			ac;
 
 	val = 0;
 	ac = count_argv_strings(cmd->argv);
-	if (ac == 2 && !ft_strncmp(cmd->argv[1], "--", ft_strlen(cmd->argv[1])))
-		ac = 1;
+	if (is_parent)
+		ft_putstr_fd("exit\n", 1);
+	if (ac > 1 && ft_strncmp(cmd->argv[1], "--", 3) == 0)
+	{
+		cmd->argv++;
+		ac--;
+	}
 	if (ac == 1)
-		exit(shell->exit_status);
-	if (ac == 2 && !parse_exit_value(cmd->argv[1], &val))
-		exit_numeric_error(is_parent, shell);
-	if (ac == 2)
-		exit((unsigned char)val);
+		ft_exit_silent(sh);
+	if (!parse_exit_value(cmd->argv[1], &val))
+		exit_err(sh, cmd->argv[1]);
 	if (ac > 2)
 	{
-		if (is_all_digit(cmd->argv[1]))
-		{
-			print_too_many_args(shell);
-			return ;
-		}
-		exit_numeric_error(is_parent, shell);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		sh->exit_status = 1;
+		return ;
 	}
+	sh->exit_status = (unsigned char)val;
+	ft_exit_silent(sh);
 }

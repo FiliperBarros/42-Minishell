@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exec.c                                     :+:      :+:    :+:   */
+/*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:30:39 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/29 13:37:12 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/13 12:51:00 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,4 @@ int	exec_builtin(t_cmd *cmd, t_shell *sh, int is_parent)
 		return (sh->exit_status);
 	}
 	return (1);
-}
-
-void	exec_builtin_in_child(t_cmd *cmd, t_shell *sh)
-{
-	if (cmd->builtin_type != EXIT)
-		sh->exit_status = exec_builtin(cmd, sh, 0);
 }

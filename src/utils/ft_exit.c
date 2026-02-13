@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:26 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/13 11:07:19 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/13 13:05:58 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 void	ft_exit_silent(t_shell *shell)
 {
+	int	final_status;
+
+	final_status = shell->exit_status;
 	free_all(shell);
 	free_env(shell->env);
-	exit(shell->exit_status);
+	exit(final_status);
 }
 
 void	ft_exit(t_shell *shell)
