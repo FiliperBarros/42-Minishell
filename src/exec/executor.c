@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 19:40:08 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/13 13:06:14 by frocha-b         ###   ########.fr       */
-/*                                                                            */
+/* */
+/* :::      ::::::::   */
+/* executor.c                                         :+:      :+:    :+:   */
+/* +:+ +:+         +:+     */
+/* By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/* +#+#+#+#+#+   +#+           */
+/* Created: 2026/01/30 19:40:08 by frocha-b          #+#    #+#             */
+/* Updated: 2026/02/13 18:30:00 by frocha-b         ###   ########.fr       */
+/* */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -16,10 +16,12 @@ static t_exec_ctx	init_exec_ctx(t_shell *sh)
 {
 	t_exec_ctx	ctx;
 
+	sh->pipes_qnty = count_cmds(sh->cmd) - 1;
+	sh->pipes = NULL;
 	ctx.shell = sh;
 	ctx.cmd = sh->cmd;
-	ctx.pipes = NULL;
-	ctx.pipes_qnty = count_cmds(sh->cmd) - 1;
+	ctx.pipes = sh->pipes;
+	ctx.pipes_qnty = sh->pipes_qnty;
 	ctx.current = 0;
 	ctx.last_pid = -1;
 	return (ctx);
@@ -30,7 +32,7 @@ static void	exec_cleanup(t_exec_ctx *ctx)
 	pid_t	pid;
 	int		status;
 
-	close_all_pipes(ctx->pipes, ctx->pipes_qnty);
+	close_all_pipes(ctx->shell->pipes, ctx->shell->pipes_qnty);
 	while (1)
 	{
 		pid = wait(&status);
@@ -39,7 +41,8 @@ static void	exec_cleanup(t_exec_ctx *ctx)
 		if (pid == ctx->last_pid)
 			update_exit_status(ctx->shell, status);
 	}
-	free_pipes(ctx->pipes, ctx->pipes_qnty);
+	free_pipes(ctx->shell);
+	ctx->pipes = NULL;
 	set_prompt_signals();
 }
 
@@ -66,9 +69,12 @@ static void	exec_loop_children(t_exec_ctx *ctx)
 
 void	executor_loop(t_exec_ctx *ctx)
 {
-	ctx->pipes = alloc_pipes(ctx->pipes_qnty);
-	if (ctx->pipes_qnty > 0 && !ctx->pipes)
-		return ;
+	if (ctx->pipes_qnty > 0)
+	{
+		if (!alloc_pipes(ctx->shell))
+			return ;
+		ctx->pipes = ctx->shell->pipes;
+	}
 	exec_loop_children(ctx);
 	exec_cleanup(ctx);
 }

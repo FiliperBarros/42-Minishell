@@ -6,7 +6,7 @@
 #    By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/01 16:59:12 by frocha-b          #+#    #+#              #
-#    Updated: 2026/02/12 17:54:07 by frocha-b         ###   ########.fr        #
+#    Updated: 2026/02/13 17:41:33 by frocha-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,6 @@ fclean: clean
 re: fclean all
 
 valgrind: re
-	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_read ./minishell
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=sup_read ./minishell
 
 .PHONY: all clean fclean re valgrind

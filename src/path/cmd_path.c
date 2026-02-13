@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:30:21 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/02 18:17:33 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/13 17:38:50 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,27 @@ static char	*validate_cmd_path(t_shell *sh, char *cmd_name)
 	return (ft_strdup(cmd_name));
 }
 
-static char	*find_cmd_path(t_shell *sh, char *cmd_name)
+static char *find_cmd_path(t_shell *sh, char *cmd_name)
 {
-	char	**paths;
-	char	*full;
-	int		i;
+    char    **paths;
+    char    *full;
+    int     i;
 
-	i = 0;
-	paths = ft_split(get_env_value(sh->env, "PATH"), ':');
-	while (paths && paths[i])
-	{
-		full = ft_concat_three(paths[i], "/", cmd_name);
-		if (access(full, X_OK) == 0)
-		{
-			free_double_char(paths);
-			return (full);
-		}
-		free(full);
-		i++;
-	}
-	free_double_char(paths);
-	return (print_cmd_not_found(sh, cmd_name));
+    i = 0;
+    paths = ft_split(get_env_value(sh->env, "PATH"), ':');
+    while (paths && paths[i])
+    {
+        full = ft_concat_three(paths[i], "/", cmd_name);
+        if (access(full, X_OK) == 0)
+        {
+            free_double_char(&paths);
+            return (full);
+        }
+        free(full);
+        i++;
+    }
+    free_double_char(&paths);
+    return (print_cmd_not_found(sh, cmd_name));
 }
 
 char	*solve_cmd_path(t_shell *sh, char *cmd_name)

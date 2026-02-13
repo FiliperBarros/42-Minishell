@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 19:35:06 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/13 12:51:00 by frocha-b         ###   ########.fr       */
+/*   Created: 2026/02/13 17:33:18 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/02/13 17:33:22 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void			exec_child(t_exec_ctx *ctx, t_cmd *cmd, char *path);
 pid_t			create_child(t_exec_ctx *ctx, t_cmd *cmd);
 
 /* ---------------------------- PIPES ---------------------------- */
-int				**alloc_pipes(int pipes_qnty);
-void			free_pipes(int **pipes, int pipes_qnty);
+int				**alloc_pipes(struct s_shell *shell);
+void			free_pipes(struct s_shell *shell);
 void			setup_pipe_fds(int **pipes, int pipes_qnty, int i);
 void			close_parent_pipes(int **pipes, int pipes_qnty, int i);
 void			close_all_pipes(int **pipes, int pipes_qnty);
