@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/13 17:27:01 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/13 17:39:27 by frocha-b         ###   ########.fr       */
+/*   Created: 2026/02/13 18:05:40 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/02/13 18:10:43 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,62 +47,62 @@ void	free_double_char(char ***split_str)
 	*split_str = NULL;
 }
 
-void    free_redirs(t_redir **redirs)
+void	free_redirs(t_redir **redirs)
 {
-    t_redir *temp;
-    t_redir *current;
+	t_redir	*temp;
+	t_redir	*current;
 
-    if (!redirs || !*redirs)
-        return ;
-    current = *redirs;
-    while (current)
-    {
-        temp = current->next;
-        if (current->filename)
-            free(current->filename);
-        if (current->heredoc_fd != -1)
-        {
-            close(current->heredoc_fd);
-            current->heredoc_fd = -1;
-        }
-        free(current);
-        current = temp;
-    }
-    *redirs = NULL;
+	if (!redirs || !*redirs)
+		return ;
+	current = *redirs;
+	while (current)
+	{
+		temp = current->next;
+		if (current->filename)
+			free(current->filename);
+		if (current->heredoc_fd != -1)
+		{
+			close(current->heredoc_fd);
+			current->heredoc_fd = -1;
+		}
+		free(current);
+		current = temp;
+	}
+	*redirs = NULL;
 }
 
-void    free_cmd(t_cmd **cmd)
+void	free_cmd(t_cmd **cmd)
 {
-    t_cmd   *temp;
-    t_cmd   *current;
+	t_cmd	*temp;
+	t_cmd	*current;
 
-    if (!cmd || !*cmd)
-        return ;
-    current = *cmd;
-    while (current)
-    {
-        temp = current->next;
-        free_double_char(&current->argv);
-        free_redirs(&current->redirs); // This now handles the heredoc FDs
-        free(current);
-        current = temp;
-    }
-    *cmd = NULL;
+	if (!cmd || !*cmd)
+		return ;
+	current = *cmd;
+	while (current)
+	{
+		temp = current->next;
+		free_double_char(&current->argv);
+		free_redirs(&current->redirs);
+		free(current);
+		current = temp;
+	}
+	*cmd = NULL;
 }
 
-void    free_all(t_shell *sh)
+void	free_all(t_shell *sh)
 {
-    if (!sh)
-        return ;
-    if (sh->cmd)
-        free_cmd(&sh->cmd);       
-    if (sh->tokens)
-        free_tokens(&sh->tokens);
-    if (sh->line)
-    {
-        free(sh->line);
-        sh->line = NULL;
-    }
-    if (sh->pipes)
-        free_pipes(sh);
+	if (!sh)
+		return ;
+	if (sh->cmd)
+		free_cmd(&sh->cmd);
+	if (sh->tokens)
+		free_tokens(&sh->tokens);
+	if (sh->line)
+	{
+		free(sh->line);
+		sh->line = NULL;
+	}
+	if (sh->pipes)
+		free_pipes(sh);
 }

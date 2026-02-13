@@ -6,10 +6,9 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:26:47 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/13 17:26:48 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/13 18:03:41 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -28,7 +27,6 @@ int	**alloc_pipes(t_shell *shell)
 		shell->pipes[i] = malloc(sizeof(int) * 2);
 		if (!shell->pipes[i] || pipe(shell->pipes[i]) < 0)
 		{
-			// If allocation or pipe() fails, we clean up what we built
 			free_pipes(shell);
 			return (NULL);
 		}
