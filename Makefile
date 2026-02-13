@@ -6,7 +6,7 @@
 #    By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/01 16:59:12 by frocha-b          #+#    #+#              #
-#    Updated: 2026/02/09 12:46:38 by frocha-b         ###   ########.fr        #
+#    Updated: 2026/02/12 17:54:07 by frocha-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	= minishell
 
 # Compiler and flags
 CC 			= cc
-CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS		= -Wall -Werror -Wextra -g
 MAKEFLAGS += --no-print-directory
 
 
@@ -75,4 +75,4 @@ re: fclean all
 valgrind: re
 	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_read ./minishell
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re valgrind

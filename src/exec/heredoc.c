@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 20:01:14 by benes-al          #+#    #+#             */
-/*   Updated: 2026/02/09 13:53:55 by frocha-b         ###   ########.fr       */
+/*   Created: 2026/02/13 11:43:47 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/02/13 11:43:50 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,13 @@ static void	heredoc_loop(t_shell *sh, t_redir *r, int fd)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || !ft_strncmp(line, r->filename, ft_strlen(line) + 1))
+		if (!line)
+		{
+			printf("minishell: warning: here-document delimited by ");
+			printf("end-of-file (wanted `%s')\n", r->filename);
+			break ;
+		}
+		if (!ft_strncmp(line, r->filename, ft_strlen(line) + 1))
 		{
 			free(line);
 			break ;
@@ -38,7 +44,9 @@ static void	heredoc_child(t_shell *sh, t_redir *r, int fd[2])
 	close(fd[0]);
 	heredoc_loop(sh, r, fd[1]);
 	close(fd[1]);
-	exit(0);
+	sh->exit_status = 0;
+	rl_clear_history();
+	ft_exit_silent(sh);
 }
 
 static int	heredoc_parent(t_shell *sh, t_redir *r, int fd[2], pid_t pid)
@@ -67,10 +75,20 @@ void	create_heredoc(t_shell *sh, t_redir *r)
 	pid_t	pid;
 
 	if (pipe(fd) < 0)
-		return (perror("pipe"));
+	{
+		perror("pipe");
+		r->heredoc_fd = -1;
+		return ;
+	}
 	pid = fork();
 	if (pid < 0)
-		return (perror("fork"));
+	{
+		perror("fork");
+		close(fd[0]);
+		close(fd[1]);
+		r->heredoc_fd = -1;
+		return ;
+	}
 	if (pid == 0)
 		heredoc_child(sh, r, fd);
 	heredoc_parent(sh, r, fd, pid);

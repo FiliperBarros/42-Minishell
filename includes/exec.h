@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 19:35:06 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/02 18:17:44 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/13 11:08:18 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_exec_ctx
 
 /* ---------------------------- UTILS ---------------------------- */
 int				count_cmds(t_cmd *cmd);
+void			ft_exit_silent(struct s_shell *shell);
 
 /* ---------------------------- EXECUTOR ---------------------------- */
 void			executor(struct s_shell *shell);
