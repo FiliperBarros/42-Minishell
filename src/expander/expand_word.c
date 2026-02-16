@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:19 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/16 12:32:22 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/16 15:22:02 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*expand_word(char *val, int len, t_expand_ctx *ctx)
 	char	*next;
 
 	cur = val;
-	if (ctx->quote_type == '\0' && *cur == '~')
+	if (ctx->quote_type == '\0' && *cur == '~' && cur[1] == '\0')
 		return (expand_tilde(ctx->shell, cur));
 	res = NULL;
 	end = val + len;
