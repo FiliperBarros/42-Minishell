@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:18:47 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/13 12:55:20 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/16 13:15:18 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,7 @@ void	ft_exit_builtin(int is_parent, t_cmd *cmd, t_shell *sh)
 	ac = count_argv_strings(cmd->argv);
 	if (is_parent)
 		ft_putstr_fd("exit\n", 1);
-	if (ac > 1 && ft_strncmp(cmd->argv[1], "--", 3) == 0)
-	{
-		cmd->argv++;
-		ac--;
-	}
-	if (ac == 1)
+	if (ac == 1 || ((ac == 2 && ft_strncmp(cmd->argv[1], "--", 3) == 0)))
 		ft_exit_silent(sh);
 	if (!parse_exit_value(cmd->argv[1], &val))
 		exit_err(sh, cmd->argv[1]);

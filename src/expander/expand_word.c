@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:19 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/04 12:42:55 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/16 12:32:22 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	append_literal(char **dst, char *start, char *end)
 		return ;
 	part = ft_substr(start, 0, end - start);
 	append_strings(dst, part);
+	free(part);
 }
 
 void	append_expansion(char **res, char **pos, t_expand_ctx *ctx)
@@ -45,12 +46,13 @@ char	*expand_word(char *val, int len, t_expand_ctx *ctx)
 		return (expand_tilde(ctx->shell, cur));
 	res = NULL;
 	end = val + len;
+
 	while (cur < end)
 	{
 		next = ft_strchr(cur, '$');
 		if (!next || next > end)
 			next = end;
-		append_literal(&res, cur, next);
+ 		append_literal(&res, cur, next);
 		if (next < end && *next == '$')
 			append_expansion(&res, &next, ctx);
 		cur = next;

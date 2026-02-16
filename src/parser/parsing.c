@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:45:41 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/13 17:45:43 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/16 12:47:32 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static t_redir	*add_redir(t_cmd *curr, int redir_type, t_token *next_tk)
 	new_redir->type = redir_type;
 	new_redir->filename = ft_strdup(next_tk->value);
 	new_redir->filename_quote = next_tk->quote_type;
-	new_redir->heredoc_fd = -1;
+	new_redir->heredoc_fd = -2;
 	new_redir->next = NULL;
 	if (!curr->redirs)
 		return (new_redir);

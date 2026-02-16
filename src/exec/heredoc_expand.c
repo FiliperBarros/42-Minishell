@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:33:49 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/04 12:43:04 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/16 11:55:10 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ char	*expand_env_var_for_heredoc(char **dollar_pos, t_shell *sh)
 		value = expand_pid();
 	else if (is_space(*after) || !(*after) || is_quote(*after))
 		value = ft_strdup("$");
-	if (value && !is_quote(*after))
-		(*dollar_pos)++;
 	return (value);
 }
 
