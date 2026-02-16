@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/16 16:09:17 by frocha-b          #+#    #+#             */
+/*   Updated: 2026/02/16 16:12:35 by frocha-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -21,7 +32,6 @@ static void	heredoc_loop(t_shell *sh, t_redir *r, int fd)
 		}
 		if (!r->filename_quote)
 			line = expand_heredoc(sh, line);
-		
 		write(fd, line, ft_strlen(line) + 1);
 		write(fd, "\n", 1);
 		free(line);
@@ -75,7 +85,7 @@ void	create_heredoc(t_shell *sh, t_redir *r)
 	{
 		perror("fork");
 		close(fd[0]);
-		close(fd[1]);	
+		close(fd[1]);
 		r->heredoc_fd = -1;
 		return ;
 	}
