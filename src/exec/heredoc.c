@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 16:09:17 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/16 16:12:35 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/19 12:43:48 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static void	heredoc_loop(t_shell *sh, t_redir *r, int fd)
 		line = readline("> ");
 		if (!line)
 		{
-			printf("minishell: warning: here-document delimited by ");
-			printf("end-of-file (wanted `%s')\n", r->filename);
+			print_heredoc_error(r->filename);
 			break ;
 		}
 		if (!ft_strncmp(line, r->filename, ft_strlen(line) + 1))
@@ -32,9 +31,13 @@ static void	heredoc_loop(t_shell *sh, t_redir *r, int fd)
 		}
 		if (!r->filename_quote)
 			line = expand_heredoc(sh, line);
-		write(fd, line, ft_strlen(line) + 1);
+		if (line)
+		{
+			write(fd, line, ft_strlen(line));
+			free(line);
+		}
+		line = NULL;
 		write(fd, "\n", 1);
-		free(line);
 	}
 }
 
@@ -59,9 +62,9 @@ static int	heredoc_parent(t_shell *sh, t_redir *r, int fd[2], pid_t pid)
 	set_prompt_signals();
 	if (WIFSIGNALED(status))
 	{
-		write(1, "\n", 1);
+		write(2, "\n", 1);
 		close(fd[0]);
-		r->heredoc_fd = -1;
+		r->heredoc_error = 1;
 		sh->exit_status = 130;
 		return (0);
 	}
@@ -77,7 +80,7 @@ void	create_heredoc(t_shell *sh, t_redir *r)
 	if (pipe(fd) < 0)
 	{
 		perror("pipe");
-		r->heredoc_fd = -1;
+		r->heredoc_error = 1;
 		return ;
 	}
 	pid = fork();
@@ -86,7 +89,7 @@ void	create_heredoc(t_shell *sh, t_redir *r)
 		perror("fork");
 		close(fd[0]);
 		close(fd[1]);
-		r->heredoc_fd = -1;
+		r->heredoc_error = 1;
 		return ;
 	}
 	if (pid == 0)
@@ -105,7 +108,7 @@ int	prepare_all_heredocs(t_shell *shell, t_cmd *cmd)
 		{
 			if (r->type == HEREDOC)
 				create_heredoc(shell, r);
-			if (r->heredoc_fd == -1)
+			if (r->heredoc_error)
 				return (0);
 			r = r->next;
 		}

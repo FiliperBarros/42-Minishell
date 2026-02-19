@@ -1,16 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_expand.c                                   :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:33:49 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/16 11:55:10 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/19 12:43:48 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_heredoc_error(char *filename)
+{
+	ft_putstr_fd("minishell: warning: here-document delimited by ", 2);
+	ft_putstr_fd("end-of-file (wanted `", 2);
+	ft_putstr_fd(filename, 2);
+	ft_putstr_fd("')\n", 2);
+}
 
 char	*expand_env_var_for_heredoc(char **dollar_pos, t_shell *sh)
 {

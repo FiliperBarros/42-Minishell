@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:21 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/04 12:38:41 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/19 12:44:41 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,17 @@
 void	expander(t_shell *shell, t_token **tokens)
 {
 	t_token	*t;
+	t_token	*next;
 
 	t = *tokens;
 	while (t)
 	{
+		next = t->next;
 		if (to_expand(t))
 			expand(tokens, shell, t);
 		else
 			t->value = ft_substr(t->value, 0, t->len);
-		if (t)
-			t = t->next;
+		t = next;
 	}
 }
 
@@ -40,10 +41,12 @@ void	concatenater(t_token **tokens)
 {
 	t_token	*t;
 	t_token	*del_tk;
+	char	*temp;
 
 	t = *tokens;
 	while (t)
 	{
+		temp = t->value;
 		if (t->to_concatenate)
 		{
 			flag_heredoc_quotes(t);
@@ -53,6 +56,7 @@ void	concatenater(t_token **tokens)
 			del_tk = t->next;
 			t->next = del_tk->next;
 			del_token(del_tk, free);
+			free(temp);
 		}
 		else
 			t = t->next;

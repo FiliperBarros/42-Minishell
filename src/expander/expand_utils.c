@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:13:17 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/16 12:15:11 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/18 17:14:17 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	to_expand(t_token *t)
 {
 	if (ft_strnstr(t->value, "$", t->len)
 		&& t->quote_type != '\''
-		&& !t->redir_delimiter)
+		&& !t->redir_delimiter
+	)
 		return (1);
 	if (!t->quote_type && t->value && t->value[0] == '~')
 		return (1);

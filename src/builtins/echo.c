@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:18:26 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/16 15:52:40 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/19 12:43:48 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ static int	check_newline_flag(char *str)
 	int	i;
 
 	i = 0;
-	if (!str[i] || str[i] != '-')
+	if (!str)
 		return (0);
-	i++;
+	if (str[i++] != '-' && str[i] != 'n')
+		return (0);
 	while (str[i])
 	{
 		if (str[i] != 'n')
@@ -35,11 +36,14 @@ int	ft_echo(char **argv)
 	int	newline_flag;
 
 	i = 1;
+	newline_flag = 0;
 	if (!argv[1])
-		return (0);
-	newline_flag = check_newline_flag(argv[1]);
-	if (newline_flag)
+		return (ft_printf("\n"), 0);
+	while (check_newline_flag(argv[i]))
+	{
+		newline_flag = 1;
 		i++;
+	}
 	while (argv[i])
 	{
 		ft_printf("%s", argv[i]);

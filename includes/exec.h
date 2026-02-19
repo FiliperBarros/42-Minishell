@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:33:18 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/13 17:33:22 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/19 12:43:48 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void			create_heredoc(struct s_shell *shell, t_redir *r);
 char			*expand_heredoc(struct s_shell *shell, char *line);
 char			*expand_env_var_for_heredoc(char **dollar_pos,
 					struct s_shell *shell);
+void			print_heredoc_error(char *filename);
 
 /* ---------------------------- FD BACKUP ---------------------------- */
 t_std_backup	backup_std_fds(void);

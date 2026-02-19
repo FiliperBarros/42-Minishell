@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_syntax.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benes-al < benes-al@student.42porto.com    +#+  +:+       +#+        */
+/*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:12:45 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/01/28 19:14:03 by benes-al         ###   ########.fr       */
+/*   Updated: 2026/02/18 12:49:39 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ int	is_redir(int type)
 static int	print_syntax_error(t_token *t)
 {
 	if (!t)
-		print_error(" syntax error: unexpected end of file\n");
+		print_error("bash: syntax error: unexpected end of file\n");
 	else if (t->type == PIPE)
-		print_error(" syntax error near unexpected token `|'\n");
+		print_error("bash: syntax error near unexpected token `|'\n");
 	else if (is_redir(t->type))
 	{
 		if (!t->next)
-			print_error(" syntax error near unexpected token `newline'\n");
+			print_error("bash: syntax error near unexpected token `newline'\n");
 		else
 		{
-			print_error(" syntax error near unexpected token `");
+			print_error("bash: syntax error near unexpected token `");
 			print_error(t->next->value);
 			print_error("'\n");
 		}

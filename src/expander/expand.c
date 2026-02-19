@@ -80,6 +80,8 @@ char	*expand_env_var(char **dollar_pos, t_shell *shell, char quote_type)
 			value = ft_strdup("$");
 		if (value && !is_space(*after))
 			(*dollar_pos)++;
+		if (ft_isdigit(*after))
+			(*dollar_pos)++;
 	}
 	return (value);
 }

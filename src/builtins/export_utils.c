@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:18:51 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/04 22:14:15 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/19 12:35:58 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	export_env(t_env **env, char *new_key, char *new_value)
 
 	env_node = get_env(*env, new_key);
 	if (env_node && new_value)
+	{
 		set_env(*env, new_key, new_value);
+		free(new_key);
+	}
 	else
 	{
 		env_node = create_env_node(new_key, new_value);
@@ -82,7 +85,11 @@ int	handle_export_arg(char *arg, t_env **env)
 	value = NULL;
 	get_key_and_value(*env, arg, &key, &value);
 	if (!is_valid_identifier(key))
+	{
+		free(key);
+		free(value);
 		return (print_error(" not a valid identifier\n"), 1);
+	}
 	export_env(env, key, value);
 	return (0);
 }

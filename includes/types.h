@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:45:48 by frocha-b          #+#    #+#             */
-/*   Updated: 2026/02/13 17:36:42 by frocha-b         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:15:35 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_redir
 	char			*filename;
 	char			filename_quote;
 	int				heredoc_fd;
+	int				heredoc_error;
 	struct s_redir	*next;
 }	t_redir;
 
